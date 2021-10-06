@@ -13,14 +13,18 @@ namespace VaccinationReservationPlatForm.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly VaccinationBookingSystemContext _context;
+
+        public HomeController(ILogger<HomeController> logger,VaccinationBookingSystemContext vaccinationBookingSystemContext)
         {
             _logger = logger;
+            _context = vaccinationBookingSystemContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var q = _context.People.First();
+            return View(q);
         }
 
         public IActionResult Privacy()
