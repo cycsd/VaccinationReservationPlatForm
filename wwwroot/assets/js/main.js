@@ -138,8 +138,16 @@
         let navbarToggle = select('.mobile-nav-toggle')
         navbarToggle.classList.toggle('bi-list')
         navbarToggle.classList.toggle('bi-x')
-      }
-      scrollto(this.hash)
+        }
+
+        let href = this.getAttribute('href')
+        let urlList = location.pathname.split("/")
+        let contorllerName = urlList[0]
+        if (contorllerName != "Home") {
+            window.location.replace(href)
+        }      
+        scrollto(this.hash)
+      
     }
   }, true)
 
@@ -185,7 +193,7 @@
       let portfolioFilters = select('#portfolio-flters li', true);
 
       on('click', '#portfolio-flters li', function(e) {
-        e.preventDefault();
+        /*e.preventDefault();*/
         portfolioFilters.forEach(function(el) {
           el.classList.remove('filter-active');
         });
