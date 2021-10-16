@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taiwan>
+	<county zip="A" name="臺北市">
+		<area zip="100">中正區</area>
+		<area zip="103">大同區</area>
+		<area zip="104">中山區</area>
+		<area zip="105">松山區</area>
+		<area zip="106">大安區</area>
+		<area zip="108">萬華區</area>
+		<area zip="110">信義區</area>
+		<area zip="111">士林區</area>
+		<area zip="112">北投區</area>
+		<area zip="114">內湖區</area>
+		<area zip="115">南港區</area>
+		<area zip="116">文山區</area>
+	</county>
+	<county zip="F" name="新北市">
+		<area zip="207">萬里區</area>
+		<area zip="208">金山區</area>
+		<area zip="220">板橋區</area>
+		<area zip="221">汐止區</area>
+		<area zip="222">深坑區</area>
+		<area zip="223">石碇區</area>
+		<area zip="224">瑞芳區</area>
+		<area zip="226">平溪區</area>
+		<area zip="227">雙溪區</area>
+		<area zip="228">貢寮區</area>
+		<area zip="231">新店區</area>
+		<area zip="232">坪林區</area>
+		<area zip="233">烏來區</area>
+		<area zip="234">永和區</area>
+		<area zip="235">中和區</area>
+		<area zip="236">土城區</area>
+		<area zip="237">三峽區</area>
+		<area zip="238">樹林區</area>
+		<area zip="239">鶯歌區</area>
+		<area zip="241">三重區</area>
+		<area zip="242">新莊區</area>
+		<area zip="243">泰山區</area>
+		<area zip="244">林口區</area>
+		<area zip="247">蘆洲區</area>
+		<area zip="248">五股區</area>
+		<area zip="249">八里區</area>
+		<area zip="251">淡水區</area>
+		<area zip="252">三芝區</area>
+		<area zip="253">石門區</area>
+	</county>
+	<county zip="B" name="臺中市">
+		<area zip="400">中區</area>
+		<area zip="401">東區</area>
+		<area zip="402">南區</area>
+		<area zip="403">西區</area>
+		<area zip="404">北區</area>
+		<area zip="406">北屯區</area>
+		<area zip="407">西屯區</area>
+		<area zip="408">南屯區</area>	
+		<area zip="411">太平區</area>
+		<area zip="412">大里區</area>
+		<area zip="413">霧峰區</area>
+		<area zip="414">烏日區</area>
+		<area zip="420">豐原區</area>
+		<area zip="421">后里區</area>
+		<area zip="422">石岡區</area>
+		<area zip="423">東勢區</area>
+		<area zip="424">和平區</area>
+		<area zip="426">新社區</area>
+		<area zip="427">潭子區</area>
+		<area zip="428">大雅區</area>
+		<area zip="429">神岡區</area>
+		<area zip="432">大肚區</area>
+		<area zip="433">沙鹿區</area>
+		<area zip="434">龍井區</area>
+		<area zip="435">梧棲區</area>
+		<area zip="436">清水區</area>
+		<area zip="437">大甲區</area>
+		<area zip="438">外埔區</area>
+		<area zip="439">大安區</area>
+	</county>	
+	<county zip="D" name="臺南市">
+		<area zip="700">中西區</area>
+		<area zip="701">東區</area>
+		<area zip="702">南區</area>
+		<area zip="704">北區</area>
+		<area zip="708">安平區</area>
+		<area zip="709">安南區</area>
+		<area zip="710">永康區</area>
+		<area zip="711">歸仁區</area>
+		<area zip="712">新化區</area>
+		<area zip="713">左鎮區</area>
+		<area zip="714">玉井區</area>
+		<area zip="715">楠西區</area>
+		<area zip="716">南化區</area>
+		<area zip="717">仁德區</area>
+		<area zip="718">關廟區</area>
+		<area zip="719">龍崎區</area>
+		<area zip="720">官田區</area>
+		<area zip="721">麻豆區</area>
+		<area zip="722">佳里區</area>
+		<area zip="723">西港區</area>
+		<area zip="724">七股區</area>
+		<area zip="725">將軍區</area>
+		<area zip="726">學甲區</area>
+		<area zip="727">北門區</area>
+		<area zip="730">新營區</area>
+		<area zip="731">後壁區</area>
+		<area zip="732">白河區</area>
+		<area zip="733">東山區</area>
+		<area zip="734">六甲區</area>
+		<area zip="735">下營區</area>
+		<area zip="736">柳營區</area>
+		<area zip="737">鹽水區</area>
+		<area zip="741">善化區</area>
+		<area zip="742">大內區</area>
+		<area zip="743">山上區</area>
+		<area zip="744">新市區</area>
+		<area zip="745">安定區</area>
+	</county>
+	<county zip="E" name="高雄市">
+		<area zip="800">新興區</area>
+		<area zip="801">前金區</area>
+		<area zip="802">苓雅區</area>
+		<area zip="803">鹽埕區</area>
+		<area zip="804">鼓山區</area>
+		<area zip="805">旗津區</area>
+		<area zip="806">前鎮區</area>
+		<area zip="807">三民區</area>
+		<area zip="811">楠梓區</area>
+		<area zip="812">小港區</area>
+		<area zip="813">左營區</area>
+		<area zip="814">仁武區</area>
+		<area zip="815">大社區</area>
+		<area zip="820">岡山區</area>
+		<area zip="821">路竹區</area>
+		<area zip="822">阿蓮區</area>
+		<area zip="823">田寮區</area>
+		<area zip="824">燕巢區</area>
+		<area zip="825">橋頭區</area>
+		<area zip="826">梓官區</area>
+		<area zip="827">彌陀區</area>
+		<area zip="828">永安區</area>
+		<area zip="829">湖內區</area>
+		<area zip="830">鳳山區</area>
+		<area zip="831">大寮區</area>
+		<area zip="832">林園區</area>
+		<area zip="833">鳥松區</area>
+		<area zip="840">大樹區</area>
+		<area zip="842">旗山區</area>
+		<area zip="843">美濃區</area>
+		<area zip="844">六龜區</area>
+		<area zip="845">內門區</area>
+		<area zip="846">杉林區</area>
+		<area zip="847">甲仙區</area>
+		<area zip="848">桃源區</area>
+		<area zip="849">那瑪夏區</area>
+		<area zip="851">茂林區</area>
+		<area zip="852">茄萣區</area>
+	</county>
+	<county zip="C" name="基隆市">
+		<area zip="200">仁愛區</area>
+		<area zip="201">信義區</area>
+		<area zip="202">中正區</area>
+		<area zip="203">中山區</area>
+		<area zip="204">安樂區</area>
+		<area zip="205">暖暖區</area>
+		<area zip="206">七堵區</area>
+	</county>		
+	<county zip="G" name="宜蘭縣">
+		<area zip="260">宜蘭市</area>
+		<area zip="261">頭城鎮</area>
+		<area zip="262">礁溪鄉</area>
+		<area zip="263">壯圍鄉</area>
+		<area zip="264">員山鄉</area>
+		<area zip="265">羅東鎮</area>
+		<area zip="266">三星鄉</area>
+		<area zip="267">大同鄉</area>
+		<area zip="268">五結鄉</area>
+		<area zip="269">冬山鄉</area>
+		<area zip="270">蘇澳鎮</area>
+		<area zip="272">南澳鄉</area>
+	</county>
+	<county zip="H" name="桃園市">
+		<area zip="320">中壢區</area>
+		<area zip="324">平鎮區</area>
+		<area zip="325">龍潭區</area>
+		<area zip="326">楊梅區</area>
+		<area zip="327">新屋區</area>
+		<area zip="328">觀音區</area>
+		<area zip="330">桃園區</area>
+		<area zip="333">龜山區</area>
+		<area zip="334">八德區</area>
+		<area zip="335">大溪區</area>
+		<area zip="336">復興區</area>
+		<area zip="337">大園區</area>
+		<area zip="338">蘆竹區</area>
+	</county>
+	<county zip="O" name="新竹市">
+		<area zip="300">東區</area>
+		<area zip="300">北區</area>
+		<area zip="300">香山區</area>
+	</county>	
+	<county zip="J" name="新竹縣">
+		<area zip="302">竹北市</area>
+		<area zip="303">湖口鄉</area>
+		<area zip="304">新豐鄉</area>
+		<area zip="305">新埔鎮</area>
+		<area zip="306">關西鎮</area>
+		<area zip="307">芎林鄉</area>
+		<area zip="308">寶山鄉</area>
+		<area zip="310">竹東鎮</area>
+		<area zip="311">五峰鄉</area>
+		<area zip="312">橫山鄉</area>
+		<area zip="313">尖石鄉</area>
+		<area zip="314">北埔鄉</area>
+		<area zip="315">峨眉鄉</area>
+	</county>
+	<county zip="K" name="苗栗縣">
+		<area zip="350">竹南鎮</area>
+		<area zip="351">頭份鎮</area>
+		<area zip="352">三灣鄉</area>
+		<area zip="353">南莊鄉</area>
+		<area zip="354">獅潭鄉</area>
+		<area zip="356">後龍鎮</area>
+		<area zip="357">通霄鎮</area>
+		<area zip="358">苑裡鎮</area>
+		<area zip="360">苗栗市</area>
+		<area zip="361">造橋鄉</area>
+		<area zip="362">頭屋鄉</area>
+		<area zip="363">公館鄉</area>
+		<area zip="364">大湖鄉</area>
+		<area zip="365">泰安鄉</area>
+		<area zip="366">銅鑼鄉</area>
+		<area zip="367">三義鄉</area>
+		<area zip="368">西湖鄉</area>
+		<area zip="369">卓蘭鎮</area>	
+	</county>
+	<county zip="M" name="南投縣">
+		<area zip="540">南投市</area>
+		<area zip="541">中寮鄉</area>
+		<area zip="542">草屯鎮</area>
+		<area zip="544">國姓鄉</area>
+		<area zip="545">埔里鎮</area>
+		<area zip="546">仁愛鄉</area>
+		<area zip="551">名間鄉</area>
+		<area zip="552">集集鎮</area>
+		<area zip="553">水裡鄉</area>
+		<area zip="555">魚池鄉</area>
+		<area zip="556">信義鄉</area>
+		<area zip="557">竹山鎮</area>
+		<area zip="558">鹿谷鄉</area>
+	</county>
+	<county zip="N" name="彰化縣">
+		<area zip="500">彰化市</area>
+		<area zip="502">芬園鄉</area>
+		<area zip="503">花壇鄉</area>
+		<area zip="504">秀水鄉</area>
+		<area zip="505">鹿港鎮</area>
+		<area zip="506">福興鄉</area>
+		<area zip="507">線西鄉</area>
+		<area zip="508">和美鎮</area>
+		<area zip="509">伸港鄉</area>
+		<area zip="510">員林鎮</area>
+		<area zip="511">社頭鄉</area>
+		<area zip="512">永靖鄉</area>
+		<area zip="513">埔心鄉</area>
+		<area zip="514">溪湖鎮</area>
+		<area zip="515">大村鄉</area>
+		<area zip="516">埔鹽鄉</area>
+		<area zip="520">田中鎮</area>
+		<area zip="521">北斗鎮</area>
+		<area zip="522">田尾鄉</area>
+		<area zip="523">埤頭鄉</area>
+		<area zip="524">溪州鄉</area>
+		<area zip="525">竹塘鄉</area>
+		<area zip="526">二林鎮</area>
+		<area zip="527">大城鄉</area>
+		<area zip="528">芳苑鄉</area>
+		<area zip="530">二水鄉</area>
+	</county>
+	<county zip="P" name="雲林縣">
+		<area zip="630">斗南鎮</area>
+		<area zip="631">大埤鄉</area>
+		<area zip="632">虎尾鎮</area>
+		<area zip="633">土庫鎮</area>
+		<area zip="634">褒忠鄉</area>
+		<area zip="635">東勢鄉</area>
+		<area zip="636">台西鄉</area>
+		<area zip="637">崙背鄉</area>
+		<area zip="638">麥寮鄉</area>
+		<area zip="640">斗六市</area>
+		<area zip="643">林內鄉</area>
+		<area zip="646">古坑鄉</area>
+		<area zip="647">莿桐鄉</area>
+		<area zip="648">西螺鎮</area>
+		<area zip="649">二崙鄉</area>
+		<area zip="651">北港鎮</area>
+		<area zip="652">水林鄉</area>
+		<area zip="653">口湖鄉</area>
+		<area zip="654">四湖鄉</area>
+		<area zip="655">元長鄉</area>
+	</county>
+	<county zip="I" name="嘉義市">
+		<area zip="600">東區</area>
+		<area zip="600">西區</area>
+	</county>	
+	<county zip="Q" name="嘉義縣">
+		<area zip="602">番路鄉</area>
+		<area zip="603">梅山鄉</area>
+		<area zip="604">竹崎鄉</area>
+		<area zip="605">阿里山</area>
+		<area zip="606">中埔鄉</area>
+		<area zip="607">大埔鄉</area>
+		<area zip="608">水上鄉</area>
+		<area zip="611">鹿草鄉</area>
+		<area zip="612">太保市</area>
+		<area zip="613">朴子市</area>
+		<area zip="614">東石鄉</area>
+		<area zip="615">六腳鄉</area>
+		<area zip="616">新港鄉</area>
+		<area zip="621">民雄鄉</area>
+		<area zip="622">大林鎮</area>
+		<area zip="623">溪口鄉</area>
+		<area zip="624">義竹鄉</area>
+		<area zip="625">布袋鎮</area>
+	</county>
+	<county zip="T" name="屏東縣">
+		<area zip="900">屏東市</area>
+		<area zip="901">三地門</area>
+		<area zip="902">霧台鄉</area>
+		<area zip="903">瑪家鄉</area>
+		<area zip="904">九如鄉</area>
+		<area zip="905">裡港鄉</area>
+		<area zip="906">高樹鄉</area>
+		<area zip="907">鹽埔鄉</area>
+		<area zip="908">長治鄉</area>
+		<area zip="909">麟洛鄉</area>
+		<area zip="911">竹田鄉</area>
+		<area zip="912">內埔鄉</area>
+		<area zip="913">萬丹鄉</area>
+		<area zip="920">潮州鎮</area>
+		<area zip="921">泰武鄉</area>
+		<area zip="922">來義鄉</area>
+		<area zip="923">萬巒鄉</area>
+		<area zip="924">崁頂鄉</area>
+		<area zip="925">新埤鄉</area>
+		<area zip="926">南州鄉</area>
+		<area zip="927">林邊鄉</area>
+		<area zip="928">東港鎮</area>
+		<area zip="929">琉球鄉</area>
+		<area zip="931">佳冬鄉</area>
+		<area zip="932">新園鄉</area>
+		<area zip="940">枋寮鄉</area>
+		<area zip="941">枋山鄉</area>
+		<area zip="942">春日鄉</area>
+		<area zip="943">獅子鄉</area>
+		<area zip="944">車城鄉</area>
+		<area zip="945">牡丹鄉</area>
+		<area zip="946">恆春鎮</area>
+		<area zip="947">滿州鄉</area>
+	</county>
+	<county zip="U" name="花蓮縣">
+		<area zip="970">花蓮市</area>
+		<area zip="971">新城鄉</area>
+		<area zip="972">秀林鄉</area>
+		<area zip="973">吉安鄉</area>
+		<area zip="974">壽豐鄉</area>
+		<area zip="975">鳳林鎮</area>
+		<area zip="976">光復鄉</area>
+		<area zip="977">豐濱鄉</area>
+		<area zip="978">瑞穗鄉</area>
+		<area zip="979">萬榮鄉</area>
+		<area zip="981">玉裡鎮</area>
+		<area zip="982">卓溪鄉</area>
+		<area zip="983">富裡鄉</area>
+	</county>
+	<county zip="V" name="臺東縣">
+		<area zip="950">台東市</area>
+		<area zip="951">綠島鄉</area>
+		<area zip="952">蘭嶼鄉</area>
+		<area zip="953">延平鄉</area>
+		<area zip="954">卑南鄉</area>
+		<area zip="955">鹿野鄉</area>
+		<area zip="956">關山鎮</area>
+		<area zip="957">海端鄉</area>
+		<area zip="958">池上鄉</area>
+		<area zip="959">東河鄉</area>
+		<area zip="961">成功鎮</area>
+		<area zip="962">長濱鄉</area>
+		<area zip="963">太麻裡</area>
+		<area zip="964">金峰鄉</area>
+		<area zip="965">大武鄉</area>
+		<area zip="966">達仁鄉</area>
+	</county>
+	<county zip="W" name="金門縣">
+		<area zip="890">金沙鎮</area>
+		<area zip="891">金湖鎮</area>
+		<area zip="892">金寧鄉</area>
+		<area zip="893">金城鎮</area>
+		<area zip="894">烈嶼鄉</area>
+		<area zip="896">烏坵鄉</area>
+	</county>	
+	<county zip="X" name="澎湖縣">
+		<area zip="880">馬公市</area>
+		<area zip="881">西嶼鄉</area>
+		<area zip="882">望安鄉</area>
+		<area zip="883">七美鄉</area>
+		<area zip="884">白沙鄉</area>
+		<area zip="885">湖西鄉</area>
+	</county>
+	<county zip="Z" name="連江縣">
+		<area zip="209">南竿鄉</area>
+		<area zip="210">北竿鄉</area>
+		<area zip="211">莒光鄉</area>
+		<area zip="212">東引鄉</area>
+	</county>
+	<county zip="[" name="南沙島">
+		<area zip="817">東沙</area>
+		<area zip="819">南沙</area>
+	</county>
+	<county zip="]" name="釣魚台">
+		<area zip="290">釣魚台</area>	
+	</county>
+</taiwan>	
