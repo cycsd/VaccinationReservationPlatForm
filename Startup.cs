@@ -27,6 +27,8 @@ namespace VaccinationReservationPlatForm
         {
             services.AddControllersWithViews();
 
+            services.AddSession();
+
             services.AddDbContext<VaccinationBookingSystemContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("VaccinationBookingSystem"));
@@ -50,6 +52,7 @@ namespace VaccinationReservationPlatForm
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthorization();
 

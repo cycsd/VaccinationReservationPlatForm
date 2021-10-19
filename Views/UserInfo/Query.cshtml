@@ -1,0 +1,51 @@
+﻿@*
+
+*@
+@{
+    ViewData["Title"] = "Query";
+}
+
+
+<div class="row col-lg-12 justify-content-center">
+    <div class="col-md-6" align="center">
+        <form action="/UserInfo/Query" method="post" id="form1" enctype="application/x-www-form-urlencoded">
+            <div align="center">
+                <h4 ><font style="font-weight:bold" size="24">身分認證</font></h4>
+                <hr style="border-top:2px solid black;"  />
+                <br />
+                <br />
+            </div>
+            <div class="container h-100 " style="background-color:transparent">
+                <div class="input-group mb-3" style="padding:5px 5px 5px 5px;">
+                    <span class="input-group-text" id="basic-addon1" width="100"><span class="glyphicon glyphicon-user"></span>&nbsp;<font size="1" color="red" align="top">*</font>身份證字號</span>
+                    <input type="text" class="form-control" placeholder="請輸入身份證字號" aria-label="Username" aria-describedby="basic-addon1" name="UserIdentityId">
+                </div>
+                <div class="input-group mb-3" style="padding:5px 5px 5px 5px;">
+                    <span class="input-group-text" id="basic-addon1"><span class="glyphicon glyphicon-phone"></span>&nbsp;<font size="1" color="red" align="top">*</font>手機號碼　</span>
+                    <input type="text" class="form-control" placeholder="請輸入手機號碼" aria-label="Username" aria-describedby="basic-addon1" name="PhoneNumber">
+                </div>
+                <div class="input-group mb-3" style="padding:5px 5px 5px 5px;" id="test">
+                    <span class="input-group-text" id="basic-addon1"><span class="glyphicon glyphicon-check"></span>&nbsp;<font size="1" color="red" align="top">*</font>圖形驗證碼</span>
+                    <input type="text" class="form-control" placeholder="請輸入圖形驗證碼" aria-label="Username" aria-describedby="basic-addon1" name="code"><img id="Va" src="/UserInfo/GetValidateCode" height="30" style="" /><span class="input-group-text" id="btn" onclick="reImg()" alt="看不清楚，換一張。"><span class="glyphicon glyphicon-refresh"></span></span>
+                </div>
+                <div style="text-align: center;">
+                    <input type="submit" class="btn btn-outline-secondary text-right" value="執行身分認證" />
+                </div>
+                <div>
+                    <label><font color="red">@ViewBag.Result</font></label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        function reImg() {
+            var img = document.getElementById("Va");
+            img.src = "/UserInfo/GetValidateCode?rnd=?" + Math.random();
+        };
+
+    </script>
+}

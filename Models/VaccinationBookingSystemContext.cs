@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using VaccinationReservationPlatForm.Models;
 
 #nullable disable
 
@@ -638,5 +639,7 @@ namespace VaccinationReservationPlatForm.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<VaccinationReservationPlatForm.Models.CQueryResult> CQueryResult { get; set; }
     }
 }
