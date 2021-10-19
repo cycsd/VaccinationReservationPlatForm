@@ -53,7 +53,7 @@ namespace VaccinationReservationPlatForm.Models
                         tempHerfValue = node.Attributes["href"].Value;
                         //tempHerfValue = node.OuterHtml;
                         //href = tempHerfValue.Substring(tempHerfValue.IndexOf("=") + 2, tempHerfValue.IndexOf(">") - tempHerfValue.IndexOf("=") - 3);
-                        newsList.Add(new NewsData() { Title = tempInnerText, Url = href });
+                        newsList.Add(new NewsData() { Title = tempInnerText, Url = tempHerfValue });
                         i++;
                     }
                 }

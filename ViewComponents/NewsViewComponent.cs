@@ -16,8 +16,7 @@ namespace VaccinationReservationPlatForm.ViewComponents
         {
             var svc = new NewsService();
             var data = svc.Crawl(url);
-            ViewBag.title = data;
-            ViewBag.url = data;
+            ViewBag.news = data;
             return View();
         }
     }
