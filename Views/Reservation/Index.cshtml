@@ -26,6 +26,9 @@
                 <select id="town">
                     <option style="display:none">鄉鎮市</option>
                 </select>
+                <select id="road">
+                    <option style="display:none">區段</option>
+                </select>
             </div>
 
             <div class="form-group mt-3">
@@ -46,45 +49,9 @@
 
 @section Scripts
 {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
+    <script src="~/js/Location.js"></script>
     <script>
-        $(document).ready(GetCounty);
-        function GetCounty() {
-            $.ajax({
-                type: "GET",
-                url: "https://api.nlsc.gov.tw/other/ListCounty",
-                dataType:'xml',
-                success: CountyParser
-            });
-        }
-        function CountyParser(xml) {
-            $(xml).find("countyItem").each(function () {
-                $("#county").append('<option>' + $(this).find('countyname').text() + '</option>');
-            })
-        }
-
-        $('#county').change(function () {
-            GetTown($(this).val(),'#town');
-        })
-
-        function GetTown(countyName,townSelectId) {
-            $.ajax({
-                type: "GET",
-                url: "/XML/taiwanCountyToTown.xml",
-                dataType: 'xml',
-                success: function (xml) {
-                    $(townSelectId).empty();
-                    $(xml).find("county").each(function () {
-                        if ($(this).attr('name') == countyName) {
-                            $(this).find('area').each(function () {                                
-                                $(townSelectId).append('<option>' + $(this).text() + '</option>');
-                            })
-                        }
-                    })
-                }
-            });
-        }
-
-
 
     </script>
 }
