@@ -49,9 +49,8 @@ namespace VaccinationReservationPlatForm.Controllers
         }
 
         public IActionResult Index()
-        {
-            var q = _context.People.First();
-            return View(q);
+        {            
+            return View();
         }
 
         public IActionResult Privacy()
