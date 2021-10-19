@@ -1,0 +1,92 @@
+﻿@model VaccinationReservationPlatForm.ViewModels.CLoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css"
+      integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
+
+
+<h1>登入頁面</h1>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <form class="row g-3 needs-validation" novalidate>
+        <h4></h4>
+        <hr />
+        <br />
+        <div class="form-floating mb-3">
+            <input asp-for="txtPersonIdentityID" class="form-control" id="floatingInput" placeholder="Password" style="width:550px" required>
+            <label asp-for="txtPersonIdentityID" for="floatingInput" class="form-label"><font color="gray">身份證字號</font></label>
+            <span asp-validation-for="txtPersonIdentityID" class="text-danger" style="color:red"></span>
+            <div class="invalid-feedback">
+                Please provide a valid city.
+            </div>
+        </div>
+        <div class="form-floating">
+            <input asp-for="txtPersonHealthID" class="form-control" id="floatingPassword" placeholder="Password" style="width:550px" required>
+            <label asp-for="txtPersonHealthID" for="floatingPassword" class="form-label"><font color="gray">健保卡卡號</font></label>
+            <span asp-validation-for="txtPersonHealthID" class="text-danger"></span>
+        </div>
+        <!--<div class="form-group">
+            <div class="col-md-5">
+                <label asp-for="txtPersonIdentityID" class="control-label"></label>
+                <input asp-for="txtPersonIdentityID" class="form-control" />-->
+        @*@Html.TextBox("txtPersonIdentityID", "",
+            new { htmlAttributes = new { @class = "form-control" } })*@
+        <!--<span asp-validation-for="txtPersonIdentityID" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-5">
+                <label asp-for="txtPersonHealthID" class="control-label"></label>
+                <input asp-for="txtPersonHealthID" class="form-control" />-->
+        @*@Html.TextBox("txtPersonHealthID", "",
+            new { htmlAttributes = new { @class = "form-control" } })*@
+        <!--<span asp-validation-for="txtPersonHealthID" class="text-danger"></span>
+            </div>
+        </div>-->
+        <br />
+        <br />
+        <div class="form-group">
+            <label><font color="red">@ViewBag.Error</font></label>
+        </div>
+        <!--<div class="container" style="margin-top: 30px; background-color: orange" >
+            <div class="profile-head" >
+                <div class="col-md- col-sm-4 col-xs-12">
+                    <img src="https://i.imgur.com/s2OFE1I.jpg" class="img-responsive" style="width:150px;height:180px" />
+                    <h6>Jenifer Smith</h6>
+                </div>-->
+        <!--col-md-4 col-sm-4 col-xs-12 close-->
+        <!--<div class="col-md-5 col-sm-5 col-xs-12" >
+                <h1>姓名</h1>
+                <p>職業 </p>
+                <ul>
+                    <li><span class="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp; 性別</li>
+                    <li><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;出生日期</li>
+                    <li><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;居住地址</li>
+                    <li><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;<a href="#" title="call">電話號碼</a></li>
+                    <li><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;<a href="#" title="mail">電子郵件</a></li>
+
+                </ul>
+
+
+            </div>col-md-8 col-sm-8 col-xs-12 close
+
+
+
+
+        </div>-->
+        <!--profile-head close-->
+        <!--</div>--><!--container close-->
+        <div class="form-group">
+            <input type="submit" value="登入" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ" crossorigin="anonymous"></script>
+}
