@@ -26,6 +26,11 @@ namespace VaccinationReservationPlatForm.Models
         public int? HospitalCapacity { get; set; }
         public int? HospitalClass { get; set; }
         public byte[] HospitalPhoto { get; set; }
+        public string HospitalAgencyCode { get; set; }
+        public int? HospitalContType { get; set; }
+        public int? HospitalType { get; set; }
+        public string HospitalCategory { get; set; }
+        public int? HospitalPhoneAreaCode { get; set; }
 
         public virtual County CountyPostalCodeNavigation { get; set; }
         public virtual ICollection<HospitalBusinessDay> HospitalBusinessDays { get; set; }
