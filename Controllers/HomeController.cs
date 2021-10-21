@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using VaccinationReservationPlatForm.Models;
+using VaccinationReservationPlatForm.ViewModels;
 
 namespace VaccinationReservationPlatForm.Controllers
 {
@@ -19,7 +22,7 @@ namespace VaccinationReservationPlatForm.Controllers
         {
             _logger = logger;
             _context = vaccinationBookingSystemContext;
-        }
+        }       
 
         public IActionResult Index()
         {            
