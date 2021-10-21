@@ -69,6 +69,11 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
         public IActionResult Login()
         {
+            if (TempData["Error"] != null)
+            {
+                string error = TempData["Error"].ToString();
+                ViewBag.Error = error;
+            }
             return View();
         }
 
@@ -85,7 +90,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                     string json = JsonSerializer.Serialize(cust);
                     HttpContext.Session.SetString(CDictionary.SK_LOGIN_CLIENT, json);
                     ViewBag.Error = "";
-                    return RedirectToAction("List");
+                    return RedirectToAction("WantedVaccine");
                 }
                 if (cust == null)
                 {
@@ -97,6 +102,159 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             return View();
         }
 
+        public IActionResult WantedVaccine()
+        {
+            if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                TempData["Error"] = "查無此資料！請重新確認。";
+                return RedirectToAction("Login");
+            }
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
+            Person userlogin = JsonSerializer.Deserialize<Person>(json);
+            Person user = (new VaccinationBookingSystemContext()).People.FirstOrDefault(
+                c => c.PersonIdentityId.Trim().Equals(userlogin.PersonIdentityId) && c.PersonHealthId.Trim().Equals(userlogin.PersonHealthId));
+            ViewData["user"] = user;
+            VaccinationBookingSystemContext db = new VaccinationBookingSystemContext();
+            IEnumerable<int?> wanted = from v in db.VaccinationWanteds
+                               where v.PersonId == userlogin.PersonId
+                               select v.VaccineId;
+            if (wanted.ToList().FirstOrDefault() != null)
+            {
+                string Number = "";
+                List<int?> VaccineInt = new List<int?>(wanted);
+                foreach (var item in VaccineInt)
+                {
+                    Number += item.ToString();
+                }
+                ViewBag.Number = Number;
+            }
+            return View(user);
+        }
+        
+        [HttpPost]
+        public IActionResult WantedVaccine(Person model)
+        {
+            string County = Request.Form["County"].ToString().Trim();
+            string CountyTown = Request.Form["CountyTown"].ToString().Trim();
+            string Vaccine = Request.Form["Vaccine"].ToString();
+            VaccinationBookingSystemContext db = new VaccinationBookingSystemContext();
+            //County CountyCode = db.Counties.FirstOrDefault(c => c.CountyName.Trim() == County && c.CountyTownName.Trim() == CountyTown);
+            Person user = db.People.FirstOrDefault(p => p.PersonIdentityId.Trim().Equals(model.PersonIdentityId));
+            IEnumerable<int?> wanted = from v in db.VaccinationWanteds
+                                       where v.PersonId == user.PersonId
+                                       select v.VaccineId;
+            if (user != null  /*CountyCode != null*/)
+            {
+                user.PersonIdentityId = model.PersonIdentityId.Trim();
+                user.PersonName = model.PersonName.Trim();
+                user.PersonCellphoneNumber = model.PersonCellphoneNumber.Trim();
+                //user.CountyPostalCode = CountyCode.CountyPostalCode;
+                db.SaveChanges();
+            }
+            if (user != null )
+            {
+                string Number ="";
+                List<int?> VaccineInt = new List<int?>(wanted);
+                foreach (var item in VaccineInt)
+                {
+                    Number += item;
+                }
+                if (Vaccine.Contains("1"))
+                {
+                    if (!Number.Contains("1"))
+                    {
+                        VaccinationWanted x = new VaccinationWanted()
+                        {
+                            PersonId = user.PersonId,
+                            VaccineId = 1,
+                        };
+                        db.VaccinationWanteds.Add(x);
+                    }
+                }
+                else
+                {
+                    if (Number.Contains("1"))
+                    {
+                        VaccinationWanted delete = db.VaccinationWanteds.FirstOrDefault(w => w.PersonId.Equals(user.PersonId) && w.VaccineId.Equals(1));
+                        if (delete != null)
+                        {
+                            db.VaccinationWanteds.Remove(delete);
+                        }
+                    }
+                }
+                if (Vaccine.Contains("2"))
+                {
+                    if (!Number.Contains("2"))
+                    {
+                        VaccinationWanted x = new VaccinationWanted()
+                        {
+                            PersonId = user.PersonId,
+                            VaccineId = 2,
+                        };
+                        db.VaccinationWanteds.Add(x);
+                    }
+                }
+                else
+                {
+                    if (Number.Contains("2"))
+                    {
+                        VaccinationWanted delete = db.VaccinationWanteds.FirstOrDefault(w => w.PersonId.Equals(user.PersonId) && w.VaccineId.Equals(2));
+                        if (delete != null)
+                        {
+                            db.VaccinationWanteds.Remove(delete);
+                        }
+                    }
+                }
+                if (Vaccine.Contains("3"))
+                {
+                    if (!Number.Contains("3"))
+                    {
+                        VaccinationWanted x = new VaccinationWanted()
+                        {
+                            PersonId = user.PersonId,
+                            VaccineId = 3,
+                        };
+                        db.VaccinationWanteds.Add(x);
+                    }
+                }
+                else
+                {
+                    if (Number.Contains("3"))
+                    {
+                        VaccinationWanted delete = db.VaccinationWanteds.FirstOrDefault(w => w.PersonId.Equals(user.PersonId) && w.VaccineId.Equals(3));
+                        if (delete != null)
+                        {
+                            db.VaccinationWanteds.Remove(delete);
+                        }
+                    }
+                }
+                if (Vaccine.Contains("4"))
+                {
+                    if (!Number.Contains("4"))
+                    {
+                        VaccinationWanted x = new VaccinationWanted()
+                        {
+                            PersonId = user.PersonId,
+                            VaccineId = 4,
+                        };
+                        db.VaccinationWanteds.Add(x);
+                    }
+                }
+                else
+                {
+                    if (Number.Contains("4"))
+                    {
+                        VaccinationWanted delete = db.VaccinationWanteds.FirstOrDefault(w => w.PersonId.Equals(user.PersonId) && w.VaccineId.Equals(4));
+                        if (delete != null)
+                        {
+                            db.VaccinationWanteds.Remove(delete);
+                        }
+                    }
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index","Home");
+        }
         public IActionResult List(CUserInfoModel model)
         {
             if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))

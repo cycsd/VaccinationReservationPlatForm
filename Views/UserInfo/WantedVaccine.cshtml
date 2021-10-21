@@ -1,0 +1,96 @@
+﻿@model VaccinationReservationPlatForm.Models.Person
+@{
+    ViewData["Title"] = "WantedVaccine";
+    Person user = ViewData["user"] as Person;
+    string Number = ViewBag.Number;
+    
+}
+
+@{
+}
+<div style="position:inherit">
+    <form action="/UserInfo/WantedVaccine" method="post">
+        <table class="table table-borderless" style="width:auto;" cellpadding="5" cellspacing="5">
+            <tr style="align-content:center;border-top:hidden" >
+                <td ><font size="24" style="font-display:block">疫苗接踵意願登記</font></td>
+            </tr>
+            <tr>
+                <td><font color="red">*</font><label asp-for="PersonIdentityId"></label></td>
+                <td><input asp-for="PersonIdentityId"  style="width:200px"/></td>
+            </tr>
+            <tr>
+                <td><font color="red">*</font><label asp-for="PersonName"></label></td>
+                <td><input id="test" asp-for="PersonName" value="@user.PersonName.Trim()" style="width:200px"/></td>
+            </tr>
+            <tr>
+                <td><font color="red">*</font><label asp-for="PersonCellphoneNumber"></label></td>
+                <td><input asp-for="PersonCellphoneNumber" value="@user.PersonCellphoneNumber.Trim()" style="width:200px"/></td>
+            </tr>
+            <tr>
+                <td><font color="red">*</font><label>接踵區域</label></td>
+                <td>
+                    <select class="form-select" name="County" style="display: inline-block; width: auto; vertical-align: middle;">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <select class="form-select" name="CountyTown" style="display: inline-block; width: auto; vertical-align: middle;">
+                        <option selected>Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><font color="red">*</font><label>接踵疫苗種類</label></td>
+                <td>
+                    <div id="checked" >
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="BNT" value="1">
+                            <label class="form-check-label" for="inlineCheckbox1">BNT</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="AZ" value="2">
+                            <label class="form-check-label" for="inlineCheckbox2">AZ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="Moderna" value="3">
+                            <label class="form-check-label" for="inlineCheckbox3">莫德納</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="MVC" value="4">
+                            <label class="form-check-label" for="inlineCheckbox4">高端</label>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="text-right">
+                <td></td>
+                <td><input type="submit" value="送出" id="submit" class="btn btn-primary"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        var Number = @ViewBag.Number;
+        const n = Number.toString();
+        if (n.includes("1")) {
+            $("#BNT").attr('checked', 'checked')
+        };
+        if (n.includes("2")) {
+            $("#AZ").attr('checked', 'checked')
+        };
+        if (n.includes("3")) {
+            $("#Moderna").attr('checked', 'checked')
+        };
+        if (n.includes("4")) {
+            $("#MVC").attr('checked', 'checked')
+        };
+
+    </script>
+
+}

@@ -9,7 +9,7 @@ namespace VaccinationReservationPlatForm.Models
 {
     public partial class Person
     {
-        private string phone;
+        private string phone ="";
         public Person()
         {
             UserInfos = new HashSet<UserInfo>();
