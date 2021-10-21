@@ -313,7 +313,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
 }
-#hero .container {
+#hero .box {
   z-index: 2;
   background-color:lightpink;
   width:500px;
@@ -1219,4 +1219,9 @@ section {
   background: #5faee3;
   color: #fff;
   text-decoration: none;
+}
+
+.map{
+    height:50vh;
+    width: 500px;
 }

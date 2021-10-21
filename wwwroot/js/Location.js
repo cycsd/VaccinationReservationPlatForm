@@ -28,7 +28,12 @@ $(function () {
                 return $(this).attr('name') == selectCounty;
             })
             let townData = filteredCounty.find('area')
-            XMLcollectionToSection(townData, '#town')
+            XMLcollectionToSection(townData, '#town', null, 'zip')
+
+            let road = $('#road');
+            let firstTitleOption = road.find(':first-child');
+            road.empty();
+            road.append(firstTitleOption);
         })
 
         $('#town').change(GetRoadDataToRoadSection);
@@ -86,8 +91,7 @@ function GetRoadDataToRoadSection() {
     $.get(url, function (data) {
         var jsonData = $.csv.toObjects(data);
         //let responseData = data.responseData;
-        let conditionText = $('#county').val() + $('#town').val();
-        console.log(jsonData);
+        let conditionText = $('#county').val() + $('#town').find("option:selected").text();
         let road = $('#road')
         let firstTitleOption = road.find(':first-child');
         road.empty();

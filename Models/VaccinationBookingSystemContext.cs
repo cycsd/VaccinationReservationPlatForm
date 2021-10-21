@@ -132,6 +132,11 @@ namespace VaccinationReservationPlatForm.Models
                     .IsUnicode(false)
                     .IsFixedLength(true);
 
+                entity.Property(e => e.HospitalContType)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
                 entity.Property(e => e.HospitalMail)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -145,6 +150,11 @@ namespace VaccinationReservationPlatForm.Models
                     .IsFixedLength(true);
 
                 entity.Property(e => e.HospitalPhoto).HasColumnType("image");
+
+                entity.Property(e => e.HospitalType)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.HasOne(d => d.CountyPostalCodeNavigation)
                     .WithMany(p => p.Hospitals)

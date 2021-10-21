@@ -1,0 +1,107 @@
+﻿@model IEnumerable<VaccinationReservationPlatForm.Models.Hospital>
+
+@{
+    ViewData["Title"] = "HospitalList";
+}
+
+<h1>HospitalList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalMail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalPhoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalAgencyCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalContType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HospitalPhoneAreaCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CountyPostalCodeNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalAdress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalMail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalPhoto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalAgencyCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalContType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalCategory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HospitalPhoneAreaCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountyPostalCodeNavigation.CountyPostalCode)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.HospitalId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.HospitalId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.HospitalId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
