@@ -8,8 +8,17 @@ namespace VaccinationReservationPlatForm.Controllers.News
 {
     public class NewsController : Controller
     {
+
         public IActionResult Index()
         {
+            ViewBag.aa = "News";
+
+            return View();
+        }
+
+        public IActionResult News()
+        {
+            ViewBag.aa = "News";
             return View();
         }
     }
