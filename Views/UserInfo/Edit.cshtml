@@ -1,0 +1,72 @@
+﻿@model VaccinationReservationPlatForm.Models.Person
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row col-lg-12 justify-content-center" >
+    <div class="col-md-6">
+        <div>
+            <form asp-action="Edit">
+                <div class="text-center">
+                    <h4><font size="24" class="text-center">個人資訊</font></h4>
+                    <hr style="border-top:3px solid black;" />
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="PersonId" />
+                <div class="form-group mt-3" hidden>
+                    <label asp-for="PersonName" class="control-label"></label>
+                    <input asp-for="PersonName" class="form-control-plaintext" readonly />
+                    <span asp-validation-for="PersonName" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3" hidden>
+                    <label asp-for="PersonSex" class="control-label"></label>
+                    <input asp-for="PersonSex" class="form-control" readonly />
+                    <span asp-validation-for="PersonSex" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3" hidden>
+                    <label asp-for="PersonBirthday" class="control-label"></label>
+                    <input asp-for="PersonBirthday" type="datetime" class="form-control" readonly />
+                    <span asp-validation-for="PersonBirthday" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3" hidden>
+                    <label asp-for="PersonIdentityId" class="control-label"></label>
+                    <input asp-for="PersonIdentityId" class="form-control" readonly />
+                    <span asp-validation-for="PersonIdentityId" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3" hidden>
+                    <label asp-for="PersonHealthId" class="control-label"></label>
+                    <input asp-for="PersonHealthId" class="form-control" readonly />
+                    <span asp-validation-for="PersonHealthId" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="PersonCellphoneNumber" class="control-label"></label>
+                    <input asp-for="PersonCellphoneNumber" class="form-control" />
+                    <span asp-validation-for="PersonCellphoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="PersonMail" class="control-label"></label>
+                    <input asp-for="PersonMail" class="form-control" />
+                    <span asp-validation-for="PersonMail" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="PersonAdress" class="control-label"></label>
+                    <input asp-for="PersonAdress" class="form-control" />
+                    <span asp-validation-for="PersonAdress" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-3">
+                    <label asp-for="PersonJob" class="control-label"></label>
+                    <input asp-for="PersonJob" class="form-control" />
+                    <span asp-validation-for="PersonJob" class="text-danger"></span>
+                </div>
+                <div class=" text-right" >
+                    <input type="submit" value="Save" class="btn btn-primary" />&nbsp;&nbsp;<a style="text-align:match-parent" class="btn btn-outline-primary" asp-action="List">返回</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

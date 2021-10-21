@@ -1,0 +1,65 @@
+﻿@model IEnumerable<VaccinationReservationPlatForm.Models.CQueryResult>
+
+@{
+    ViewData["Title"] = "QueryResult";
+    string PersonIdentity = Model.ToList()[0].PersonIdentityId.Trim();
+    string PersonName = Model.ToList()[0].PersonName.Trim();
+    string PersonPhone = Model.ToList()[0].PersonCellphoneNumber.Trim();
+    string CountyName = Model.ToList()[0].CountyName.Trim() + "," + Model.ToList()[0].CountyTownName.Trim();
+    string VaccineName = "";
+    for (int i = 0; i < Model.ToList().Count; i++)
+    {
+
+        VaccineName += Model.ToList()[i].VaccineName.Trim() + ",";
+    }
+    VaccineName = VaccineName.Substring(0, VaccineName.Length - 1);
+}
+
+
+
+<div class="row col-lg-12 justify-content-center" >
+    <div class="col-md-4" >
+        <div align="center">
+            <h4><font size="24">意願查詢</font></h4>
+            <hr style="border-top:2px solid black;"/>
+        </div>
+        <div  >
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonIdentityId)
+                </dt>
+                <dd class="col-sm-10">
+                    @PersonIdentity
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonName)
+                </dt>
+                <dd class="col-sm-10">
+                    @PersonName
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.PersonCellphoneNumber)
+                </dt>
+                <dd class="col-sm-10">
+                    @PersonPhone
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.CountyName)
+                </dt>
+                <dd class="col-sm-10">
+                    @CountyName
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.VaccineName)
+                </dt>
+                <dd class="col-sm-10">
+                    @VaccineName
+                </dd>
+            </dl>
+        </div>      
+        <div class="text-center">
+            <a asp-action="Query" class="btn btn-primary">返回</a>
+        </div>
+    </div>
+</div>
+

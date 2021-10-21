@@ -1,0 +1,74 @@
+﻿@model VaccinationReservationPlatForm.Models.Person
+
+@{
+    ViewData["Title"] = "List";
+}
+
+
+
+<div style="position:relative; width:700px" >
+    <h4><font size="24">個人資料</font></h4>
+    <hr />
+    <div >
+        <dl class="row">
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonName)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonName)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonSex)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonSex)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonBirthday)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonBirthday)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonIdentityId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonIdentityId)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonHealthId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonHealthId)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonCellphoneNumber)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonCellphoneNumber)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonMail)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonMail)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonAdress)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonAdress)
+            </dd>
+            <dt class="col-sm-3">
+                @Html.DisplayNameFor(model => model.PersonJob)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.PersonJob)
+            </dd>
+        </dl>
+    </div>
+    <div class="text-right">
+        <a class="btn btn-primary text-center" asp-action="Edit">修改</a>
+    </div>
+</div>
+
