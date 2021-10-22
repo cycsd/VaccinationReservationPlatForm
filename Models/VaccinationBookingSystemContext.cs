@@ -42,7 +42,7 @@ namespace VaccinationReservationPlatForm.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=VaccinationBookingSystem;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Server=.;Database=VaccinationBookingSystem;Trusted_Connection=True;");
             }
         }
 
@@ -117,17 +117,26 @@ namespace VaccinationReservationPlatForm.Models
             {
                 entity.ToTable("Hospital");
 
-                entity.HasIndex(e => e.HospitalName, "INDEX_HospitalName")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.HospitalName, "UQ__Hospital__08A92CEFDED3F899")
+                entity.HasIndex(e => e.HospitalAgencyCode, "INDEX_HospitalAgencyCode")
                     .IsUnique();
 
                 entity.Property(e => e.HospitalId).HasColumnName("HospitalID");
 
-                entity.Property(e => e.HospitalAdress)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.HospitalAdress).HasMaxLength(50);
+
+                entity.Property(e => e.HospitalAgencyCode)
+                    .HasMaxLength(12)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.HospitalCategory)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
+
+                entity.Property(e => e.HospitalContType)
+                    .HasMaxLength(1)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.Property(e => e.HospitalMail)
                     .HasMaxLength(50)
@@ -139,10 +148,14 @@ namespace VaccinationReservationPlatForm.Models
 
                 entity.Property(e => e.HospitalPhone)
                     .HasMaxLength(15)
-                    .IsUnicode(false)
                     .IsFixedLength(true);
 
                 entity.Property(e => e.HospitalPhoto).HasColumnType("image");
+
+                entity.Property(e => e.HospitalType)
+                    .HasMaxLength(2)
+                    .IsUnicode(false)
+                    .IsFixedLength(true);
 
                 entity.HasOne(d => d.CountyPostalCodeNavigation)
                     .WithMany(p => p.Hospitals)

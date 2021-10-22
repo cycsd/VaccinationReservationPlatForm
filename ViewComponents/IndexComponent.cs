@@ -11,7 +11,8 @@ namespace VaccinationReservationPlatForm.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync(string controller)
         {
-            return View(controller);
+            return View(controller);            
+
         }
     }
 }
