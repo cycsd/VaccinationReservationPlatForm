@@ -1,9 +1,10 @@
 ﻿@model VaccinationReservationPlatForm.Models.Person
 @{
     ViewData["Title"] = "Edit";
+    string phone = Model.PersonCellphoneNumber.Trim();
 }
 
-<div class="row col-lg-12 justify-content-center" >
+<div class="row col-lg-12 justify-content-center">
     <div class="col-md-6">
         <div>
             <form asp-action="Edit">
@@ -39,26 +40,26 @@
                     <span asp-validation-for="PersonHealthId" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label asp-for="PersonCellphoneNumber" class="control-label"></label>
-                    <input asp-for="PersonCellphoneNumber" class="form-control" />
+                    <label  class="control-label">手機號碼</label>
+                    <input asp-for="PersonCellphoneNumber" value="@phone" class="form-control" />
                     <span asp-validation-for="PersonCellphoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label asp-for="PersonMail" class="control-label"></label>
+                    <label  class="control-label">電子信箱</label>
                     <input asp-for="PersonMail" class="form-control" />
                     <span asp-validation-for="PersonMail" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label asp-for="PersonAdress" class="control-label"></label>
+                    <label  class="control-label">居住地址</label>
                     <input asp-for="PersonAdress" class="form-control" />
                     <span asp-validation-for="PersonAdress" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label asp-for="PersonJob" class="control-label"></label>
+                    <label  class="control-label">職業</label>
                     <input asp-for="PersonJob" class="form-control" />
                     <span asp-validation-for="PersonJob" class="text-danger"></span>
                 </div>
-                <div class=" text-right" >
+                <div class=" text-right">
                     <input type="submit" value="Save" class="btn btn-primary" />&nbsp;&nbsp;<a style="text-align:match-parent" class="btn btn-outline-primary" asp-action="List">返回</a>
                 </div>
             </form>

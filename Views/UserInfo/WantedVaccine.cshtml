@@ -15,15 +15,15 @@
                 <td><font size="24" style="font-display:block">疫苗接踵意願登記</font></td>
             </tr>
             <tr>
-                <td><font color="red">*</font><label asp-for="PersonIdentityId"></label></td>
+                <td><font color="red">*</font><label>身分證號</label></td>
                 <td><input asp-for="PersonIdentityId" style="width:200px" /></td>
             </tr>
             <tr>
-                <td><font color="red">*</font><label asp-for="PersonName"></label></td>
+                <td><font color="red">*</font><label>姓名</label></td>
                 <td><input id="test" asp-for="PersonName" value="@user.PersonName.Trim()" style="width:200px" /></td>
             </tr>
             <tr>
-                <td><font color="red">*</font><label asp-for="PersonCellphoneNumber"></label></td>
+                <td><font color="red">*</font><label>手機號碼</label></td>
                 <td><input asp-for="PersonCellphoneNumber" value="@user.PersonCellphoneNumber.Trim()" style="width:200px" /></td>
             </tr>
             <tr>
@@ -42,11 +42,11 @@
                         <option value="3">Three</option>
                     </select>*@
                     <div class="form-group mt-3">
-                        <select id="county" name="County">
-                            <option style="display:none">縣市</option>
+                        <select id="county" name="County"  required>
+                            <option style="display:none" value="">縣市</option>
                         </select>
-                        <select id="town" name="CountyTown">
-                            <option style="display:none">鄉鎮市</option>
+                        <select id="town" name="CountyTown" required>
+                            <option style="display:none" value="">鄉鎮市</option>
                         </select>
                         @*<select id="road">
                             <option style="display:none">區段</option>

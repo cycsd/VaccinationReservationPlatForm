@@ -134,21 +134,20 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         [HttpPost]
         public IActionResult WantedVaccine(Person model)
         {
-            string County = Request.Form["County"].ToString().Trim();
             string CountyTown = Request.Form["CountyTown"].ToString().Trim();
+            int CountyTown2 = Int32.Parse(CountyTown);
             string Vaccine = Request.Form["Vaccine"].ToString();
             VaccinationBookingSystemContext db = new VaccinationBookingSystemContext();
-            County CountyCode = db.Counties.FirstOrDefault(c => c.CountyName.Trim() == County && c.CountyTownName.Trim() == CountyTown);
             Person user = db.People.FirstOrDefault(p => p.PersonIdentityId.Trim().Equals(model.PersonIdentityId));
             IEnumerable<int?> wanted = from v in db.VaccinationWanteds
                                        where v.PersonId == user.PersonId
                                        select v.VaccineId;
-            if (user != null && CountyCode != null)
+            if (user != null )
             {
                 user.PersonIdentityId = model.PersonIdentityId.Trim();
                 user.PersonName = model.PersonName.Trim();
                 user.PersonCellphoneNumber = model.PersonCellphoneNumber.Trim();
-                user.CountyPostalCode = CountyCode.CountyPostalCode;
+                user.CountyPostalCode = CountyTown2;
                 db.SaveChanges();
             }
             if (user != null )
@@ -282,7 +281,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         }
 
         [HttpPost]
-        public IActionResult Edit(Person x)
+        public IActionResult Edit(CPerson x)
         {
             VaccinationBookingSystemContext db = new VaccinationBookingSystemContext();
             Person user = db.People.FirstOrDefault(p => p.PersonIdentityId == x.PersonIdentityId);
