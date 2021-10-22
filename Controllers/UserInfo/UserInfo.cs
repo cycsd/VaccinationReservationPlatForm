@@ -90,7 +90,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                     string json = JsonSerializer.Serialize(cust);
                     HttpContext.Session.SetString(CDictionary.SK_LOGIN_CLIENT, json);
                     ViewBag.Error = "";
-                    return RedirectToAction("WantedVaccine");
+                    return RedirectToAction("Index","Home");
                 }
                 if (cust == null)
                 {
@@ -106,7 +106,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         {
             if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
             {
-                TempData["Error"] = "查無此資料！請重新確認。";
+                TempData["Error"] = "請先登入！";
                 return RedirectToAction("Login");
             }
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
@@ -138,17 +138,17 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             string CountyTown = Request.Form["CountyTown"].ToString().Trim();
             string Vaccine = Request.Form["Vaccine"].ToString();
             VaccinationBookingSystemContext db = new VaccinationBookingSystemContext();
-            //County CountyCode = db.Counties.FirstOrDefault(c => c.CountyName.Trim() == County && c.CountyTownName.Trim() == CountyTown);
+            County CountyCode = db.Counties.FirstOrDefault(c => c.CountyName.Trim() == County && c.CountyTownName.Trim() == CountyTown);
             Person user = db.People.FirstOrDefault(p => p.PersonIdentityId.Trim().Equals(model.PersonIdentityId));
             IEnumerable<int?> wanted = from v in db.VaccinationWanteds
                                        where v.PersonId == user.PersonId
                                        select v.VaccineId;
-            if (user != null  /*CountyCode != null*/)
+            if (user != null && CountyCode != null)
             {
                 user.PersonIdentityId = model.PersonIdentityId.Trim();
                 user.PersonName = model.PersonName.Trim();
                 user.PersonCellphoneNumber = model.PersonCellphoneNumber.Trim();
-                //user.CountyPostalCode = CountyCode.CountyPostalCode;
+                user.CountyPostalCode = CountyCode.CountyPostalCode;
                 db.SaveChanges();
             }
             if (user != null )
