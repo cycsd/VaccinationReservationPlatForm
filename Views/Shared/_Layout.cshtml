@@ -38,6 +38,15 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+    @await RenderSectionAsync("HeadScripts",required: false) 
+    <script>
+        @if (TempData["Error"] != null)
+        {           
+            @:let warningText = '@Json.Serialize(TempData["Error"])';
+            @:alert(warningText);
+        }
+     
+    </script>
 </head>
 <body>
     <!-- ======= Header ======= -->

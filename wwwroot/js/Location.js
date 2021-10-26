@@ -1,21 +1,4 @@
-﻿//$(document).ready(GetCounty);
-//function GetCounty() {
-//    $.ajax({
-//        type: "GET",
-//        url: "https://api.nlsc.gov.tw/other/ListCounty",
-//        dataType: 'xml',
-//        success: CountyParser
-//    });
-//}
-//function CountyParser(xml) {
-//    $(xml).find("countyItem").each(function () {
-//        $("#county").append($('<option>', {
-//            text: $(this).find('countyname').text()
-//        }));
-//        /*'<option>' + $(this).find('countyname').text() + '</option>'*/
-//    })
-//}
-
+﻿
 
 $(function () {
     GetXMLProperty("/XML/taiwanCountyToTown.xml", 'county').then(function (data) {
@@ -29,12 +12,11 @@ $(function () {
             })
             let townData = filteredCounty.find('area')
             XMLcollectionToSection(townData, '#town', null, 'zip')
-
-            let road = $('#road');
-            let firstTitleOption = road.find(':first-child');
-            road.empty();
-            road.append(firstTitleOption);
         })
+        //let road = $('#road');
+        //let firstTitleOption = road.find(':first-child');
+        //road.empty();
+        //road.append(firstTitleOption);
 
         $('#town').change(GetRoadDataToRoadSection);
 
@@ -78,15 +60,6 @@ function GetRoadDataToRoadSection() {
     //let url = 'https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP049/107';
     //let url = 'http://od.moi.gov.tw/od/data/api/8697AFDD-0633-49CA-88DF-4B815FCC6C88?$format=json&$top=32407'
     let url = '/XML/opendata110road.csv'
-    //$.ajax({
-    //    type: 'GET',
-    //    url: url,
-    //    dataType: 'text',
-    //    success: function (data) {
-    //        var jsonData = $.csv.toObjects(data);
-    //        console.log(jsonData);
-    //    }
-    //})
 
     $.get(url, function (data) {
         var jsonData = $.csv.toObjects(data);
@@ -106,31 +79,8 @@ function GetRoadDataToRoadSection() {
             road.append($('<option>', {
                 text: text,
             }));
-        })
+        })       
     })
+
 }
 
-
-
-//$('#county').change(function () {
-//    GetTown($(this).val(), '#town');
-//})
-
-//function GetTown(countyName, townSelectId) {
-//    $.ajax({
-//        type: "GET",
-//        url: "/XML/taiwanCountyToTown.xml",
-//        dataType: 'xml',
-//        success: function (xml) {
-//            $(townSelectId).empty();
-//            $(xml).find("county").each(function () {
-//                if ($(this).attr('name') == countyName) {
-//                    $(this).find('area').each(function () {
-//                        $(townSelectId).append($('<option>', { text: $(this).text() }));
-//                        /*'<option>' + $(this).text() + '</option>'*/
-//                    })
-//                }
-//            })
-//        }
-//    });
-//}

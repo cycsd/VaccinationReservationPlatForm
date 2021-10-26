@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VaccinationReservationPlatForm.Models;
@@ -16,6 +17,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
     {
         private readonly VaccinationBookingSystemContext context;
         private readonly IWebHostEnvironment environment;
+        private Person person;
+        private IQueryable<int?> vaccinationWanted;
         public ReservationController(VaccinationBookingSystemContext context, IWebHostEnvironment environment)
         {
             this.context = context;
@@ -23,16 +26,53 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
         }
         public IActionResult Index()
         {
-            // todo:將個人資訊傳到表單
-            return View();
+            //確認是否有登入
+            if (!CheckLogin())
+            {
+                return RedirectToAction("Login", "UserInfo");
+            }
+
+            this.person = JsonSerializer.Deserialize<Person>(HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT));
+
+            //todo: 邏輯驗證，這個人是否可以預約疫苗，職業、年紀、是否已經預約過、是否有疫苗可預約...
+
+            return View(this.person);
         }
 
-        public IActionResult GetHospitalInfo(string county,string town,int zipcode,string vaccine)
+        //[HttpPost]
+        public IActionResult GetVaccineWanted(int userid)
         {
-            
+
+            this.vaccinationWanted = context.VaccinationWanteds.Where(person => person.PersonId == userid).Select(person => person.VaccineId);
+            var vaccines = vaccinationWanted.Join(context.Vaccines, o => o.Value, i => i.VaccineId, (o, i) =>
+            new
+            {
+                i.VaccineId,
+                i.VaccineName
+            }
+            );
+            //todo: 個人疫苗選擇資訊，如果這個人沒有選擇疫苗怎麼處理?
+            //todo: 第二次預約需要判別前一次是打甚麼疫苗
+            //if (vaccines.Count() == 0)
+            //{
+            //    TempData["Error"] = "尚未登記過疫苗。";
+            //    //return StatusCode(StatusCodes.Status404NotFound,"message");
+            //    return NotFound();
+            //}
+
+            return Ok(vaccines);
+        }
+
+        public IActionResult GetHospitalInfo(string county, string town, int zipcode, int vaccineID)
+        {
+
             // todo:判斷使用者選擇的疫苗醫院是否還有庫存
-            
-            var hospital = context.Hospitals;
+            int vaccineBook = context.VaccinationBookings.Where(person => person.VaccineId == vaccineID).Count();
+            var hospitalhaveStock = context.VaccineStocks.
+                Where(hospital => hospital.VaccineId == vaccineID && (hospital.VaccineStockUnit - hospital.VaccineStockConsumption - vaccineBook) > 0);
+
+            var hospitalcontext = context.Hospitals;
+            var hospital = hospitalcontext.Join(hospitalhaveStock, i => i.HospitalId, o => o.HospitalId, (i, o) => i);
             var hospialSelect = hospital.Where(delegate (VaccinationReservationPlatForm.Models.Hospital s)
             {
                 if (s.HospitalAdress == null)
@@ -41,11 +81,17 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 }
                 else
                 {
-                    return s.HospitalAdress.Contains("中正區");
+                    int contType;
+                    int hospitalType;
+                    if (Int32.TryParse(s.HospitalContType, out contType) && Int32.TryParse(s.HospitalType, out hospitalType))
+                    {
+                        return s.CountyPostalCode == zipcode && contType <= 4 && (hospitalType <= 3 || hospitalType == 8) && s.HospitalCategory == "A";
+                    }
+                    return false;
                 }
             });
 
-            return Ok();
+            return Ok(hospialSelect);
 
         }
 
@@ -61,7 +107,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
 
             //依賴注入IWebHostEnviroment取得網址絕對位置
             string path = environment.WebRootPath + "/XML/taiwanCountyToTown.xml";
-           
+
             //載入XML文件
             XElement root = XElement.Load(path);
 
@@ -109,5 +155,59 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             context.SaveChanges();
             return Ok(zipCountyTown);
         }
+
+        //新增疫苗庫存
+        public IActionResult AssignVaccineToHospital()
+        {
+            //取得現有疫苗
+            var vaccines = context.Vaccines.Select(vaccine => vaccine.VaccineId).ToList();
+            var hospitals = context.Hospitals;
+
+            //讓各醫院有限有疫苗的庫存
+            foreach (var hospital in hospitals)
+            {
+                int contType;
+                int hospitalType;
+                if (Int32.TryParse(hospital.HospitalContType, out contType) && Int32.TryParse(hospital.HospitalType, out hospitalType))
+                {
+                    if (contType <= 4 && (hospitalType <= 3 || hospitalType == 8) && hospital.HospitalCategory == "A")
+                    {
+                        if (!hospital.HospitalName.Contains("眼") && !hospital.HospitalName.Contains("皮膚"))
+                        {
+
+                            foreach (var vaccine in vaccines)
+                            {
+                                Random random = new Random(Guid.NewGuid().GetHashCode());
+                                int vaccinequanty = random.Next(0, 5) * 50;
+
+                                VaccineStock vaccineStock = new VaccineStock()
+                                {
+                                    HospitalId = hospital.HospitalId,
+                                    VaccineId = vaccine,
+                                    VaccineStockUnit = vaccinequanty,
+                                    VaccineStockConsumption = 0,
+                                };
+                                context.VaccineStocks.Add(vaccineStock);
+
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            context.SaveChanges();
+            return Ok("sucess");
+        }
+
+        public bool CheckLogin()
+        {
+            if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

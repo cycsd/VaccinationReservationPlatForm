@@ -1,36 +1,54 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@using VaccinationReservationPlatForm.Models
+@model Person
 @{
 
+
 }
+
 <div class="container">
     <div class="row mt-5 justify-content-center">
         <div class="col-lg-5">
             <form action="forms/contact.php" method="post" role="form">
                 <div class="form-group mt-3">
                     <label for="name">姓名:</label>
-                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                    <input type="text" value="@Model.PersonName" name="name" class="form-control" id="name" placeholder="Your Name" required>
                 </div>
                 <div class="form-group mt-3">
                     <label for="email">E-mail:</label>
-                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                    <input type="email" class="form-control" value="@Model.PersonMail" name="email" id="email" placeholder="Your Email" required>
                 </div>
                 <div class="form-group mt-3">
                     <label for="phone">電話:</label>
-                    <input type="tel" size="10" class="form-control" name="phone" id="phone" placeholder="Your Phone" required>
+                    <input type="tel" size="10" class="form-control" value="@Model.PersonCellphoneNumber" name="phone" id="phone" placeholder="Your Phone" required>
                 </div>
                 <div class="form-group mt-3">
                     <select id="county" name="county">
-                        <option style="display:none">縣市</option>
+                        <option value="null" style="display:none">縣市</option>
                     </select>
                     <select id="town" name="town">
-                        <option style="display:none">鄉鎮市</option>
+                        <option value="null" style="display:none">鄉鎮市</option>
                     </select>
                     <select id="road" name="road">
-                        <option style="display:none">區段</option>
+                        <option value="null" style="display:none">區段</option>
                     </select>
                 </div>
+                <div class="form-group mt-3">
+                    <select id="vaccine" name="vaccine">
+                        <option value="null" style="display:none">選擇疫苗</option>
+                    </select>
+                </div>
+                <div class="form-group mt-3">
+                    <select id="hospital" name="hospital">
+                        <option style="display:none">選擇醫院</option>
+                    </select>
+                </div>
+                <div class="form-group mt-3">
+                    <button id="time" type="button" class="btn btn-primary">選擇時段</button>
+                </div>
+
                 <div class="form-group mt-3">
                     <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
                 </div>
@@ -51,35 +69,272 @@
     </div>
 </div>
 
+
+
+
+
 @section Scripts
 {
     @*引用CDN jQuery-CSV 將CSV轉JSON*@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
     @*引用GoogleMap API*@
     <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEPJKqC5ZOskIObhW8w7zrSzgl00WUCkA&callback=initMap">
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEPJKqC5ZOskIObhW8w7zrSzgl00WUCkA">
     </script>
     <script src="~/js/Location.js"></script>
     <script>
-        function initMap() {
-            let latlng = {
-                lat: 25.0374865,
-                lng: 121.5647688,
-            };
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 18,
-                center: latlng,
-            });
 
-            var marker = new google.maps.Marker({
-                position: latlng,
-                map: map,
+        function initMap(adress){
+            let latlng = null;//{ lat: 25.046891, lng: 121.516602 };
+
+            GetAddressLatLng(adress).then((data) => {
+                latlng = data;
+
+                //document.getElementById('map')
+                map = new google.maps.Map($('#map').get(0), {
+                    zoom: 15,
+                    center: latlng,
+                });
+
+                let marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map,
+                    title: '你的位置',
+                })
             })
 
         }
-        window.addEventListener('load', () => {
-            initMap();
-        })
+        //window.addEventListener('load', () => {
+        //    initMap('台南市台南車站');
+        //})
+        async function GetAddressLatLng(address) {
+            let url = 'https://maps.googleapis.com/maps/api/geocode/json'
+            let passdata = {
+                key: 'AIzaSyCEPJKqC5ZOskIObhW8w7zrSzgl00WUCkA',
+                address: address,
+            }
+            let latlng = null;
+            await $.get(url, passdata)
+                    .done((data) => {
+                        console.log(data.results[0].geometry.location);
+                        latlng = data.results[0].geometry.location;
+                    });
+            return latlng;
+        }
+        function GetGoogleMapMarker(latlng, map,title) {
+            console.log('marker');
+            return new google.maps.Marker({
+                position: latlng,
+                map: map,
+                title:title,
+            })
+        }
     </script>
 
+    <script>
+        //const delay = (n) => new Promise(r => setTimeout(r, n * 1000));
+
+        window.onload = function () {
+            GetUserDefaultAdress();
+            GetUserDefaultVaccine();
+
+            $('#town').add('#vaccine').change(function () {
+                let titleOption = $('#hospital').find(':first-child')
+                $('#hospital').empty();
+                $('#hospital').append(titleOption);
+                $('#hospital').click((event) => {
+                    GetHospital();
+                    if ($('#road').val() != 'null' && $('#vaccine').val() != 'null') {
+                        console.log('hospialclick');
+                        $(this).off(event);
+                    }
+                })
+            });
+
+            //$('#road').change(()=> {
+            //    let address = $('#county').find('option:selected').text() + $('#town').find('option:selected').text() + $('#road').find('option:selected').text();
+            //    console.log(address);
+            //    initMap(address);
+            //})
+
+           // GetAdrressLatLng();
+
+            //todo:選擇時段
+            $('#time').click(OpenNewWindow);
+            $(window).focus((event) => {
+                foucusOnWindow();
+                //$(this).off(event);
+            });
+
+        }
+
+        function GetUserDefaultAdress() {
+
+            let userAddress = @Json.Serialize(Model.PersonAdress);
+            if (userAddress == null) {
+                return;
+            }
+            function SetSelect(select) {
+
+                let timeid = setInterval(function () {
+                    $(select).children().each(function () {
+                        let selectText = $(this).text();
+                        let selectValue = $(this).val();
+                        if (userAddress.indexOf(selectText) != -1) {
+                            //$(this).attr('selected', true);
+                            $(this).parent().val(selectValue).change();
+                            return;
+                        }
+                    });
+                }, 100);
+
+                $(select).change(function (event) {
+                    if ($(this).val() != 'null') {
+                        clearInterval(timeid);
+                        $(this).off(event);
+                    }
+                 })
+            }
+
+            SetSelect('#county');
+            SetSelect('#town');
+            SetSelect('#road');
+
+        }
+
+        function GetUserDefaultVaccine() {
+            let url = '@Url.Content("~/Reservation/GetVaccineWanted")';
+            let data = {
+                userid: '@Model.PersonId',
+            };
+            $.post(url, data, function (data) {
+                let vaccineSelect = $('#vaccine')
+                let titleOption = vaccineSelect.find(':first-child');
+                vaccineSelect.empty();
+                vaccineSelect.append(titleOption);
+                console.log(data);
+                $(data).each(function () {
+                    console.log(this);
+                    let text = this.vaccineName;
+                    let value = this.vaccineId;
+                    vaccineSelect.append($('<option>', {
+                        text: text,
+                    }).val(value));
+                })
+            })
+                .fail(function () {
+                    window.location.href = '@Url.Content("~/Home/Index")';
+                })
+            //$.ajax({
+            //    type: "POST",
+            //    url: url,
+            //    data: data,
+            //    success: function (data, status) {
+            //        let vaccineSelect = $('#vaccine')
+            //        let titleOption = vaccineSelect.find(':first-child');
+            //        vaccineSelect.empty();
+            //        vaccineSelect.append(titleOption);
+            //        console.log(data);
+            //        $(data).each(function () {
+            //            console.log(this);
+            //            let text = this.vaccineName;
+            //            let value = this.vaccineId;
+            //            vaccineSelect.append($('<option>', {
+            //                text: text,
+            //            }).val(value));
+            //        })
+            //    },
+            //    error: function () {console.log('error')},
+            //})
+        }
+
+        function GetHospital() {
+            let county = $('#county').val();
+            let town = $('#town').text();
+            let zip = $('#town').val();
+            let road = $('#road').val();
+            let vaccine = $('#vaccine').val();
+            if (county == 'null' || road == 'null' || zip == 'null') {
+                alert('請先選擇區域');
+                return;
+            }
+            if (vaccine == 'null') {
+                alert('請先選擇疫苗')
+                return;
+            }
+
+            let url = '@Url.Content("~/Reservation/GetHospitalInfo")';
+            let data = {
+                userid: '@Model.PersonId',
+                zipcode: zip,
+                vaccineID: $('#vaccine').val(),
+            };
+
+            $.get(url, data)
+                .done(function (data) {
+                    var map = null;
+                    let address = $('#county').find('option:selected').text() + $('#town').find('option:selected').text() + $('#road').find('option:selected').text();
+                    console.log(address);
+                    initMap(address);
+                    let latlng = { lat: 25.1091812, lng: 121.5146769 };
+                    //let marker = GetGoogleMapMarker(latlng, map);
+                    
+                    //console.log(data);
+                    let hospitalSelectElement = $('#hospital');
+                    let titleOption = hospitalSelectElement.find(':first-child');
+                    hospitalSelectElement.empty();
+                    hospitalSelectElement.append(titleOption);
+                    $(data).each(function () {
+                        text = this.hospitalName;
+                        hospitalSelectElement.append($('<option>', {
+                            text: text,
+                        }))
+                    })
+                    return data;
+                }).then(function(data){
+                    console.log('mapresult');
+                    console.log(data);
+                    $(data).each(function() {
+                        let address = this.hospitalAdress;
+                        let name = this.hospitalName;
+                        console.log(address);
+                        GetAddressLatLng(address).then((latlng)=> {
+                            let marker = GetGoogleMapMarker(latlng,map,name);
+                        });
+                    })
+                })
+
+
+        }
+        function OpenNewWindow() {
+            window.open('https://google.com', 'google',config = 'width=200');
+        }
+        function foucusOnWindow() {
+            console.log('回來了');
+        }
+    @*$(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+       window.location.href = '@Url.Content("~/Home/Index")';
+    })*@
+
+
+    </script>
+
+
+
 }
+@*@section HeadScripts
+    {
+        @{
+
+            if (TempData["Error"] != null)
+            {
+                <script type="text/javascript">
+                    var message = @Json.Serialize(TempData["Error"])
+                        window.onload = function () {
+                            alert(message);
+                            window.location.replace("/UserInfo/Login");
+                        }
+                </script>
+            }
+        }
+    }*@
