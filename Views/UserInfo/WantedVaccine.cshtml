@@ -48,6 +48,10 @@
                         <select id="town" name="CountyTown" required>
                             <option style="display:none" value="">鄉鎮市</option>
                         </select>
+                        <select id="road" name="Road" required>
+                            <option style="display:none" value="">區段</option>
+                        </select>
+                        <input type="text" name="CountyTownText" id="CountyTownText" value="" hidden/>
                         @*<select id="road">
                             <option style="display:none">區段</option>
                         </select>*@
@@ -90,6 +94,11 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
     <script src="~/js/Location.js"></script>
     <script type="text/javascript">
+        var CountyTownName = "";
+        $('#submit').on('click', function () {
+            CountyTownName = $('#town').find("option:selected").text();
+            $('#CountyTownText').attr('value', CountyTownName.toString());
+        });
         var Number = @ViewBag.Number;
         const n = Number.toString();
         if (n.includes("1")) {

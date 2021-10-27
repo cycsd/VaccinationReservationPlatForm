@@ -40,27 +40,37 @@
                     <span asp-validation-for="PersonHealthId" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label  class="control-label">手機號碼</label>
+                    <label class="control-label">手機號碼</label>
                     <input asp-for="PersonCellphoneNumber" value="@phone" class="form-control" />
                     <span asp-validation-for="PersonCellphoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label  class="control-label">電子信箱</label>
+                    <label class="control-label">電子信箱</label>
                     <input asp-for="PersonMail" class="form-control" />
                     <span asp-validation-for="PersonMail" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label  class="control-label">居住地址</label>
-                    <input asp-for="PersonAdress" class="form-control" />
-                    <span asp-validation-for="PersonAdress" class="text-danger"></span>
+                    <label class="control-label">居住區域</label>
+                    <div>
+                        <select class="form-select" style="width:33%;display:inline-block;padding:3px" id="county" name="County" required>
+                            <option style="display:none" value="">縣市</option>
+                        </select>
+                        <select class="form-select" style="width: 33%; display: inline-block; padding: 3px" id="town" name="CountyTown" required>
+                            <option style="display:none" value="">鄉鎮市</option>
+                        </select>
+                        <select class="form-select" style="width: 33%; display: inline-block; padding: 3px" id="road" name="Road" required>
+                            <option style="display:none" value="">區段</option>
+                        </select>
+                    </div>
+                    <input type="text" name="CountyTownText" id="CountyTownText" value="" hidden />
                 </div>
                 <div class="form-group mt-3">
-                    <label  class="control-label">職業</label>
+                    <label class="control-label">職業</label>
                     <input asp-for="PersonJob" class="form-control" />
                     <span asp-validation-for="PersonJob" class="text-danger"></span>
                 </div>
                 <div class=" text-right">
-                    <input type="submit" value="Save" class="btn btn-primary" />&nbsp;&nbsp;<a style="text-align:match-parent" class="btn btn-outline-primary" asp-action="List">返回</a>
+                    <input type="submit" value="儲存" id="submit" class="btn btn-primary" />&nbsp;&nbsp;<a style="text-align:match-parent" class="btn btn-outline-primary" asp-action="List">返回</a>
                 </div>
             </form>
         </div>
@@ -69,5 +79,14 @@
 
 
 @section Scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
+    <script src="~/js/Location.js"></script>
+    <script type="text/javascript">
+        var CountyTownName = "";
+        $('#submit').on('click', function () {
+            CountyTownName = $('#town').find("option:selected").text();
+            $('#CountyTownText').attr('value', CountyTownName.toString());
+        });
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

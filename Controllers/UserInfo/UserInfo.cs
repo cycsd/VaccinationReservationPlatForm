@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,6 +16,48 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 {
     public class UserInfo : Controller
     {
+        protected string QnA(string words)
+        {
+            string Ans = "";
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            if (words == null)
+            {
+                Ans = "請輸入訊息";
+                return Ans;
+            }
+            var ret = CallQna(words);
+            //ret[0].translations[0].text
+            if (ret.answers[0].answer == null)
+            {
+                Ans = "error";
+                return Ans;
+            }
+            Ans = ret.answers[0].answer.ToString();
+
+            return Ans;
+            
+            //Console.Write($"結果: {ret.answers[0].answer}");
+        }
+
+        static dynamic CallQna(string msg)
+        {
+            HttpClient client = new HttpClient();
+            string endpoint = "https://vaccinationqnamaker.azurewebsites.net/qnamaker/knowledgebases/0d22a768-9839-4f40-a22b-d78b4c7a2691/generateAnswer";
+
+            // Request headers.
+            client.DefaultRequestHeaders.Add(
+                "Authorization", "EndpointKey d4663526-2df8-45d8-860b-3fa00d05567d");
+
+            var JsonString = "{\"question\":\"" + msg + "\"}";
+            var content =
+               new StringContent(JsonString, System.Text.Encoding.UTF8, "application/json");
+            //呼叫
+            var response = client.PostAsync(endpoint, content).Result;
+            //取得回傳
+            var JSON = response.Content.ReadAsStringAsync().Result;
+            //轉型
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(JSON);
+        }
         private string RandomCode(int length)
         {
             string s = "0123456789zxcvbnmasdfghjklqwertyuiop";
@@ -134,6 +177,11 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         [HttpPost]
         public IActionResult WantedVaccine(Person model)
         {
+            string CountyText = Request.Form["County"].ToString().Trim();
+            string RoadText = Request.Form["Road"].ToString().Trim();
+            string CountyTownText = Request.Form["CountyTownText"].ToString().Trim();
+            string Address = Path.Combine(CountyText, CountyTownText, RoadText);
+            string AddressName = Address.Replace("\\","");
             string CountyTown = Request.Form["CountyTown"].ToString().Trim();
             int CountyTown2 = Int32.Parse(CountyTown);
             string Vaccine = Request.Form["Vaccine"].ToString();
@@ -148,6 +196,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 user.PersonName = model.PersonName.Trim();
                 user.PersonCellphoneNumber = model.PersonCellphoneNumber.Trim();
                 user.CountyPostalCode = CountyTown2;
+                user.PersonAdress = AddressName.Trim();
                 db.SaveChanges();
             }
             if (user != null )
@@ -283,13 +332,18 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         [HttpPost]
         public IActionResult Edit(CPerson x)
         {
+            string CountyText = Request.Form["County"].ToString().Trim();
+            string RoadText = Request.Form["Road"].ToString().Trim();
+            string CountyTownText = Request.Form["CountyTownText"].ToString().Trim();
+            string Address = Path.Combine(CountyText, CountyTownText, RoadText);
+            string AddressName = Address.Replace("\\", "");
             VaccinationBookingSystemContext db = new VaccinationBookingSystemContext();
             Person user = db.People.FirstOrDefault(p => p.PersonIdentityId == x.PersonIdentityId);
             if (user != null)
             {
                 user.PersonCellphoneNumber = x.PersonCellphoneNumber.Trim();
                 user.PersonMail = x.PersonMail.Trim();
-                user.PersonAdress = x.PersonAdress.Trim();
+                user.PersonAdress = AddressName.Trim();
                 user.PersonJob = x.PersonJob.Trim();
                 db.SaveChanges();
             }
@@ -360,6 +414,44 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
             }
 
+        }
+
+        public IActionResult SignalR()
+        {
+            if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                Random rand = new Random();
+                string t = rand.Next(1000, 10000).ToString();
+                string name = "user" + t;
+                ViewBag.Name = name;
+                return View();
+            }
+            string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
+            Person userlogin = JsonSerializer.Deserialize<Person>(json);
+            ViewBag.Name = userlogin.PersonName.ToString();
+
+            return View();
+        }
+
+        public IActionResult QandA()
+        {
+            if (ViewData["Answer"] == null)
+            {
+                ViewData["Answer"] = "";
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult QandA(string msg) 
+        {
+            string Answer = QnA(msg);
+
+            ViewData["Answer"] = Answer;
+
+
+
+            return View();
         }
     }
 }
