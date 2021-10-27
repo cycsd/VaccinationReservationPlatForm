@@ -84,13 +84,12 @@
     <script src="~/js/Location.js"></script>
     <script>
 
-        function initMap(adress){
+        function initMap(address) {
             let latlng = null;//{ lat: 25.046891, lng: 121.516602 };
 
-            GetAddressLatLng(adress).then((data) => {
+            GetAddressLatLng(address).then(function (data) {
                 latlng = data;
 
-                //document.getElementById('map')
                 map = new google.maps.Map($('#map').get(0), {
                     zoom: 15,
                     center: latlng,
@@ -99,34 +98,42 @@
                 let marker = new google.maps.Marker({
                     position: latlng,
                     map: map,
-                    title: '你的位置',
+                    title: '目前的位置',
                 })
-            })
 
+            })
+            //document.getElementById('map')
         }
         //window.addEventListener('load', () => {
         //    initMap('台南市台南車站');
         //})
         async function GetAddressLatLng(address) {
-            let url = 'https://maps.googleapis.com/maps/api/geocode/json'
+            let url = 'https://maps.googleapis.com/maps/api/geocode/json';
             let passdata = {
                 key: 'AIzaSyCEPJKqC5ZOskIObhW8w7zrSzgl00WUCkA',
                 address: address,
             }
             let latlng = null;
-            await $.get(url, passdata)
-                    .done((data) => {
-                        console.log(data.results[0].geometry.location);
-                        latlng = data.results[0].geometry.location;
-                    });
+            await $.ajax({
+                url: url,
+                data: passdata,
+                type: 'get',
+            }).done((data) => {
+                latlng = data.results[0].geometry.location;
+            })
+            //await $.get(url, passdata)
+            //        .done((data) => {
+            //            console.log(data.results[0].geometry.location);
+            //            latlng = data.results[0].geometry.location;
+            //        });
             return latlng;
         }
-        function GetGoogleMapMarker(latlng, map,title) {
+        function GetGoogleMapMarker(latlng, map, title) {
             console.log('marker');
             return new google.maps.Marker({
                 position: latlng,
                 map: map,
-                title:title,
+                title: title,
             })
         }
     </script>
@@ -138,10 +145,12 @@
             GetUserDefaultAdress();
             GetUserDefaultVaccine();
 
-            $('#town').add('#vaccine').change(function () {
+            $('#road').add('#vaccine').change(function () {
                 let titleOption = $('#hospital').find(':first-child')
                 $('#hospital').empty();
                 $('#hospital').append(titleOption);
+                let address = $('#county').find('option:selected').text() + $('#town').find('option:selected').text() + $('#road').find('option:selected').text();
+                initMap(address);
                 $('#hospital').click((event) => {
                     GetHospital();
                     if ($('#road').val() != 'null' && $('#vaccine').val() != 'null') {
@@ -150,14 +159,6 @@
                     }
                 })
             });
-
-            //$('#road').change(()=> {
-            //    let address = $('#county').find('option:selected').text() + $('#town').find('option:selected').text() + $('#road').find('option:selected').text();
-            //    console.log(address);
-            //    initMap(address);
-            //})
-
-           // GetAdrressLatLng();
 
             //todo:選擇時段
             $('#time').click(OpenNewWindow);
@@ -272,13 +273,9 @@
 
             $.get(url, data)
                 .done(function (data) {
-                    var map = null;
-                    let address = $('#county').find('option:selected').text() + $('#town').find('option:selected').text() + $('#road').find('option:selected').text();
-                    console.log(address);
-                    initMap(address);
                     let latlng = { lat: 25.1091812, lng: 121.5146769 };
                     //let marker = GetGoogleMapMarker(latlng, map);
-                    
+
                     //console.log(data);
                     let hospitalSelectElement = $('#hospital');
                     let titleOption = hospitalSelectElement.find(':first-child');
@@ -294,13 +291,30 @@
                 }).then(function(data){
                     console.log('mapresult');
                     console.log(data);
-                    $(data).each(function() {
-                        let address = this.hospitalAdress;
-                        let name = this.hospitalName;
-                        console.log(address);
-                        GetAddressLatLng(address).then((latlng)=> {
-                            let marker = GetGoogleMapMarker(latlng,map,name);
-                        });
+                    $(data).each(function(index,element) {
+                        let address = element.hospitalAdress;
+                        let name = element.hospitalName;
+                        (function (address) {
+                            window.setTimeout(function () {
+                                GetAddressLatLng(address).then(function (latlngResult) {
+                                    let marker = new google.maps.Marker({
+                                        position: latlngResult,
+                                        map: map,
+                                        title: name,
+                                    });
+                                    marker.addListener("click", () => {
+                                        let hospitalName = marker.getTitle();
+                                        $('#hospital').children().each(function () {
+                                            let optionValue = $(this).val();
+                                            if ($(this).text() == hospitalName) {
+                                                $(this).parent().val(optionValue);
+                                                return;
+                                            }
+                                        });
+                                    })
+                                })
+                            }, 1000)
+                        })(address);
                     })
                 })
 
