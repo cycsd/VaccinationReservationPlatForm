@@ -49,12 +49,13 @@
     position: relative;
     margin-top: 70px;
     padding: 0;
+    flex-wrap:wrap;
 }
 
 .align-items-center {
     
     /*-ms-flex-align: center !important;*/
-    align-items:start !important;
+    /*align-items:start !important;*/
 }
 
 .accordionborder {
@@ -80,6 +81,7 @@
     height: 400px;
     overflow: auto;
     background-color:#fff;
+
 }
 
 

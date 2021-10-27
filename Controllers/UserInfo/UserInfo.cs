@@ -347,7 +347,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 user.PersonJob = x.PersonJob.Trim();
                 db.SaveChanges();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Index","Home","contact");
         }
 
         public IActionResult Query()
@@ -452,6 +452,15 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
 
             return View();
+        }
+
+        public IActionResult Logout() 
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                HttpContext.Session.Remove(CDictionary.SK_LOGIN_CLIENT);
+            }
+            return RedirectToAction("Index","Home");
         }
     }
 }
