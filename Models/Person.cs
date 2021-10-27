@@ -9,6 +9,7 @@ namespace VaccinationReservationPlatForm.Models
 {
     public partial class Person
     {
+        private string phone ="";
         public Person()
         {
             UserInfos = new HashSet<UserInfo>();
@@ -19,6 +20,7 @@ namespace VaccinationReservationPlatForm.Models
         }
 
         public int PersonId { get; set; }
+        [DisplayName("身分證字號")]
         public string PersonIdentityId { get; set; }
         [DisplayName("健保卡卡號")]
         public string PersonHealthId { get; set; }
@@ -34,7 +36,7 @@ namespace VaccinationReservationPlatForm.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yyyy-MM-dd}")]
         public DateTime? PersonBirthday { get; set; }
         [DisplayName("手機號碼")]
-        public string PersonCellphoneNumber { get; set; }
+        public string PersonCellphoneNumber { get { return phone.Trim(); } set { phone = value.Trim(); } }
         [DisplayName("電子信箱")]
         public string PersonMail { get; set; }
         [DisplayName("職業")]

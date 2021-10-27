@@ -6,8 +6,7 @@
     <!--<title>@ViewData["Title"] - VaccinationReservationPlatForm</title>-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    @*<link href="~/css/JerryCss.css" rel="stylesheet" />*@
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
     <!--樣板設定-->
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -50,7 +49,7 @@
         <div class="container d-flex align-items-center">
 
             <div class="logo me-auto">
-                <h1><a href="/">疫苗預約平台</a></h1>
+                <h1><a href="/Home/index#testimonials">疫苗預約平台</a></h1>
                 <!-- Uncomment below if you prefer to use an image logo -->
                 <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
             </div>
@@ -61,7 +60,7 @@
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="what-we-do">即時報到資訊</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="about">最新消息</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="services">統計資料</a></li>
-                    <li><a class="nav-link scrollto " asp-controller="UserInfo" asp-action="List" asp-fragment="">個人資訊</a></li>
+                    <li><a class="nav-link scrollto " asp-controller="Home" asp-action="Index" asp-fragment="portfolio">個人資訊</a></li>
                     <li><a class="nav-link" href="/Home/Index#testimonials">問與答Q&A</a></li>
                     <li class="dropdown">
                         <a href="#"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
@@ -163,7 +162,7 @@
             }
         </section><!-- End Services Section -->
         <!-- ======= skills Section ======= -->
-        <section id="skills" class="skills" @*class="d-flex flex-row align-items-center justify-content-center"*@>
+        <section id="skills" class="skills">
             @{
                 IgnoreBody();
                 checkController = "UserInfo";
