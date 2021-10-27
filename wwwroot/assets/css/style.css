@@ -825,6 +825,12 @@ section {
   border: 4px solid #fff;
   margin: 0 auto;
 }
+.testimonials .testimonial-item .testimonial-imgxu {
+  width: 200px;
+  border: 4px solid #fff;
+  margin: 0 auto;
+}
+
 .testimonials .testimonial-item h3 {
   font-size: 18px;
   font-weight: bold;

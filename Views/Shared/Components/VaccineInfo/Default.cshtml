@@ -1,0 +1,64 @@
+﻿@model VaccinationReservationPlatForm.ViewModel.VaccineInfoViewModel
+@{
+}
+@{
+    <section id="testimonials" class="testimonials section-bg">
+        <div class="container">
+            <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper">
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <h3>BioNTech COVID-19 Vaccine</h3>
+                            <p>
+                                BioNTech(BNT162b2) COVID-19疫苗是含有SARS-CoV-2病毒棘蛋白之mRNA疫苗，用於預防COVID-19，本疫苗已通過WHO、歐盟等其他先進國家及我國緊急授權使用。
+                            </p>
+                            <p id="bntInfo"></p>
+                            <img src="assets/img/testimonials/BioNTech_Logo.png" class="testimonial-imgxu" alt="">
+                            <button id="morebntInfo">查看更多</button>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <h3>AstraZeneca COVID-19 疫苗</h3>
+                            <p>
+                                AstraZeneca之COVID-19疫苗是含有SARS-CoV-2病毒棘蛋白基因之非複製型腺病毒載體之疫苗，用於預防COVID-19。本疫苗已通過WHO、歐盟等其他先進國家及我國緊急授權使用。
+                            </p>
+                            <p id="azInfo"></p>
+                            <img src="assets/img/testimonials/AstraZeneca_Logo.png" class="testimonial-imgxu" alt="">
+                            <button id="moreazInfo">查看更多</button>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <h3>Moderna COVID-19 Vaccine</h3>
+                            <p>
+                                Moderna COVID-19疫苗(Spikevax)是SARS-CoV-2病毒棘蛋白之mRNA疫苗。本疫苗目前已通過美國、歐盟及我國等先進國家緊急授權使用。
+                            </p>
+                            <p id="modernaInfo"></p>
+                            <img src="assets/img/testimonials/Moderna_Logo.png" class="testimonial-imgxu" alt="">
+                            <button id="moremodernaInfo">查看更多</button>
+                        </div>
+                    </div><!-- End testimonial item -->
+
+                    <div class="swiper-slide">
+                        <div class="testimonial-item">
+                            <h3>高端新冠肺炎疫苗</h3>
+                            <p>
+                                高端新冠肺炎疫苗(MVC COVID-19 Vaccine)是含SARS-CoV-2重組棘蛋白的疫苗之蛋白質次單元疫苗，用於預防COVID-19。本疫苗已通過我國核准專案製造。
+                            </p>
+                            <p id="mvcInfo"></p>
+                            <img src="assets/img/testimonials/Medigen_Vaccine_Biologics_Logo.png" class="testimonial-imgxu" alt="">
+                            <button id="moremvcInfo">查看更多</button>
+                        </div>
+                    </div><!-- End testimonial item -->
+                </div>
+                <div id="showInfo"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+    </section><!-- End Testimonials Section -->
+}
