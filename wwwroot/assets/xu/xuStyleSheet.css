@@ -1,0 +1,47 @@
+﻿.xustyle {
+}
+
+.xustyle path {
+    stroke: black;
+    fill: transparent;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.xustyle path:hover {
+    fill: lightblue;
+    transform: translate(-5px, -5px);
+}
+
+.xustyle .title_area {
+    right: 20px;
+    top: 20px;
+    font-size: 50px;
+}
+
+.xustyle h1 {
+    color: cornflowerblue;
+    padding-left: 10px;
+}
+
+.xustyle hr {
+    width: 100px;
+    margin-left: 0;
+    border: none;
+    border-bottom: solid 2px white;
+}
+
+.xustyle .forcast #vc_total {
+    color: forestgreen;
+    margin: 0;
+}
+
+.xustyle .forcast #az_total {
+    color: gold;
+    margin: 0;
+}
+
+.xustyle .forcast #mo_total {
+    color: mediumpurple;
+    margin: 0;
+}

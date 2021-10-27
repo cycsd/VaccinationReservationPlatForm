@@ -1,0 +1,44 @@
+﻿@using VaccinationReservationPlatForm.ViewModel
+@{
+    List<VaccinationRecordTrackViewModel> records = ViewBag.records;
+
+}
+<div class="container">
+
+    <div class="section-title">
+        <h2>疫苗紀錄</h2>
+    </div>
+
+    <div class="row">
+
+        <table class="table-primary">
+            <thead>
+                <tr>
+                    <td>編號</td>
+                    <td scope="col">接踵日期</td>
+                    <td scope="col">疫苗種類</td>
+                    <td scope="col">品名</td>
+                    <td scope="col">接踵單位</td>
+                </tr>
+            </thead>
+            @{
+                int count = 0;
+                foreach (VaccinationRecordTrackViewModel record in records)
+                {
+                    count++;
+                    <tr scope="row">
+                        <td>@count</td>
+                        <td>@record.VRgivenDate</td>
+                        <td>@record.DiseaseName</td>
+                        <td>@record.VaccineName</td>
+                        <td>@record.HospitalName</td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+</div>
+
+
+
