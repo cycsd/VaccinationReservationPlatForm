@@ -23,7 +23,7 @@ namespace VaccinationReservationPlatForm.Models
                 HttpHelper.DownloadHtml(url);
             // 疾管署首頁：https://www.cdc.gov.tw/
             // 疾管署新聞頁面：https://www.cdc.gov.tw/Bulletin/List/MmgtpeidAR5Ooai4-fgHzQ
-
+            // 中央社-疫情：https://www.cna.com.tw/topic/newstopic/2012.aspx
             if (string.IsNullOrEmpty(html))
             {
                 //拋異常
@@ -37,7 +37,6 @@ namespace VaccinationReservationPlatForm.Models
             HtmlNodeCollection nodeList = document.DocumentNode.SelectNodes(xPath); //找多個節點
             string tempInnerText = "";
             string tempHerfValue = "";
-            string href = "";
             string[] strReplace = { "\r", "\n", " " };
             List<NewsData> newsList = new List<NewsData>();
 
@@ -51,8 +50,6 @@ namespace VaccinationReservationPlatForm.Models
                     {
                         tempInnerText = node.InnerText;
                         tempHerfValue = node.Attributes["href"].Value;
-                        //tempHerfValue = node.OuterHtml;
-                        //href = tempHerfValue.Substring(tempHerfValue.IndexOf("=") + 2, tempHerfValue.IndexOf(">") - tempHerfValue.IndexOf("=") - 3);
                         newsList.Add(new NewsData() { Title = tempInnerText, Url = tempHerfValue });
                         i++;
                     }
