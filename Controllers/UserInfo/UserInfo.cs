@@ -332,8 +332,8 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         [HttpPost]
         public IActionResult Edit(CPerson x)
         {
-            string CountyText = Request.Form["County"].ToString().Trim();
-            string RoadText = Request.Form["Road"].ToString().Trim();
+            string CountyText = Request.Form["county"].ToString().Trim();
+            string RoadText = Request.Form["road"].ToString().Trim();
             string CountyTownText = Request.Form["CountyTownText"].ToString().Trim();
             string Address = Path.Combine(CountyText, CountyTownText, RoadText);
             string AddressName = Address.Replace("\\", "");
