@@ -99,3 +99,43 @@
     background-color: #ECF5FF;
 }
 
+.containerbtn {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: start;
+    margin-top:30px;
+    flex-wrap: wrap;
+    height: 30vh;
+}
+
+    .containerbtn .skewBtn {
+        width: 300px;
+        height: 50px;
+        outline: none;
+        cursor: pointer;
+        background: none;
+        transition: 0.5s;
+        font-size: 24px;
+        border-radius: 5px;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+    }
+
+        .containerbtn .skewBtn:hover {
+            border: none;
+            color: white;
+            font-size: 28px;
+            transform: scale(1.1);
+        }
+
+
+.blue {
+    border: 2px solid #1976D2;
+    color: #1976D2;
+}
+
+    .blue:hover {
+        background-color: #1976D2;
+        transition: all 0.3s ease-in-out;
+    }
+
