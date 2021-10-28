@@ -62,7 +62,7 @@
                     <li><a class="nav-link scrollto " href="#hero">醫護帳號註冊</a></li>
                     <li><a class="nav-link scrollto" href="#about">疫苗預約</a></li>
                     <li><a class="nav-link scrollto" href="#services">登記預約</a></li>
-                    <li><a class="nav-link scrollto " href="#portfolio">時段設定</a></li>
+                    <li><a class="nav-link scrollto " asp-controller="ReservationHospital" asp-action="HospitalWorkTime">時段設定</a></li>
                     <li><a class="nav-link scrollto" href="#testimonials">報到資訊</a></li>
                     <li class="dropdown">
                         <a href="#"><span>疫苗管理</span> <i class="bi bi-chevron-down"></i></a>
@@ -107,11 +107,11 @@
         </section><!-- End Breadcrumbs -->
 
         <section @*class="inner-page"*@>
-            <div class="container">              
-                    @RenderBody();              
+            <div class="container">
+                @RenderBody();
             </div>
         </section>
-    
+
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
     <footer id="footer">
@@ -202,7 +202,8 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
-    @await RenderSectionAsync("Scripts",required:false);
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false);
 </body>
 
 </html>

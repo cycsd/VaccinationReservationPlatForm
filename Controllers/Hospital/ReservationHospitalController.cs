@@ -12,5 +12,10 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
         {
             return View();
         }
+
+        public IActionResult HospitalWorkTime()
+        {
+            return View();
+        }
     }
 }

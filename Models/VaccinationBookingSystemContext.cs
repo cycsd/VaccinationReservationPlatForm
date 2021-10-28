@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using VaccinationReservationPlatForm.Models;
 
 #nullable disable
 
@@ -156,11 +155,6 @@ namespace VaccinationReservationPlatForm.Models
                     .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength(true);
-
-                entity.HasOne(d => d.CountyPostalCodeNavigation)
-                    .WithMany(p => p.Hospitals)
-                    .HasForeignKey(d => d.CountyPostalCode)
-                    .HasConstraintName("FK__Hospital__County__3B75D760");
             });
 
             modelBuilder.Entity<HospitalBusinessDay>(entity =>
@@ -200,6 +194,8 @@ namespace VaccinationReservationPlatForm.Models
                 entity.Property(e => e.HbhendTime)
                     .HasColumnType("time(0)")
                     .HasColumnName("HBHendTime");
+
+                entity.Property(e => e.Hbhmark).HasColumnName("HBHmark");
 
                 entity.Property(e => e.HbhstartTime)
                     .HasColumnType("time(0)")
@@ -298,11 +294,6 @@ namespace VaccinationReservationPlatForm.Models
                 entity.Property(e => e.PersonSex)
                     .HasMaxLength(1)
                     .IsFixedLength(true);
-
-                entity.HasOne(d => d.CountyPostalCodeNavigation)
-                    .WithMany(p => p.People)
-                    .HasForeignKey(d => d.CountyPostalCode)
-                    .HasConstraintName("FK__Person__CountyPo__29572725");
             });
 
             modelBuilder.Entity<UserForHospital>(entity =>
@@ -652,7 +643,5 @@ namespace VaccinationReservationPlatForm.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<VaccinationReservationPlatForm.Models.CQueryResult> CQueryResult { get; set; }
     }
 }

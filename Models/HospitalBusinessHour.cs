@@ -11,6 +11,7 @@ namespace VaccinationReservationPlatForm.Models
         public int? HospitalBusinessDayId { get; set; }
         public TimeSpan? HbhstartTime { get; set; }
         public TimeSpan? HbhendTime { get; set; }
+        public int? Hbhmark { get; set; }
 
         public virtual HospitalBusinessDay HospitalBusinessDay { get; set; }
     }
