@@ -11,14 +11,11 @@ namespace VaccinationReservationPlatForm.Controllers.News
 
         public IActionResult Index()
         {
-            ViewBag.aa = "News";
-
             return View();
         }
 
-        public IActionResult News()
+        public IActionResult VaccineInfo()
         {
-            ViewBag.aa = "News";
             return View();
         }
     }

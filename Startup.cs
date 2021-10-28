@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VaccinationReservationPlatForm.Hubs;
 using VaccinationReservationPlatForm.Models;
 
 namespace VaccinationReservationPlatForm
@@ -28,6 +29,8 @@ namespace VaccinationReservationPlatForm
             services.AddControllersWithViews();
 
             services.AddSession();
+
+            services.AddSignalR();
 
             services.AddDbContext<VaccinationBookingSystemContext>(options =>
             {
@@ -58,6 +61,7 @@ namespace VaccinationReservationPlatForm
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
