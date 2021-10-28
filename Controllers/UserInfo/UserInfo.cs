@@ -332,8 +332,8 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         [HttpPost]
         public IActionResult Edit(CPerson x)
         {
-            string CountyText = Request.Form["County"].ToString().Trim();
-            string RoadText = Request.Form["Road"].ToString().Trim();
+            string CountyText = Request.Form["county"].ToString().Trim();
+            string RoadText = Request.Form["road"].ToString().Trim();
             string CountyTownText = Request.Form["CountyTownText"].ToString().Trim();
             string Address = Path.Combine(CountyText, CountyTownText, RoadText);
             string AddressName = Address.Replace("\\", "");
@@ -347,7 +347,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 user.PersonJob = x.PersonJob.Trim();
                 db.SaveChanges();
             }
-            return RedirectToAction("List");
+            return RedirectToAction("Index","Home","contact");
         }
 
         public IActionResult Query()
@@ -452,6 +452,15 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
 
             return View();
+        }
+
+        public IActionResult Logout() 
+        {
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                HttpContext.Session.Remove(CDictionary.SK_LOGIN_CLIENT);
+            }
+            return RedirectToAction("Index","Home");
         }
     }
 }

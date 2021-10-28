@@ -113,7 +113,45 @@
         if (n.includes("4")) {
             $("#MVC").attr('checked', 'checked')
         };
+    </script>
+    <script>
+        $(document).ready(GetUserDefaultAdress());
+        window.onload = function () {
+            GetUserDefaultAdress();
+        }
 
+        function GetUserDefaultAdress() {
+
+            let userAddress = @Json.Serialize(Model.PersonAdress);
+            if (userAddress == null) {
+                return;
+            }
+            function SetSelect(select) {
+
+                let timeid = setInterval(function () {
+                    $(select).children().each(function () {
+                        let selectText = $(this).text();
+                        let selectValue = $(this).val();
+                        if (userAddress.indexOf(selectText) != -1) {
+                            //$(this).attr('selected', true);
+                            $(this).parent().val(selectValue).change();
+                            return;
+                        }
+                    });
+                }, 100);
+
+                $(select).change(function (event) {
+                    if ($(this).val() != 'null') {
+                        clearInterval(timeid);
+                        $(this).off(event);
+                    }
+                })
+            }
+
+            SetSelect('#county');
+            SetSelect('#town');
+            SetSelect('#road');
+        };
     </script>
 
 }
