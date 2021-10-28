@@ -48,19 +48,7 @@
                 <div class="form-group mt-3">
                     <button id="time" type="button" class="btn btn-primary">選擇時段</button>
                 </div>
-
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-                </div>
-                <div class="form-group mt-3">
-                    <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-                </div>
-                <div class="my-3">
-                    <div class="loading">Loading</div>
-                    <div class="error-message"></div>
-                    <div class="sent-message">Your message has been sent. Thank you!</div>
-                </div>
-                <div class="text-center"><button type="submit" class="btn btn-primary">Send Message</button></div>
+                <div class="text-center"><button type="submit" class="btn btn-primary">確定預約</button></div>
             </form>
         </div>
         <div class="col-lg-5" height="20vh">
@@ -104,9 +92,7 @@
             })
             //document.getElementById('map')
         }
-        //window.addEventListener('load', () => {
-        //    initMap('台南市台南車站');
-        //})
+
         async function GetAddressLatLng(address) {
             let url = 'https://maps.googleapis.com/maps/api/geocode/json';
             let passdata = {
@@ -226,27 +212,6 @@
                 .fail(function () {
                     window.location.href = '@Url.Content("~/Home/Index")';
                 })
-            //$.ajax({
-            //    type: "POST",
-            //    url: url,
-            //    data: data,
-            //    success: function (data, status) {
-            //        let vaccineSelect = $('#vaccine')
-            //        let titleOption = vaccineSelect.find(':first-child');
-            //        vaccineSelect.empty();
-            //        vaccineSelect.append(titleOption);
-            //        console.log(data);
-            //        $(data).each(function () {
-            //            console.log(this);
-            //            let text = this.vaccineName;
-            //            let value = this.vaccineId;
-            //            vaccineSelect.append($('<option>', {
-            //                text: text,
-            //            }).val(value));
-            //        })
-            //    },
-            //    error: function () {console.log('error')},
-            //})
         }
 
         function GetHospital() {
@@ -282,10 +247,11 @@
                     hospitalSelectElement.empty();
                     hospitalSelectElement.append(titleOption);
                     $(data).each(function () {
-                        text = this.hospitalName;
+                        let text = this.hospitalName;
+                        let id = this.hospitalId
                         hospitalSelectElement.append($('<option>', {
                             text: text,
-                        }))
+                        }).val(id))
                     })
                     return data;
                 }).then(function(data){
