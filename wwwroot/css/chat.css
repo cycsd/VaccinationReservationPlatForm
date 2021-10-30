@@ -292,6 +292,10 @@
         }
 
 @media screen and (max-width: 700px) {
+    .closebtn {
+        width:10%;
+        text-align: center;
+    }
     .app {
         top: 0  !important;
         height: 100%  !important;
@@ -478,6 +482,10 @@
         position: relative;
         top: 1px;
     }
+
+.closebtn {
+    text-align:center;
+}
 
 @media screen and (max-width: 480px) {
     .btnMessage {

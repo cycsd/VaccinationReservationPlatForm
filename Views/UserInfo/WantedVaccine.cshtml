@@ -20,15 +20,15 @@
             </tr>
             <tr>
                 <td><font color="red">*</font><label>身分證號</label></td>
-                <td class="tdwidth"><input asp-for="PersonIdentityId" style="width: 238px" /></td>
+                <td class="tdwidth"><input class="card-body" asp-for="PersonIdentityId" style="width: 238px; border: transparent ;" readonly/></td>
             </tr>
             <tr>
                 <td><font color="red">*</font><label>姓名</label></td>
-                <td class="tdwidth"><input id="test" asp-for="PersonName" value="@user.PersonName.Trim()" style="width: 238px;" /></td>
+                <td class="tdwidth"><input id="test" class="card-body" asp-for="PersonName" value="@user.PersonName.Trim()" style="width: 238px; border: transparent" readonly/></td>
             </tr>
             <tr>
                 <td><font color="red">*</font><label>手機號碼</label></td>
-                <td class="tdwidth"><input asp-for="PersonCellphoneNumber" value="@user.PersonCellphoneNumber.Trim()" style="width:238px" /></td>
+                <td class="tdwidth"><input  asp-for="PersonCellphoneNumber" maxlength="10"  value="@user.PersonCellphoneNumber.Trim()" style="width: 238px;" /></td>
             </tr>
             <tr>
                 <td style="vertical-align:middle"><font color="red">*</font><label>接踵區域</label></td>
@@ -202,6 +202,11 @@
         $('#submit').on('click', function () {
             CountyTownName = $('#town').find("option:selected").text();
             $('#CountyTownText').attr('value', CountyTownName.toString());
+            Swal.fire(
+                '登記成功!',
+                '',
+                'success'
+            )
         });
 
         var Number = @ViewBag.Number;

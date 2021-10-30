@@ -89,8 +89,8 @@
                                 </ul>
                             </li>
                             @*<li><a href="#">Drop Down 4</a></li>
-                <li><a href="#">Drop Down 4</a></li>
-                <li><a href="#">Drop Down 4</a></li>*@
+                                <li><a href="#">Drop Down 4</a></li>
+                                <li><a href="#">Drop Down 4</a></li>*@
                         </ul>
                     </li>
                     @*<li><a class="nav-link scrollto" href="#contact">問與答Q&A</a></li>*@
@@ -301,18 +301,19 @@
     <script src="~/assets/xu/xuJavaScript.js"></script>
     <script src="~/assets/xu/xuAjax.js"></script>
 
-
+    <!--李函霖 JS File-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script type="text/javascript">
-    $(document).ready(function () {
-        var bool = $('#name').val();
-        if (bool == null) {
-            $('#Logout').hide();
-        }
-    });
+        $(document).ready(function () {
+            var bool = $('#name').val();
+            if (bool == null) {
+                $('#Logout').hide();
+            }
+        });
     </script>
     <script>
 

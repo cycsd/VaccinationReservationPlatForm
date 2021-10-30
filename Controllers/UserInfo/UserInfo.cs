@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using VaccinationReservationPlatForm.Models;
 using VaccinationReservationPlatForm.ViewModels;
@@ -20,11 +21,11 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         {
             string Ans = "";
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            if (words == null)
-            {
-                Ans = "請輸入訊息";
-                return Ok(Ans);
-            }
+            //if (words == null)
+            //{
+            //    Ans = "請輸入訊息";
+            //    return Ok(Ans);
+            //}
             var ret = CallQna(words);
             //ret[0].translations[0].text
             if (ret.answers[0].answer == null)
@@ -123,11 +124,12 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
         public IActionResult Login()
         {
-            if (TempData["Error"] != null)
+            if (TempData["errormsg"] != null)
             {
-                string error = TempData["Error"].ToString();
-                ViewBag.Error = error;
+                string error = TempData["errormsg"].ToString();
+                ViewBag.errormsg = error;
             }
+
             return View();
         }
 
@@ -149,7 +151,8 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 }
                 if (cust == null)
                 {
-                    ViewBag.Error = "身分證或健保卡卡號有誤";
+                    ViewBag.Error = "";
+                    ViewBag.errormsg = "yes";
                 }
                 return View(cust);
             }
@@ -161,7 +164,8 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         {
             if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
             {
-                TempData["Error"] = "請先登入！";
+                //ViewData["errormsg"] = "login";
+                TempData["errormsg"] = "login";
                 return RedirectToAction("Login");
             }
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
@@ -216,7 +220,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             IEnumerable<int?> wanted = from v in db.VaccinationWanteds
                                        where v.PersonId == user.PersonId
                                        select v.VaccineId;
-            if (user != null )
+            if (user != null)
             {
                 user.PersonIdentityId = model.PersonIdentityId.Trim();
                 user.PersonName = model.PersonName.Trim();
@@ -327,6 +331,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 }
                 db.SaveChanges();
             }
+            Thread.Sleep(2000);
             return RedirectToAction("Index","Home");
         }
         public IActionResult List(CUserInfoModel model)
@@ -373,6 +378,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 user.PersonJob = x.PersonJob.Trim();
                 db.SaveChanges();
             }
+            Thread.Sleep(3000);
             return RedirectToAction("Index","Home","contact");
         }
 

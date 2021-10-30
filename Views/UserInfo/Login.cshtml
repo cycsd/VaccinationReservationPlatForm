@@ -1,6 +1,7 @@
 ﻿@model VaccinationReservationPlatForm.ViewModels.CLoginViewModel
 @{
     ViewData["Title"] = "Login";
+    string errormsg = ViewBag.errormsg;
 }
 
 
@@ -40,6 +41,7 @@
                 <br />
                 <div class="form-group">
                     <label><font color="red">@ViewBag.Error</font></label>
+                    <input type="text" id="errormsg" value="@errormsg" hidden/>
                 </div>
                 <div class="text-center">
                     <input type="submit" value="登入" class="btn btn-primary editbutton" />
@@ -56,6 +58,31 @@
             img.src = "/UserInfo/GetValidateCode?rnd=?" + Math.random();
         };
 
+        function Errormsg() {
+            var errormsg = $('#errormsg').val();
+            var reset = "";
+            if (errormsg == "yes") {
+                Swal.fire({
+                    icon: 'error',
+                    title: '登入失敗',
+                    text: '身分證或健保卡卡號有誤！',
+                })
+                $('#errormsg').val() = reset;
+            }
+            if (errormsg == "login") {
+                Swal.fire({
+                    title:'請先登入!',
+                    confirmButtonText: '確定',
+                    })
+                $('#errormsg').val() = reset;
+            }
+        };
+
+
+        $(document).ready(function () {
+            Errormsg();
+        });
+        
     </script>
     }
 
