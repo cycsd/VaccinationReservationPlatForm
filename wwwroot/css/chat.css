@@ -53,7 +53,8 @@
 .heading-name {
     padding: 0 !important;
     cursor: pointer !important;
-    
+    display: flex !important;
+    width:auto !important;
 }
 
 .heading-name-meta {
@@ -65,7 +66,7 @@
     text-overflow: ellipsis  !important;
     white-space: nowrap  !important;
     color: #000  !important;
-    display: block  !important;
+    display: flex  !important;
 }
 
 .heading-online {
@@ -297,8 +298,10 @@
     }
 
     .heading {
-        height: 70px  !important;
-        background-color: #009688  !important;
+        height: 70px !important;
+        width: auto !important;
+        min-width: 100px !important;
+        min-height: auto;
     }
 
     .fa-2x {
@@ -307,11 +310,24 @@
 
     .heading-avatar {
         padding: 0   !important;
+        width:10%;
+        min-width:20px;
     }
 
     .heading-avatar-icon img {
-        height: 50px  !important;
-        width: 50px  !important;
+        height: auto !important;
+        width: auto !important;
+        max-width:30px;
+        max-height:30px;
+    }
+
+    .heading-name {
+        width:90% !important;
+        height:auto !important;
+        margin-top:3px !important;
+        min-width:100px !important;
+        min-height:auto;
+        
     }
 
     .heading-compose {
@@ -409,6 +425,8 @@
 
     .reply-main {
         padding: 2px 8px   !important;
+        width:85% !important;
+        min-width:150px !important;
     }
 
         .reply-main textarea {
@@ -418,6 +436,8 @@
 
     .reply-recording {
         padding: 5px 0   !important;
+        width:15%;
+        min-width:stretch;
     }
 
         .reply-recording i {
@@ -458,3 +478,12 @@
         position: relative;
         top: 1px;
     }
+
+@media screen and (max-width: 480px) {
+    .btnMessage {
+        width: 50px;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 2px 3px rgba(0,0,0.125);
+    }
+}

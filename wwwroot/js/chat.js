@@ -24,11 +24,36 @@ connection.on("ReceiveMessage", function (user, message) {
     $("#messagesList").append('<li><div class="chat-block"><div class="message-text">' + user + " 說: " + '<br/>' + msg + '</div><div class="message-time pull-right">' + date + '</div></div></li>').scrollTop($("#messagesList").prop('scrollHeight'));
 });
 
+connection.on("ReceiveEnterMessage", function (user) {
+    var userName = user;
+    var time = new Date();
+    var hour = time.getHours();
+    var min = time.getMinutes();
+    if (min < 10) {
+        min = "0" + min;
+    }
+    if (hour > 12) {
+        hour = "下午" + (hour - 12);
+    }
+    else {
+        hour = "上午" + hour;
+    }
+    var date = time.getFullYear().toString() + "/" + (time.getMonth() + 1).toString() + "/" + time.getDate().toString() + " " + hour.toString() + ":" + min.toString();
+    $("#messagesList").append('<li><div class="chat-block"><div class="message-text">訊息:' + '<br/>' + userName + '</div><div class="message-time pull-right">' + date + '</div></div></li>').scrollTop($("#messagesList").prop('scrollHeight'));
+});
+
+
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
+    var user = document.getElementById("entermsg").value;
+    connection.invoke("EnterMessage", user).catch(function (err) {
+        return console.error(err.toString());
+    });
 }).catch(function (err) {
     return console.error(err.toString());
 });
+
 
 document.getElementById("sendButton").addEventListener("click", function (event) {
     var user = document.getElementById("userInput").value;
@@ -40,3 +65,8 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     });
     event.preventDefault();
 });
+
+
+
+
+

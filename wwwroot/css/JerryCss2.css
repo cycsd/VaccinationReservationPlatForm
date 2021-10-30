@@ -194,3 +194,30 @@ a {
     border-radius: 10px;
     font-family: 'Microsoft JhengHei';
 }
+
+.Wantfont {
+    font-display: auto;
+    font-size:40px;
+    padding-right:238px;
+    font-weight:bold;
+}
+.tdflex {
+/*    display:inline-flex;*/
+}
+
+.tabletitle{
+    /*width:590px;*/
+}
+.tdwidth{
+    text-align:right;
+}
+
+@media screen and (max-width: 420px) {
+    .Wantfont {
+        padding-right: 0px;
+    }
+
+    .tabletitle {
+/*        width: 575px;*/
+    }
+}

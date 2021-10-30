@@ -12,5 +12,22 @@ namespace VaccinationReservationPlatForm.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+
+        public async Task EnterMessage(string user)
+        {
+            await Clients.All.SendAsync("ReceiveEnterMessage", user);
+        }
+
+       
+        // 連線
+        public override async Task OnConnectedAsync()
+        {
+            await base.OnConnectedAsync();
+        }
+        // 斷線
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            await base.OnDisconnectedAsync(exception);
+        }
     }
 }
