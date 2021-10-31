@@ -16,7 +16,21 @@ namespace VaccinationReservationPlatForm.ViewModels
             //    TempData["Error"] = "尚未登入，請先登入。";
             //}
         }
-                    
 
-}
+
+    }
+
+    public class WorkDay
+    {
+        public int dayOfWeek { get; set; }
+
+        public List<WorkTime> workTimes { get; set; }
+    }
+
+    public class WorkTime
+    {
+        public int workMark { get; set; }
+        public TimeSpan startTime { get; set; }
+        public TimeSpan endTime { get; set; }
+    }
 }

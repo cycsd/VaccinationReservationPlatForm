@@ -1,79 +1,80 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-    <div class="section-title">
-        <h2>休息日</h2>
-        <p>Sit sint consectetur velit quos quisquam cupiditate nemo qui</p>
-    </div>
+@section Head{
 
-    <div class="row">
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="card border-light mb-3">
-                <div class="card-header"><h4>Walter White</h4></div>
-                <div class="card-body">
-                    <span>Chief Executive Officer</span>
-                    <p>
-                        Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut
-                    </p>
-                </div>
-                <div id="monday2" class="card-body">
-                    <span>Chief Executive Officer</span>
-                    <p>
-                        monday2
-                    </p>
-                    <div class="social">
-                        <a href=""><i class="bi bi-twitter"></i></a>
-                        <a href=""><i class="bi bi-facebook"></i></a>
-                        <a href=""><i class="bi bi-instagram"></i></a>
-                        <a href=""><i class="bi bi-linkedin"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="member">
-                <img src="~/assets/img/team/team-2.jpg" alt="">
-                <h4>Sarah Jhinson</h4>
-                <span>Product Manager</span>
-                <p>
-                    Repellat fugiat adipisci nemo illum nesciunt voluptas repellendus. In architecto rerum rerum temporibus
-                </p>
-                <div class="social">
-                    <a href=""><i class="bi bi-twitter"></i></a>
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
-                    <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-            <div class="member">
-                <img src="~/assets/img/team/team-3.jpg" alt="">
-                <h4>William Anderson</h4>
-                <span>CTO</span>
-                <p>
-                    Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
-                </p>
-                <div class="social">
-                    <a href=""><i class="bi bi-twitter"></i></a>
-                    <a href=""><i class="bi bi-facebook"></i></a>
-                    <a href=""><i class="bi bi-instagram"></i></a>
-                    <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    <link rel="stylesheet" href="~/css/bootstrap-datetimepicker.css" />
 }
+<div class="section-title">
+    <h2>休息日</h2>
+    @*<p>Sit sint consectetur velit quos quisquam cupiditate nemo qui</p>*@
+</div>
+
+<div class="section-title">
+    <h2>營業時間</h2>
+</div>
+<div class="row d-flex align-items-stretch justify-content-center">
+    @for (int i = 0; i < 7; i++)
+    {
+        Dictionary<int, string> weekToNumber = new Dictionary<int, string>()
+{
+            {0,"星期日" },{1,"星期一"},{2,"星期二" },{3,"星期三"},{4,"星期四" },{5,"星期五"},{6,"星期六"},
+        };
+        int weekInt = i == 6 ? 0 : i + 1;
+        string startTimeName1 = $"{i}timepickerStart1";
+        string endTimeName1 = $"{i}timepickerEnd1";
+        string startTimeName2 = $"{i}timepickerStart2";
+        string endTimeName2 = $"{i}timepickerEnd2";
+        <div class="col-lg-1 col-md-12 row align-items-stretch justify-content-center">
+            <div class="card text-center border-light mb-3" id="@weekInt">
+                <div class="card-header">
+                    <h4>@weekToNumber[weekInt]</h4>
+                </div>
+                <div class="card-body" name="AM">
+                    <input type='text' class="form-control" name='@startTimeName1' />
+                    <h1>≀</h1>
+                    <input type='text' class="form-control" name='@endTimeName1' />
+                </div>
+                <div class="card-body" name="PM">
+                    <input type='text' class="form-control" name="@startTimeName2" />
+                    <h1>≀</h1>
+                    <input type='text' class="form-control" name="@endTimeName2" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="row d-flex align-items-stretch justify-content-center">
+    <div class="col-lg-3 col-md-3">
+        <button type="button" class="btn btn-primary btn-block" id="btnSave">儲存</button>
+    </div>
+</div>
+
+
+
+
 
 @section Scripts{
+    @*jQuery Timepicker 套件*@
+    @*<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.js" integrity="sha512-l+atXluZCIvQMq9c/hjYEuLp6Hf9JDPtrxuaECeQ5MH7fJsRQ6xi+M34ulWWmEehlTiVQUqrNIuHD0AbGD/wvg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>*@
+
+    @*bootstrap Timepicker*@
+    <script type="text/javascript" src="~/lib/jquery/dist/moment.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/bootstrap.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/bootstrap-datetimepicker.js"></script>
 
     <script>
-        //var x = $('#monday2');
-        $('#monday2').hide();
+        //Hide 休息日
+        $('.card-body').dblclick(function () {
+            $(this).css('visibility', 'hidden')
+            //todo: 放到休息日內
+            //$(this).click(function (e) {
+            //    $(this).css('visibility', 'visible')
+            //    console.log('I am hidden');
+            //    $(this).off(e);
+            //})
+        })//.hide();
         //x.show();
         $('.card-body').each(function () {
             let hospitalBusinessDay = {
@@ -88,6 +89,123 @@
                 console.log($(this).find('p').text());
             }
             console.log(hospitalBusinessDay.hDBmark)
+        })
+
+        $(function () {
+            //init timepicker
+            $("input[name*='timepicker']").each(function () {
+                let today = new Date()
+                let date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+                let name = $(this).attr('name');
+                if (name.indexOf('timepickerStart1') != -1) {
+                    $(this).datetimepicker(
+                        {
+                            format: 'HH:mm',
+                            stepping: 5,
+                            defaultDate: date + ' 09:00',
+                            //useCurrent: false,
+                        }
+                    )
+                }
+                if (name.indexOf('timepickerEnd1') != -1) {
+                    $(this).datetimepicker(
+                        {
+                            format: 'HH:mm',
+                            stepping: 5,
+                            defaultDate: date + ' 12:00',
+                            //useCurrent: false,
+                        }
+                    )
+                }
+                if (name.indexOf('timepickerStart2') != -1) {
+                    $(this).datetimepicker(
+                        {
+                            format: 'HH:mm',
+                            stepping: 5,
+                            defaultDate: date + ' 13:00',
+                            //useCurrent: false,
+                        }
+                    )
+                }
+                if (name.indexOf('timepickerEnd2') != -1) {
+                    $(this).datetimepicker(
+                        {
+                            format: 'HH:mm',
+                            stepping: 5,
+                            defaultDate: date + ' 17:00',
+                            //useCurrent: false,
+                        }
+                    )
+                }
+
+            })
+            //End init timepicker
+
+            //Add minDate & maxDate Constrait to DateTimePicker on each day
+            $('.card').each(function () {
+                //console.log(this);
+                let children = $(this).find('input')
+                for (var i = 0; i < children.length-1; i++) {
+                    let firstChild = children.eq(i);
+                    let lastChild = children.eq(i + 1)
+                    lastChild.data("DateTimePicker").useCurrent(false);
+                    firstChild.on("dp.change", function (e) {
+                        lastChild.data("DateTimePicker").minDate(e.date);
+                    })
+                    lastChild.on("dp.change", function (e) {
+                        firstChild.data("DateTimePicker").maxDate(e.date);
+                    })
+                }
+            })
+            //End Add minDate & maxDate Constrait to DateTimePicker on each day
+
+            //Save To Server
+            $('#btnSave').click(function () {
+                alert('I am btnSave')
+                let workDays = [];
+                $('.card').each(function () {
+                    let workDay = {
+                        dayOfWeek: null,
+                        workTimes:[],
+                    }
+                    let weekdayInt = $(this).attr('id');
+                    workDay.dayOfWeek = weekdayInt;
+                    console.log(workDay.dayOfWeek);
+
+                    $(this).children('.card-body').each(function () {
+                        let workTime = {
+                            workMark: 1,
+                            startTime: null,
+                            endTime: null,
+                        }
+                        if ($(this).css('visibility') == 'hidden') {
+                            workTime.workMark = 0;
+                        }
+                        let children = $(this).find('input')
+                        workTime.startTime = children.eq(0).val()
+                        workTime.endTime = children.eq(1).val()
+                        workDay.workTimes.push(workTime);
+                    })
+                    workDays.push(workDay);
+                })
+                //console.log(workDays);
+
+                let url = '@Url.Content("~/ReservationHospital/SaveHospitalWorkTime")'
+                let data = {
+                    workDays: workDays,
+                }
+                $.post(url, data)
+                    .done(function (result) {
+                        console.log(result);
+                    })
+            })
+
+            //End Save to Server
+
+            $('#timepicker1').on("dp.change", function (e) {
+                //console.log(e.date._d.getHours()+":"+e.date._d.getMinutes());
+                console.log(e.date)
+            })
         })
 
     </script>

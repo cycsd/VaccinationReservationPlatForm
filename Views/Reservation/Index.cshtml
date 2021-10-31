@@ -199,9 +199,9 @@
                 let titleOption = vaccineSelect.find(':first-child');
                 vaccineSelect.empty();
                 vaccineSelect.append(titleOption);
-                console.log(data);
+                //console.log(data);
                 $(data).each(function () {
-                    console.log(this);
+                    //console.log(this);
                     let text = this.vaccineName;
                     let value = this.vaccineId;
                     vaccineSelect.append($('<option>', {
@@ -239,8 +239,7 @@
             $.get(url, data)
                 .done(function (data) {
                     let latlng = { lat: 25.1091812, lng: 121.5146769 };
-                    //let marker = GetGoogleMapMarker(latlng, map);
-
+                    //let marker = GetGoogleMapMarker(latlng, map);                    
                     //console.log(data);
                     let hospitalSelectElement = $('#hospital');
                     let titleOption = hospitalSelectElement.find(':first-child');

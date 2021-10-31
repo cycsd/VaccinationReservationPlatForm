@@ -43,14 +43,14 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
-    @await RenderSectionAsync("HeadScripts",required: false) 
+    @await RenderSectionAsync("HeadScripts", required: false)
     <script>
         @if (TempData["Error"] != null)
-        {           
+        {
             @:let warningText = '@Json.Serialize(TempData["Error"])';
             @:alert(warningText);
         }
-     
+
     </script>
 </head>
 <body>
@@ -71,11 +71,11 @@
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="about">最新消息</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="services">統計資料</a></li>
                     <li><a class="nav-link scrollto " asp-controller="UserInfo" asp-action="List" asp-fragment="">個人資訊</a></li>
-                    <li><a class="nav-link" href="/Home/Index#testimonials">問與答Q&A</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="testimonials">問與答Q&A</a></li>
                     <li class="dropdown">
                         <a asp-controller="ReservationHospital" asp-action="Index"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="#">醫護帳號註冊</a></li>
+                            <li><a href="#">醫護帳號登入</a></li>
                             <li class="dropdown">
                                 <a href="#"><span>疫苗預約</span> <i class="bi bi-chevron-right"></i></a>
                                 <ul>

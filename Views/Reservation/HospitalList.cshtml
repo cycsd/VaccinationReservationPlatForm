@@ -48,9 +48,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.HospitalPhoneAreaCode)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CountyPostalCodeNavigation)
-            </th>
+
             <th></th>
         </tr>
     </thead>
@@ -93,9 +91,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.HospitalPhoneAreaCode)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountyPostalCodeNavigation.CountyPostalCode)
-            </td>
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.HospitalId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.HospitalId">Details</a> |

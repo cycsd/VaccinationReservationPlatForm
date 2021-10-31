@@ -17,7 +17,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
     {
         private readonly VaccinationBookingSystemContext context;
         private readonly IWebHostEnvironment environment;
-        private Person person;
+        //private Person person;
         private IQueryable<int?> vaccinationWanted;
         public ReservationController(VaccinationBookingSystemContext context, IWebHostEnvironment environment)
         {
@@ -32,11 +32,12 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 return RedirectToAction("Login", "UserInfo");
             }
 
-            this.person = JsonSerializer.Deserialize<Person>(HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT));
+            Person personToGetID = JsonSerializer.Deserialize<Person>(HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT));
+            Person person = context.People.FirstOrDefault(s => s.PersonId == personToGetID.PersonId);
 
             //todo: 邏輯驗證，這個人是否可以預約疫苗，職業、年紀、是否已經預約過、是否有疫苗可預約...
 
-            return View(this.person);
+            return View(person);
         }
 
         //[HttpPost]

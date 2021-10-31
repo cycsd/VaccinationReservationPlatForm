@@ -15,6 +15,8 @@
     <meta content="" name="description">
     <meta content="" name="keywords">
 
+
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <!-- Favicons -->
@@ -35,6 +37,10 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <!-- Template Main CSS File -->
     <link href="~/assets/css/style.css" rel="stylesheet">
+
+
+    @await RenderSectionAsync("Head", required: false)
+
 
 
     <!-- =======================================================
@@ -59,7 +65,7 @@
 
             <nav id="navbar" class="navbar order-last order-lg-0">
                 <ul>
-                    <li><a class="nav-link scrollto " href="#hero">醫護帳號註冊</a></li>
+                    <li><a class="nav-link scrollto " href="#hero">登入</a></li>
                     <li><a class="nav-link scrollto" href="#about">疫苗預約</a></li>
                     <li><a class="nav-link scrollto" href="#services">登記預約</a></li>
                     <li><a class="nav-link scrollto " asp-controller="ReservationHospital" asp-action="HospitalWorkTime">時段設定</a></li>
@@ -107,8 +113,8 @@
         </section><!-- End Breadcrumbs -->
 
         <section @*class="inner-page"*@>
-            <div class="container">
-                @RenderBody();
+            <div class="container-fluid">
+                @RenderBody()
             </div>
         </section>
 

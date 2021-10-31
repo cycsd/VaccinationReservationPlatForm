@@ -30,7 +30,7 @@ namespace VaccinationReservationPlatForm
 
             services.AddSession();
 
-            services.AddSignalR();
+            services.AddSignalR();  //去執行這個藉由SignalR套件寫的service的延伸方法，此方法內部做了甚麼會依各套件而有所不同
 
             services.AddDbContext<VaccinationBookingSystemContext>(options =>
             {
