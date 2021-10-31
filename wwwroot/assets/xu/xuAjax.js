@@ -13,7 +13,7 @@ function loadmorebntInfo() {
             var vaccineInfo = JSON.parse(xhr.responseText);
 
             var bnt_output = '<ul>' +
-                '<li>製造廠： '   + vaccineInfo[0].Manufacturing + '</li>' +
+                '<li>製造廠： ' + vaccineInfo[0].Manufacturing + '</li>' +
                 '<li>疫苗成分： ' + vaccineInfo[0].MainIngredient + '</li>' +
                 '<li>疫苗種類： ' + vaccineInfo[0].TypesOfVaccines + '</li>' +
                 '<li>適用年齡： ' + vaccineInfo[0].SuitableAge + '</li>' +
@@ -21,7 +21,7 @@ function loadmorebntInfo() {
                 '<li>接種間隔： ' + vaccineInfo[0].TimeInterval + '</li>' +
                 '<li>冷儲條件： ' + vaccineInfo[0].ColdStored1 + vaccineInfo[0].ColdStored2 + '</li>' +
                 '</ul>';
-            document.getElementById('showInfo').innerHTML = bnt_output;
+            document.getElementById('bntInfo').innerHTML = bnt_output;
         }
     }
     xhr.send();
@@ -44,7 +44,7 @@ function loadmoreazInfo() {
                 '<li>接種間隔： ' + vaccineInfo[1].TimeInterval + '</li>' +
                 '<li>冷儲條件： ' + vaccineInfo[1].ColdStored1 + vaccineInfo[1].ColdStored2 + '</li>' +
                 '</ul>';
-            document.getElementById('showInfo').innerHTML = az_output;
+            document.getElementById('azInfo').innerHTML = az_output;
         }
     }
     xhr.send();
@@ -67,7 +67,7 @@ function loadmoremodernaInfo() {
                 '<li>接種間隔： ' + vaccineInfo[2].TimeInterval + '</li>' +
                 '<li>冷儲條件： ' + vaccineInfo[2].ColdStored1 + vaccineInfo[2].ColdStored2 + '</li>' +
                 '</ul>';
-            document.getElementById('showInfo').innerHTML = moderna_output;
+            document.getElementById('modernaInfo').innerHTML = moderna_output;
         }
     }
     xhr.send();
@@ -90,7 +90,7 @@ function loadmoremoremvcInfo() {
                 '<li>接種間隔： ' + vaccineInfo[3].TimeInterval + '</li>' +
                 '<li>冷儲條件： ' + vaccineInfo[3].ColdStored1 + vaccineInfo[3].ColdStored2 + '</li>' +
                 '</ul>';
-            document.getElementById('showInfo').innerHTML = mvc_output;
+            document.getElementById('mvcInfo').innerHTML = mvc_output;
         }
     }
     xhr.send();
