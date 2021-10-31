@@ -45,12 +45,19 @@ namespace VaccinationReservationPlatForm.ViewComponents
                 {
                     ViewBag.errormsg = "";
                 }
-                ViewBag.Name = userlogin.PersonName.ToString().Trim();
-                ViewBag.Address = userlogin.PersonAdress.ToString().Trim();
-                ViewBag.Phone = userlogin.PersonCellphoneNumber.ToString().Trim();
-                ViewBag.Email = userlogin.PersonMail.ToString().Trim();
-                ViewBag.Sex = userlogin.PersonSex.ToString().Trim();
-                
+                string? Name = userlogin.PersonName;
+                string? Address = userlogin.PersonAdress;
+                string? Phone = userlogin.PersonCellphoneNumber;
+                string? Email = userlogin.PersonMail;
+                string? Sex = userlogin.PersonSex;
+
+                ViewBag.Name = Name;
+                ViewBag.Address = Address;
+                ViewBag.Phone = Phone;
+                ViewBag.Email = Email;
+                ViewBag.Sex = Sex;
+
+
 
 
 

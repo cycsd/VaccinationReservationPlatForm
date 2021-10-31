@@ -5,6 +5,11 @@
     Person user = ViewData["user"] as Person;
     string Number = ViewBag.Number;
     VaccinationReservationPlatForm.ViewModels.CWantedVaccine wantedd = ViewData["wantedd"] as VaccinationReservationPlatForm.ViewModels.CWantedVaccine;
+    string phone = "";
+    if (user != null && user.PersonCellphoneNumber != null)
+    {
+        phone = user.PersonCellphoneNumber.Trim();
+    }
 
 }
 
@@ -20,15 +25,15 @@
             </tr>
             <tr>
                 <td><font color="red">*</font><label>身分證號</label></td>
-                <td class="tdwidth"><input class="card-body" asp-for="PersonIdentityId" style="width: 238px; border: transparent ;" readonly/></td>
+                <td class="tdwidth"><input class="card-body" asp-for="PersonIdentityId" style="width: 238px; border: transparent ;" readonly /></td>
             </tr>
             <tr>
                 <td><font color="red">*</font><label>姓名</label></td>
-                <td class="tdwidth"><input id="test" class="card-body" asp-for="PersonName" value="@user.PersonName.Trim()" style="width: 238px; border: transparent" readonly/></td>
+                <td class="tdwidth"><input id="test" class="card-body" asp-for="PersonName" value="@Model.PersonName" style="width: 238px; border: transparent" readonly /></td>
             </tr>
             <tr>
                 <td><font color="red">*</font><label>手機號碼</label></td>
-                <td class="tdwidth"><input  asp-for="PersonCellphoneNumber" maxlength="10"  value="@user.PersonCellphoneNumber.Trim()" style="width: 238px;" /></td>
+                <td class="tdwidth"><input asp-for="PersonCellphoneNumber" maxlength="10" id="phonevad" value="@phone" style="width: 238px;" /></td>
             </tr>
             <tr>
                 <td style="vertical-align:middle"><font color="red">*</font><label>接踵區域</label></td>
@@ -55,11 +60,8 @@
                         <select id="road" name="Road" required>
                             <option style="display:none" value="">區段</option>
                         </select>
-                        <input type="text" name="CountyTownText" id="CountyTownText" value="" hidden />
-                        @*<select id="road">
-                                <option style="display:none">區段</option>
-                            </select>*@
                     </div>
+                    <input type="text" name="CountyTownText" id="CountyTownText" value="" hidden />
                 </td>
             </tr>
             <tr>
@@ -67,21 +69,21 @@
                 <td class="tdflex tdwidth">
                     <div id="checked">
                         <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="Vaccine" id="BNT" value="1">
-                                <label class="form-check-label" for="inlineCheckbox1">BNT</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="Vaccine" id="AZ" value="2">
-                                <label class="form-check-label" for="inlineCheckbox2">AZ</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="Vaccine" id="Moderna" value="3">
-                                <label class="form-check-label" for="inlineCheckbox3">莫德納</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" name="Vaccine" id="MVC" value="4">
-                                <label class="form-check-label" for="inlineCheckbox4">高端</label>
-                            </div>
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="BNT" value="1">
+                            <label class="form-check-label" for="inlineCheckbox1">BNT</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="AZ" value="2">
+                            <label class="form-check-label" for="inlineCheckbox2">AZ</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="Moderna" value="3">
+                            <label class="form-check-label" for="inlineCheckbox3">莫德納</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Vaccine" id="MVC" value="4">
+                            <label class="form-check-label" for="inlineCheckbox4">高端</label>
+                        </div>
                     </div>
                 </td>
             </tr>
@@ -97,6 +99,7 @@
 @section Scripts {
 
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/Location.js"></script>
     <script>
 
@@ -195,11 +198,24 @@
 
 
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript">
 
         var CountyTownName = "";
 
         $('#submit').on('click', function () {
+            var phone = $('#phonevad').val();
+            var county = $('#county').val();
+            var town = $('#town').val();
+            var road = $('#road').val();
+            if (phone == "" || county == "" || town == "" || road == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: '請確實填寫資料!',
+                    confirmButtonText: '確定',
+                })
+                return;
+            }
             CountyTownName = $('#town').find("option:selected").text();
             $('#CountyTownText').attr('value', CountyTownName.toString());
             Swal.fire(
