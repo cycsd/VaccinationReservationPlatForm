@@ -147,6 +147,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                     string json = JsonSerializer.Serialize(cust);
                     HttpContext.Session.SetString(CDictionary.SK_LOGIN_CLIENT, json);
                     ViewBag.Error = "";
+                    TempData["login"] = "yes";
                     return RedirectToAction("Index", "Home");
                 }
                 if (cust == null)

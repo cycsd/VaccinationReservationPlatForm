@@ -36,7 +36,15 @@ namespace VaccinationReservationPlatForm.ViewComponents
                     ViewBag.Birthday = userlogin.PersonBirthday;
                     ViewBag.Birthdayreal = "";
                 }
-
+                if (TempData["login"] != null)
+                {
+                    string login = TempData["login"].ToString();
+                    ViewBag.login = login;
+                }
+                else 
+                {
+                    ViewBag.errormsg = "";
+                }
                 ViewBag.Name = userlogin.PersonName.ToString().Trim();
                 ViewBag.Address = userlogin.PersonAdress.ToString().Trim();
                 ViewBag.Phone = userlogin.PersonCellphoneNumber.ToString().Trim();
