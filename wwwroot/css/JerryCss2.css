@@ -1,0 +1,242 @@
+﻿
+
+
+.login-btn {
+    font-family: Hack, monospace;
+    background: #b4b4b4;
+    color: #1d1d1d;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 1.5rem;
+    padding-left:60px;
+    padding-right:60px;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 10px;
+    width: auto;
+    position: relative;
+    min-width: 150px;
+    box-shadow: 0 1px 5px 0 #222;
+    font-weight:bold;
+}
+
+    .login-btn::after {
+        content: "";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: 400;
+        position: absolute;
+        left: 75%;
+        top: 26%;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    .login-btn:hover {
+        background: #2b2bff;
+        transition: all 0.5s;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px #0000ff61;
+        padding: 1.5rem 6rem 1.5rem 6rem;
+        color: #ffffff;
+    }
+
+        .login-btn:hover::after {
+            padding: 1.5rem 6rem 1.5rem 6rem;
+            opacity: 1;
+            transition: all 0.5s;
+            color: #ffffff;
+        }
+
+.logout-btn {
+    font-family: Hack, monospace;
+    background: #d3d3d3;
+    color: #2c2c2c;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 1.5rem;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 10px;
+    width: auto;
+    position: relative;
+    min-width: 250px;
+}
+
+    .logout-btn::after {
+        content: "";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: 400;
+        position: absolute;
+        left: 80%;
+        top: 54%;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    .logout-btn:hover {
+        background: #2b2bff;
+        transition: all 0.5s;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px #0000ff61;
+        padding: 1.5rem 3rem 1.5rem 1.5rem;
+        color: #ffffff;
+    }
+
+        .logout-btn:hover::after {
+            opacity: 1;
+            transition: all 0.5s;
+            color: #ffffff;
+        }
+
+
+
+
+
+.loginbtn {
+    margin: 15px;
+    border-radius: 50px;
+    border: 10px inset white;
+    font-size: 1.125rem !important;
+    color: #ffffff;
+}
+
+
+    .loginbtn :hover {
+        border: 1px inset white;
+    }
+
+.loginspan {
+    font-size: 80px;
+}
+
+.divbtn {
+    padding: 50px 50px 10px 50px;
+}
+
+.editbutton {
+    width: 150px;
+    height: 30px;
+    font-size: 12px;
+    background-color: #3498db;
+    border-radius: 10px;
+    font-family: 'Microsoft JhengHei';
+}
+
+.Wantfont {
+    font-display: auto;
+    font-size:40px;
+    padding-right:238px;
+    font-weight:bold;
+}
+.tdflex {
+/*    display:inline-flex;*/
+}
+
+.tabletitle{
+    /*width:590px;*/
+}
+.tdwidth{
+    text-align:right;
+}
+
+@media screen and (max-width: 420px) {
+    .Wantfont {
+        padding-right: 0px;
+    }
+
+    .tabletitle {
+/*        width: 575px;*/
+    }
+}
+
+.modal-confirm {
+    color: #636363;
+    width: 325px;
+    margin: 30px auto;
+}
+
+    .modal-confirm .modal-content {
+        padding: 20px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .modal-confirm .modal-header {
+        border-bottom: none;
+        position: relative;
+    }
+
+    .modal-confirm h4 {
+        text-align: center;
+        font-size: 26px;
+        margin: 30px 0 -15px;
+    }
+
+    .modal-confirm .form-control, .modal-confirm .btn {
+        min-height: 40px;
+        border-radius: 3px;
+    }
+
+    .modal-confirm .close {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+    }
+
+    .modal-confirm .modal-footer {
+        border: none;
+        text-align: center;
+        border-radius: 5px;
+        font-size: 13px;
+    }
+
+    .modal-confirm .icon-box {
+        color: #fff;
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        top: -70px;
+        width: 95px;
+        height: 95px;
+        border-radius: 50%;
+        z-index: 9;
+        background: #82ce34;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
+    }
+
+        .modal-confirm .icon-box i {
+            font-size: 58px;
+            position: relative;
+            top: 3px;
+        }
+
+    .modal-confirm.modal-dialog {
+        margin-top: 80px;
+    }
+
+    .modal-confirm .btn {
+        color: #fff;
+        border-radius: 4px;
+        background: #82ce34;
+        text-decoration: none;
+        transition: all 0.4s;
+        line-height: normal;
+        border: none;
+    }
+
+        .modal-confirm .btn:hover, .modal-confirm .btn:focus {
+            background: #6fb32b;
+            outline: none;
+        }
+
+.trigger-btn {
+    display: inline-block;
+    margin: 100px auto;
+}

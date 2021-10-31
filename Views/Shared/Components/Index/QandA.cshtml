@@ -1,9 +1,20 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{ 
-    string x = ViewBag.abc;
+@{
+    string vad = ViewBag.vad;
+    string userName = ViewBag.Name;
+    string userEmail = ViewBag.Email;
+    string userPhome = ViewBag.Phone;
+    string userAddress = ViewBag.Address;
+    DateTime? userBirthday = ViewBag.Birthday;
+    string userBirthdayreal = ViewBag.Birthdayreal;
+    string userSex = ViewBag.Sex;
+    string login = ViewBag.login;
 }
+
+<link href="~/css/JerryCss2.css" rel="stylesheet" />
+
 @{
     <section id="portfolio" class="portfolio">
 
@@ -167,6 +178,7 @@
         </div>
     </section><!-- End Portfolio Section -->
     <!-- ======= Testimonials Section ======= -->
+<section id="testimonials2">
     <section id="testimonials" class="testimonials section-bg">
         <div class="container">
 
@@ -182,7 +194,7 @@
                         <div class="testimonial-item">
                             <p>
                                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                                <font class="fontQA" >冠狀病毒（Coronavirus [CoV]）為具外套膜（envelope）的病毒，在電子顯微鏡下可看到類似皇冠的突起因此得名。</font>
+                                <font class="fontQA">冠狀病毒（Coronavirus [CoV]）為具外套膜（envelope）的病毒，在電子顯微鏡下可看到類似皇冠的突起因此得名。</font>
                                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                                 <br />
                                 <br />
@@ -192,7 +204,7 @@
                             <img src="https://i.imgur.com/xvmZImc.jpg" class="testimonial-img" alt="">
                             <h3>Q1．什麼是冠狀病毒？</h3>
                         </div>
-                    </div><!-- End testimonial item -->
+                    </div>
 
                     <div class="swiper-slide">
                         <div class="testimonial-item">
@@ -204,7 +216,7 @@
                             <img src="https://i.imgur.com/xvmZImc.jpg" class="testimonial-img" alt="">
                             <h3>Q2．冠狀病毒屬會造成什麼樣的人類疾病？</h3>
                         </div>
-                    </div><!-- End testimonial item -->
+                    </div>
 
                     <div class="swiper-slide">
                         <div class="testimonial-item">
@@ -220,7 +232,7 @@
                             <img src="https://i.imgur.com/xvmZImc.jpg" class="testimonial-img" alt="">
                             <h3>Q3．冠狀病毒會造成動物的疾病嗎？</h3>
                         </div>
-                    </div><!-- End testimonial item -->
+                    </div>
 
                     <div class="swiper-slide">
                         <div class="testimonial-item">
@@ -234,7 +246,7 @@
                             <img src="https://i.imgur.com/xvmZImc.jpg" class="testimonial-img" alt="">
                             <h3>Q4．2019新型冠狀病毒是什麼？是怎麼被發現的？</h3>
                         </div>
-                    </div><!-- End testimonial item -->
+                    </div>
 
                     <div class="swiper-slide">
                         <div class="testimonial-item">
@@ -249,7 +261,7 @@
                             </p>
                             <a href="/UserInfo/QandA" style="color:black"><i class="far fa-arrow-circle-right" style="font-size:50px"></i></a>
                         </div>
-                    </div><!-- End testimonial item -->
+                    </div>
 
                 </div>
                 <div class="swiper-pagination"></div>
@@ -257,21 +269,128 @@
 
         </div>
     </section><!-- End Testimonials Section -->
+</section>
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact ">
+        <div class="container">
+            <div id="unloginform">
+                <div id="hero" class="d-flex flex-row align-items-center justify-content-center" style="margin-top: 2px !important;">
+                    <div class="box d-flex flex-column align-items-center justify-content-center" style="background-color: #CCCCCC; border-radius:50px; box-shadow: 0 1px 10px 0 #222; " data-aos="fade-up">
+                        <h1 style="color:#000000">個人資訊</h1>
+                        <span style="color:#000000">請先登入在檢視您的個人資訊</span>
+                        <div style="padding:40px 20px 0px 20px">
+                            <div style="min-width:150px">
+                                <a  class="login-btn"  asp-controller="UserInfo" asp-action="Login" style="min-width:150px;">登入</a>
+                            </div>
+                            @*<a asp-controller="UserInfo" asp-action="Login" class="btn-get-started scrollto loginbtn" style="padding: 0px 30px 0px 30px;; border-radius: 50px;">
+               <span class="material-icons loginspan">
+                   arrow_right_alt
+               </span>
+        </a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="loginform">
+                <div class="section-title">
+                    <h2>個人資訊</h2>
+                </div>
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="info-wrap">
+                            <div class="row">
+                                <div class="col-lg-4 info">
+                                    <i class="bi bi-person"></i>
+                                    <h4>姓名:</h4><input type="text" id="logintest" value="@login" hidden/>
+                                    <p>@userName</p>
+                                </div>
+
+                                <div class="col-lg-4 info mt-4 mt-lg-0">
+                                    <i class="bi bi-gender-ambiguous"></i>
+                                    <h4>性別:</h4>
+                                    <p>@userSex</p>
+                                </div>
+
+                                <div class="col-lg-4 info mt-4 mt-lg-0">
+                                    <i class="bi bi-calendar-month"></i>
+                                    <h4>出生日期:</h4>
+                                    <p>@userBirthday@userBirthdayreal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="info-wrap">
+                            <div class="row">
+                                <div class="col-lg-4 info">
+                                    <i class="bi bi-geo-alt"></i>
+                                    <h4>居住區域:</h4>
+                                    <p>@userAddress</p>
+                                </div>
+
+                                <div class="col-lg-4 info mt-4 mt-lg-0">
+                                    <i class="bi bi-envelope"></i>
+                                    <h4>電子信箱:</h4>
+                                    <p>@userEmail</p>
+                                </div>
+
+                                <div class="col-lg-4 info mt-4 mt-lg-0">
+                                    <i class="bi bi-phone"></i>
+                                    <h4>手機號碼:</h4>
+                                    <p>@userPhome</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-10 divbtn" align="center">
+                        <a href="/UserInfo/Edit" class="btn btn-primary editbutton">修改個人資料</a>
+                    </div>
+                </div>
+                <div class="row mt-5 justify-content-center" hidden>
+                    <div class="col-lg-10">
+                        <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6 form-group mt-3 mt-md-0">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3">
+                                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                            </div>
+                            <div class="form-group mt-3">
+                                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+                            </div>
+                            <div class="my-3">
+                                <div class="loading">Loading</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">Your message has been sent. Thank you!</div>
+                            </div>
+                            <div class="text-center"><button type="submit">Send Message</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="text" id="vadtext" value="@vad" hidden />
+    </section><!-- End Contact Section -->
     <!-- ======= Team Section ======= -->
-    <section id="team" class="team">
+    <section id="team" class="team section-bg">
         <div class="container">
 
             <div class="section-title">
-                <h2>Team</h2>
-                <p>Sit sint consectetur velit quos quisquam cupiditate nemo qui</p>
+                <h2>團隊</h2>
+                <p></p>
             </div>
 
             <div class="row">
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member">
                         <img src="assets/img/team/team-1.jpg" alt="">
-                        <h4>Walter White</h4>
-                        <span>Chief Executive Officer</span>
+                        <h4>徐耘</h4>
+                        <span>組長</span>
                         <p>
                             Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut
                         </p>
@@ -284,11 +403,28 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+                    <div class="member">
+                        <img src="assets/img/team/team-3.jpg" alt="">
+                        <h4>陳一辰</h4>
+                        <span>組員</span>
+                        <p>
+                            Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
+                        </p>
+                        <div class="social">
+                            <a href=""><i class="bi bi-twitter"></i></a>
+                            <a href=""><i class="bi bi-facebook"></i></a>
+                            <a href=""><i class="bi bi-instagram"></i></a>
+                            <a href=""><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member">
                         <img src="assets/img/team/team-2.jpg" alt="">
-                        <h4>Sarah Jhinson</h4>
-                        <span>Product Manager</span>
+                        <h4>何佩蓉</h4>
+                        <span>組員</span>
                         <p>
                             Repellat fugiat adipisci nemo illum nesciunt voluptas repellendus. In architecto rerum rerum temporibus
                         </p>
@@ -300,12 +436,11 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member">
                         <img src="assets/img/team/team-3.jpg" alt="">
-                        <h4>William Anderson</h4>
-                        <span>CTO</span>
+                        <h4>李函霖</h4>
+                        <span>組員</span>
                         <p>
                             Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
                         </p>
@@ -322,73 +457,43 @@
 
         </div>
     </section><!-- End Team Section -->
-    <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact section-bg">
-        <div class="container">
 
-            <div class="section-title">
-                <h2>Contact</h2>
-                <p>Magnam dolores commodi suscipit eius consequatur ex aliquid fuga</p>
-            </div>
 
-            <div class="row mt-5 justify-content-center">
-
-                <div class="col-lg-10">
-
-                    <div class="info-wrap">
-                        <div class="row">
-                            <div class="col-lg-4 info">
-                                <i class="bi bi-geo-alt"></i>
-                                <h4>Location:</h4>
-                                <p>A108 Adam Street<br>New York, NY 535022</p>
-                            </div>
-
-                            <div class="col-lg-4 info mt-4 mt-lg-0">
-                                <i class="bi bi-envelope"></i>
-                                <h4>Email:</h4>
-                                <p>info@example.com<br>contact@example.com</p>
-                            </div>
-
-                            <div class="col-lg-4 info mt-4 mt-lg-0">
-                                <i class="bi bi-phone"></i>
-                                <h4>Call:</h4>
-                                <p>+1 5589 55488 51<br>+1 5589 22475 14</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="row mt-5 justify-content-center">
-                <div class="col-lg-10">
-                    <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                            </div>
-                            <div class="col-md-6 form-group mt-3 mt-md-0">
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                            </div>
-                        </div>
-                        <div class="form-group mt-3">
-                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-                        </div>
-                        <div class="my-3">
-                            <div class="loading">Loading</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Your message has been sent. Thank you!</div>
-                        </div>
-                        <div class="text-center"><button type="submit">Send Message</button></div>
-                    </form>
-                </div>
-
-            </div>
-
-        </div>
-    </section><!-- End Contact Section -->
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#name').attr('value', @vad);
+    //$('#loginform').hide();
+    //$('#unloginform').show();
+    $(document).ready(function () {
+        var bool = $('#name').val();
+        if (bool == "false") {
+            $('#loginform').hide();
+            $('#unloginform').show();
+            $('#Logout').hide();
+        };
+        if (bool == "true") {
+            $('#loginform').show();
+            $('#unloginform').hide();
+            $('#Logout').show();
+        };
+
+        login();
+    });
+
+    function login() {
+        var logintest = $('#logintest').val();
+        var reset = "";
+        if (logintest == "yes") {
+            Swal.fire(
+                '您好！@userName。',
+                '',
+                'success'
+            )
+            $('#logintest').val() = reset;
+        }
+    }
+</script>
+
+

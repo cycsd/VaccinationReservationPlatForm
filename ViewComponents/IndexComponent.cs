@@ -14,15 +14,50 @@ namespace VaccinationReservationPlatForm.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync(string controller)
         {
-            //if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
-            //{
-            //    TempData["Error"] = "請先登入！";
+            if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                ViewBag.vad = "false";
+            }
+            else 
+            {
+                string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
+                Person user = JsonSerializer.Deserialize<Person>(json);
+                Person userlogin = (new VaccinationBookingSystemContext()).People.FirstOrDefault(
+                c => c.PersonIdentityId.Trim().Equals(user.PersonIdentityId));
+                if (userlogin.PersonBirthday != null)
+                {
+                    string Bir = userlogin.PersonBirthday.ToString();
+                    DateTime x = DateTime.Parse(Bir);
+                    string Birthday = x.ToString("yyyy/MM/dd");
+                    ViewBag.Birthdayreal = Birthday;
+                    ViewBag.Birthday = null;
+                }
+                else {
+                    ViewBag.Birthday = userlogin.PersonBirthday;
+                    ViewBag.Birthdayreal = "";
+                }
+                if (TempData["login"] != null)
+                {
+                    string login = TempData["login"].ToString();
+                    ViewBag.login = login;
+                }
+                else 
+                {
+                    ViewBag.errormsg = "";
+                }
+                ViewBag.Name = userlogin.PersonName.ToString().Trim();
+                ViewBag.Address = userlogin.PersonAdress.ToString().Trim();
+                ViewBag.Phone = userlogin.PersonCellphoneNumber.ToString().Trim();
+                ViewBag.Email = userlogin.PersonMail.ToString().Trim();
+                ViewBag.Sex = userlogin.PersonSex.ToString().Trim();
                 
-            //}
-            //string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
-            //Person userlogin = JsonSerializer.Deserialize<Person>(json);
 
-            ViewBag.abc = "123";
+
+
+                ViewBag.vad = "true";
+            }
+
+            
             return View(controller);            
 
         }

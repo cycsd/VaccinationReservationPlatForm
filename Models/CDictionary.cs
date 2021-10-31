@@ -8,5 +8,7 @@ namespace VaccinationReservationPlatForm.Models
     public class CDictionary
     {
         internal static readonly string SK_LOGIN_CLIENT = "SK_LOGIN_CLIENT";
+
+        internal static readonly string SK_LOGIN_HOSPITAL = "SK_LOGIN_HOSPITAL";
     }
 }

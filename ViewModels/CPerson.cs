@@ -10,6 +10,7 @@ namespace VaccinationReservationPlatForm.ViewModels
 {
     public class CPerson
     {
+        
         public Person Person { get; set; }
         public int PersonId { get; set; }
         [DisplayName("身分證字號")]
@@ -28,6 +29,8 @@ namespace VaccinationReservationPlatForm.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0: yyyy-MM-dd}")]
         public DateTime? PersonBirthday { get; set; }
         [DisplayName("手機號碼")]
+        [Required(ErrorMessage = "手機號碼為必填欄位")]
+        [StringLength(10)]
         public string PersonCellphoneNumber { get; set; }
         [DisplayName("電子信箱")]
         public string PersonMail { get; set; }

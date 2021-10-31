@@ -3,30 +3,35 @@
 *@
 
 <div class="box d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
-    <h1 id="dd">意願登記<!--<span>Register</span>--></h1>
-    <div class="d-flex flex-column align-items-center justify-content-center d-xxl-inline-block ">
+    <h1>意願登記<!--<span>Register</span>--></h1>
+    <div style="display:inline-block;" align="center">
         <a href="/UserInfo/WantedVaccine" id="btnlogin" class="btn-get-started scrollto">登記/修改</a>
-        <a href="/UserInfo/Query" class="btn-get-started scrollto"><font id="bbtt">意願查詢</font></a>
+        <a href="/UserInfo/Query" class="btn-get-started scrollto" style="margin-top:5px"><font>意願查詢</font></a>
     </div>
+
+    @*<div class="d-xxl-inline-block">
+
+        </div>
+        <div>
+
+        </div>*@
 </div>
 <div class="box d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
-    <div class="box d-flex flex-column align-items-center justify-content-center" data-aos="fade-up">
-        <h1>預約接種<!--<span>Book Vaccination</span>--></h1>
-        <a asp-controller="Reservation" asp-action="Index" class="btn-get-started scrollto">開始預約</a>
-    </div>
+    <h1>預約接種<!--<span>Book Vaccination</span>--></h1>
+    <a asp-controller="Reservation" asp-action="Index" class="btn-get-started scrollto">開始預約</a>
 </div>
-    
 
 
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script type="text/javascript">
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
 
 
-            $("#btnchange").click(function () {
-                $("#bbtt").attr('size', '30');
-            });
-            $("#btncc").click(function () {
-                $("#bbtt").attr('size', '');
-            });
+        $("#btnchange").click(function () {
+            $("#bbtt").attr('size', '30');
+        });
+        $("#btncc").click(function () {
+            $("#bbtt").attr('size', '');
+        });
 
-        </script>*@
+    </script>*@

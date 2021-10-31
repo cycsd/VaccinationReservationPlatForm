@@ -3,11 +3,13 @@
     ViewData["Title"] = "Edit";
     string phone = Model.PersonCellphoneNumber.Trim();
 }
+<link href="~/css/JerryCss2.css" rel="stylesheet" />
+
 
 <div class="row col-lg-12 justify-content-center">
     <div class="col-md-6">
         <div>
-            <form asp-action="Edit">
+            <form asp-action="Edit" id="formEdit">
                 <div class="text-center">
                     <h4><font size="24" class="text-center">個人資訊</font></h4>
                     <hr style="border-top:3px solid black;" />
@@ -41,7 +43,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <label class="control-label">手機號碼</label>
-                    <input asp-for="PersonCellphoneNumber" value="@phone" class="form-control" />
+                    <input asp-for="PersonCellphoneNumber" type="number" maxlength="10" value="@phone" class="form-control" />
                     <span asp-validation-for="PersonCellphoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
@@ -52,13 +54,13 @@
                 <div class="form-group mt-3">
                     <label class="control-label">居住區域</label>
                     <div>
-                        <select class="form-select" style="width:33%;display:inline-block;padding:3px" id="county" name="County" required>
+                        <select class="form-select" style="width:32%;display:inline-block;" id="county" name="county" required>
                             <option style="display:none" value="">縣市</option>
                         </select>
-                        <select class="form-select" style="width: 33%; display: inline-block; padding: 3px" id="town" name="CountyTown" required>
+                        <select class="form-select" style="width: 32%; display: inline-block; " id="town" name="town" required>
                             <option style="display:none" value="">鄉鎮市</option>
                         </select>
-                        <select class="form-select" style="width: 33%; display: inline-block; padding: 3px" id="road" name="Road" required>
+                        <select class="form-select" style="width: 34%; display: inline-block; " id="road" name="road" required>
                             <option style="display:none" value="">區段</option>
                         </select>
                     </div>
@@ -70,7 +72,7 @@
                     <span asp-validation-for="PersonJob" class="text-danger"></span>
                 </div>
                 <div class=" text-right">
-                    <input type="submit" value="儲存" id="submit" class="btn btn-primary" />&nbsp;&nbsp;<a style="text-align:match-parent" class="btn btn-outline-primary" asp-action="List">返回</a>
+                    <input type="submit" value="儲存" id="submit" class="btn btn-primary" />&nbsp;&nbsp;<a style="text-align:match-parent" class="btn btn-outline-primary" asp-controller="Home" asp-action="Index" asp-fragment="contact">返回</a>
                 </div>
             </form>
         </div>
@@ -80,13 +82,58 @@
 
 @section Scripts {
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/Location.js"></script>
     <script type="text/javascript">
         var CountyTownName = "";
+
         $('#submit').on('click', function () {
             CountyTownName = $('#town').find("option:selected").text();
             $('#CountyTownText').attr('value', CountyTownName.toString());
+            Swal.fire(
+                '修改成功!',
+                '',
+                'success'
+
+            )
         });
+
+        window.onload = function () {
+            GetUserDefaultAdress();
+        }
+
+        function GetUserDefaultAdress() {
+
+            let userAddress = @Json.Serialize(Model.PersonAdress);
+            if (userAddress == null) {
+                return;
+            }
+            function SetSelect(select) {
+
+                let timeid = setInterval(function () {
+                    $(select).children().each(function () {
+                        let selectText = $(this).text();
+                        let selectValue = $(this).val();
+                        if (userAddress.indexOf(selectText) != -1) {
+                            //$(this).attr('selected', true);
+                            $(this).parent().val(selectValue).change();
+                            return;
+                        }
+                    });
+                }, 100);
+
+                $(select).change(function (event) {
+                    if ($(this).val() != 'null') {
+                        clearInterval(timeid);
+                        $(this).off(event);
+                    }
+                })
+            }
+
+            SetSelect('#county');
+            SetSelect('#town');
+            SetSelect('#road');
+        };
     </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
