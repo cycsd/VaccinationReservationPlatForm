@@ -7,16 +7,21 @@ document.getElementById("sendButton").disabled = true;
 
 connection.on("ReceiveMessage", function (user, message) {
     var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var li = document.createElement("li");
     var time = new Date();
-    var date = time.getFullYear() + "/" + (time.getMonth() + 1) + "/" + time.getDate() + " " + time.getHours() + "點" + time.getMinutes() + "分" + time.getSeconds() + "秒";
-    
-    document.getElementById("messagesList").appendChild(li);
-    // We can assign user-supplied strings to an element's textContent because it
-    // is not interpreted as markup. If you're assigning in any other way, you 
-    // should be aware of possible script injection concerns.
-    li.textContent = user + "說:" + msg +"時間:" + date;
-    /*li.textContent = `${user} 說: ${msg}  時間:${date}`;*/
+    var hour = time.getHours();
+    var min = time.getMinutes();
+    var conversationHeight = $("#conversation").get(0).scrollHeight;
+    if (min < 10) {
+        min = "0" + min;
+    }
+    if (hour > 12) {
+        hour = "下午" + (hour - 12);
+    }
+    else {
+        hour = "上午" + hour;
+    }
+    var date = time.getFullYear().toString() + "/" + (time.getMonth() + 1).toString() + "/" + time.getDate().toString() + " " + hour.toString() + ":" + min.toString();
+    $("#messagesList").append('<li><div class="chat-block"><div class="message-text">' + user + " 說: " + '<br/>' + msg + '</div><div class="message-time pull-right">' + date + '</div></div></li>').scrollTop($("#messagesList").prop('scrollHeight'));
 });
 
 connection.start().then(function () {

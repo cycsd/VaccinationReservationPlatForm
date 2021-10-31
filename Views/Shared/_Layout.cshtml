@@ -21,7 +21,7 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Vendor CSS Files -->
     <!--<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
@@ -32,7 +32,9 @@
 
     <!-- Template Main CSS File -->
     <link href="~/assets/css/style.css" rel="stylesheet">
-
+    <!-- 李函霖 -->
+    <link href="~/css/JerryCss2.css" rel="stylesheet" />
+    <link href="~/css/JerryHelp.css" rel="stylesheet" />
     <!-- 徐耘 -->
     <link href="~/assets/xu/xuStyleSheet.css" rel="stylesheet">
     @*<link href="~/assets/xu/modalStyleSheet.css" rel="stylesheet">*@
@@ -43,6 +45,15 @@
     * Author: BootstrapMade.com
     * License: https://bootstrapmade.com/license/
     ======================================================== -->
+    @await RenderSectionAsync("HeadScripts",required: false) 
+    <script>
+        @if (TempData["Error"] != null)
+        {           
+            @:let warningText = '@Json.Serialize(TempData["Error"])';
+            @:alert(warningText);
+        }
+     
+    </script>
 </head>
 <body>
     <!-- ======= Header ======= -->
@@ -60,11 +71,17 @@
                     <li><a class="nav-link scrollto active" asp-controller="Home" asp-action="Index" asp-fragment="hero">疫苗預約/登記</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="what-we-do">即時報到資訊</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="about">最新消息</a></li>
+<<<<<<< HEAD
                     <li><a class="nav-link scrollto" asp-controller="Charts" asp-action="VaccineTrack" asp-fragment="">疫苗履歷</a></li>
                     <li><a class="nav-link scrollto " asp-controller="UserInfo" asp-action="List" asp-fragment="">個人資訊</a></li>
                     <li><a class="nav-link" href="/Home/Index#testimonials">問與答Q&A</a></li>
+=======
+                    <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="services">統計資料</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="contact">個人資訊</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="testimonials2">問與答Q&A</a></li>
+>>>>>>> 1bdbbb9bf130ab5cc4c5d9b231a8f10dc8892347
                     <li class="dropdown">
-                        <a href="#"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
+                        <a asp-controller="ReservationHospital" asp-action="Index"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">醫護帳號註冊</a></li>
                             <li class="dropdown">
@@ -91,6 +108,7 @@
                 <a href="https://www.facebook.com/TWCDC/" class="facebook"><i class="bi bi-facebook"></i></a>
                 <a href="https://www.instagram.com/taiwancdc/?hl=zh-tw" class="instagram"><i class="bi bi-instagram"></i></a>
                 <a href="/Reservation/Index#testimonials" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="/UserInfo/Logout" id="Logout" style="padding-left:20px">登出<i class="fas fa-sign-out-alt"></i></a>
             </div>
 
         </div>
@@ -190,7 +208,7 @@
                     <vc:index controller=@checkController></vc:index>
                 }*@
         }
-        }
+
 
     </main><!-- End #main -->
     <!-- ======= Footer ======= -->
@@ -293,6 +311,14 @@
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script type="text/javascript">
+    $(document).ready(function () {
+        var bool = $('#name').val();
+        if (bool == null) {
+            $('#Logout').hide();
+        }
+    });
+    </script>
     <script>
 
     </script>

@@ -1,0 +1,196 @@
+﻿/*html, body {
+    height: 100%;
+}
+
+body {
+    display: grid;
+    font-family: Avenir, sans-serif;
+    color: #111;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cta {
+    position: relative;
+    margin: auto;
+    padding: 19px 22px;
+    transition: all 0.2s ease;
+}
+
+.cta:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    border-radius: 28px;
+    background: rgba(255, 171, 157, 0.5);
+    width: 56px;
+    height: 56px;
+    transition: all 0.3s ease;
+}
+
+.cta span {
+    position: relative;
+    font-size: 16px;
+    line-height: 18px;
+    font-weight: 900;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    vertical-align: middle;
+}
+
+.cta svg {
+    position: relative;
+    top: 0;
+    margin-left: 10px;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke: #111;
+    stroke-width: 2;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+}
+
+.cta:hover:before {
+    width: 100%;
+    background: #ffab9d;
+}
+
+.cta:hover svg {
+    transform: translateX(0);
+}
+
+.cta:active {
+    transform: scale(0.96);
+}*/
+
+
+.login-btn {
+    font-family: Hack, monospace;
+    background: #b4b4b4;
+    color: #1d1d1d;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 1.5rem;
+    padding-left:60px;
+    padding-right:60px;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 10px;
+    width: auto;
+    position: relative;
+    min-width: 150px;
+    box-shadow: 0 1px 5px 0 #222;
+    font-weight:bold;
+}
+
+    .login-btn::after {
+        content: "";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: 400;
+        position: absolute;
+        left: 75%;
+        top: 26%;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    .login-btn:hover {
+        background: #2b2bff;
+        transition: all 0.5s;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px #0000ff61;
+        padding: 1.5rem 6rem 1.5rem 6rem;
+        color: #ffffff;
+    }
+
+        .login-btn:hover::after {
+            padding: 1.5rem 6rem 1.5rem 6rem;
+            opacity: 1;
+            transition: all 0.5s;
+            color: #ffffff;
+        }
+
+.logout-btn {
+    font-family: Hack, monospace;
+    background: #d3d3d3;
+    color: #2c2c2c;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 1.5rem;
+    border: 0;
+    transition: all 0.5s;
+    border-radius: 10px;
+    width: auto;
+    position: relative;
+    min-width: 250px;
+}
+
+    .logout-btn::after {
+        content: "";
+        font-family: "Font Awesome 5 Pro";
+        font-weight: 400;
+        position: absolute;
+        left: 80%;
+        top: 54%;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transform: translate(-50%, -50%);
+    }
+
+    .logout-btn:hover {
+        background: #2b2bff;
+        transition: all 0.5s;
+        border-radius: 10px;
+        box-shadow: 0px 6px 15px #0000ff61;
+        padding: 1.5rem 3rem 1.5rem 1.5rem;
+        color: #ffffff;
+    }
+
+        .logout-btn:hover::after {
+            opacity: 1;
+            transition: all 0.5s;
+            color: #ffffff;
+        }
+
+
+
+
+
+.loginbtn {
+    margin: 15px;
+    border-radius: 50px;
+    border: 10px inset white;
+    font-size: 1.125rem !important;
+    color: #ffffff;
+}
+
+
+    .loginbtn :hover {
+        border: 1px inset white;
+    }
+
+.loginspan {
+    font-size: 80px;
+}
+
+.divbtn {
+    padding: 50px 50px 10px 50px;
+}
+
+.editbutton {
+    width: 150px;
+    height: 30px;
+    font-size: 12px;
+    background-color: #3498db;
+    border-radius: 10px;
+    font-family: 'Microsoft JhengHei';
+}
