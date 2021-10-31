@@ -12,28 +12,29 @@
     <div class="row align-items-start">
         <div class="col-auto me-auto QnAbar">
             <form action="/UserInfo/QandA" method="post" id="form1" enctype="application/x-www-form-urlencoded">
-                <h3>智慧Q&A</h3>
-                <div class="QnAbot">
-                    <br />
-                    <div class="input-group mb-3">
-                        @*<label><font class="fontQA">詢問:</font></label>*@
-                        <input type="text" class="form-control" placeholder="請輸入問題" aria-describedby="button-addon2" name="msg" />
-                        <input type="submit" class="btn btn-outline-secondary" style="height:34px;width:50px" value="查詢" id="button-addon2" />
-                    </div>
-                    <br />
-                    <div>
-                        <label for="exampleFormControlTextarea1" class="form-label">解答:</label><br />
-                        <textarea class="botchat form-control" id="exampleFormControlTextarea1" type="text" readonly hidden></textarea>
-                        <div class="card">
-                            <div class="card-body botchat">
-                                @Answer
+                <div id="QnAinnerBar">
+                    <h3>智慧Q&A</h3>
+                    <div class="QnAbot">
+                        <br />
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="請輸入問題" aria-describedby="button-addon2" name="msg" id="msg" />
+                            <input type="button" class="btn btn-outline-secondary querybtn" value="查詢" onclick="GetAns()" />
+                        </div>
+                        <br />
+                        <div>
+                            <label for="textarea" class="form-label">解答:</label><br />
+                            <div class="card">
+                                <div id="Answer" class="card-body botchat">
+                                    @Answer
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="containerbtn">
+                        <button class="skewBtn blue" asp-action="SignalR">客 服 人 員</button>
+                    </div>
                 </div>
-                <div class="containerbtn">
-                    <button class="skewBtn blue" asp-action="SignalR">客 服 人 員</button>
-                </div>
+                
                 @*<a class="btn btn-outline-primary" style="width: 300px;font-weight:bold;font-size:24px; margin-top:20px;" text-align: center; align-items: center !important;" href="SignalR">聯繫客服</a>*@
             </form>
         </div>
@@ -2071,8 +2072,31 @@
                 </div>
             </div>
         </div>
-        <div class="adjustment col-auto" style="">
-            
-        </div>
+        @*<div class="adjustment col-auto" style="">
+
+            </div>*@
     </div>
 </div>
+
+
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript">
+        function GetAns() {
+            if ($('#msg').val() == "") {
+                Swal.fire('請輸入您的問題');
+                return;
+            }
+            let url = '@Url.Content("~/UserInfo/QnA")';
+            let data = {
+                words: $('#msg').val(),
+            };
+            $.get(url, data)
+                .done(function (data) {
+                    $('#Answer').html(data);
+                });
+
+        };
+    </script>
+}

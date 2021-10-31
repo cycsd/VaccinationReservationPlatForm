@@ -8,7 +8,9 @@
     string userPhome = ViewBag.Phone;
     string userAddress = ViewBag.Address;
     DateTime? userBirthday = ViewBag.Birthday;
+    string userBirthdayreal = ViewBag.Birthdayreal;
     string userSex = ViewBag.Sex;
+    string login = ViewBag.login;
 }
 
 <link href="~/css/JerryCss2.css" rel="stylesheet" />
@@ -292,7 +294,6 @@
             <div id="loginform">
                 <div class="section-title">
                     <h2>個人資訊</h2>
-                    <p>Magnam dolores commodi suscipit eius consequatur ex aliquid fuga</p>
                 </div>
                 <div class="row mt-5 justify-content-center">
                     <div class="col-lg-10">
@@ -300,7 +301,7 @@
                             <div class="row">
                                 <div class="col-lg-4 info">
                                     <i class="bi bi-person"></i>
-                                    <h4>姓名:</h4>
+                                    <h4>姓名:</h4><input type="text" id="logintest" value="@login" hidden/>
                                     <p>@userName</p>
                                 </div>
 
@@ -313,7 +314,7 @@
                                 <div class="col-lg-4 info mt-4 mt-lg-0">
                                     <i class="bi bi-calendar-month"></i>
                                     <h4>出生日期:</h4>
-                                    <p>@userBirthday</p>
+                                    <p>@userBirthday@userBirthdayreal</p>
                                 </div>
                             </div>
                         </div>
@@ -380,16 +381,16 @@
         <div class="container">
 
             <div class="section-title">
-                <h2>Team</h2>
-                <p>Sit sint consectetur velit quos quisquam cupiditate nemo qui</p>
+                <h2>團隊</h2>
+                <p></p>
             </div>
 
             <div class="row">
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member">
                         <img src="assets/img/team/team-1.jpg" alt="">
-                        <h4>Walter White</h4>
-                        <span>Chief Executive Officer</span>
+                        <h4>徐耘</h4>
+                        <span>組長</span>
                         <p>
                             Magni qui quod omnis unde et eos fuga et exercitationem. Odio veritatis perspiciatis quaerat qui aut aut aut
                         </p>
@@ -402,11 +403,28 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
+                    <div class="member">
+                        <img src="assets/img/team/team-3.jpg" alt="">
+                        <h4>陳一辰</h4>
+                        <span>組員</span>
+                        <p>
+                            Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
+                        </p>
+                        <div class="social">
+                            <a href=""><i class="bi bi-twitter"></i></a>
+                            <a href=""><i class="bi bi-facebook"></i></a>
+                            <a href=""><i class="bi bi-instagram"></i></a>
+                            <a href=""><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member">
                         <img src="assets/img/team/team-2.jpg" alt="">
-                        <h4>Sarah Jhinson</h4>
-                        <span>Product Manager</span>
+                        <h4>何佩蓉</h4>
+                        <span>組員</span>
                         <p>
                             Repellat fugiat adipisci nemo illum nesciunt voluptas repellendus. In architecto rerum rerum temporibus
                         </p>
@@ -418,12 +436,11 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch">
                     <div class="member">
                         <img src="assets/img/team/team-3.jpg" alt="">
-                        <h4>William Anderson</h4>
-                        <span>CTO</span>
+                        <h4>李函霖</h4>
+                        <span>組員</span>
                         <p>
                             Voluptas necessitatibus occaecati quia. Earum totam consequuntur qui porro et laborum toro des clara
                         </p>
@@ -461,7 +478,22 @@
             $('#unloginform').hide();
             $('#Logout').show();
         };
+
+        login();
     });
+
+    function login() {
+        var logintest = $('#logintest').val();
+        var reset = "";
+        if (logintest == "yes") {
+            Swal.fire(
+                '您好！@userName。',
+                '',
+                'success'
+            )
+            $('#logintest').val() = reset;
+        }
+    }
 </script>
 
 

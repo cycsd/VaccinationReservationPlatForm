@@ -1,13 +1,14 @@
 ﻿@model VaccinationReservationPlatForm.ViewModels.CLoginViewModel
 @{
     ViewData["Title"] = "Login";
+    string errormsg = ViewBag.errormsg;
 }
 
 
 <link rel="stylesheet" href="https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css"
       integrity="sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-uWxY/CJNBR+1zjPWmfnSnVxwRheevXITnMqoEIeG1LJrdI0GlVs/9cVSyPYXdcSF" crossorigin="anonymous">
-
+<link href="~/css/JerryCss2.css" rel="stylesheet" />
 
 
 
@@ -40,58 +41,11 @@
                 <br />
                 <div class="form-group">
                     <label><font color="red">@ViewBag.Error</font></label>
+                    <input type="text" id="errormsg" value="@errormsg" hidden/>
                 </div>
-                <!--<div class="form-group">
-                <div class="col-md-5">
-                    <label asp-for="txtPersonIdentityID" class="control-label"></label>
-                    <input asp-for="txtPersonIdentityID" class="form-control" />-->
-                @*@Html.TextBox("txtPersonIdentityID", "",
-                    new { htmlAttributes = new { @class = "form-control" } })*@
-                <!--<span asp-validation-for="txtPersonIdentityID" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-5">
-                        <label asp-for="txtPersonHealthID" class="control-label"></label>
-                        <input asp-for="txtPersonHealthID" class="form-control" />-->
-                @*@Html.TextBox("txtPersonHealthID", "",
-                    new { htmlAttributes = new { @class = "form-control" } })*@
-                <!--<span asp-validation-for="txtPersonHealthID" class="text-danger"></span>
-                    </div>
-                </div>-->
-
                 <div class="text-center">
-                    <input type="submit" value="登入" class="btn btn-primary" />
+                    <input type="submit" value="登入" class="btn btn-primary editbutton" />
                 </div>
-                <!--<div class="container" style="margin-top: 30px; background-color: orange" >
-                <div class="profile-head" >
-                    <div class="col-md- col-sm-4 col-xs-12">
-                        <img src="https://i.imgur.com/s2OFE1I.jpg" class="img-responsive" style="width:150px;height:180px" />
-                        <h6>Jenifer Smith</h6>
-                    </div>-->
-                <!--col-md-4 col-sm-4 col-xs-12 close-->
-                <!--<div class="col-md-5 col-sm-5 col-xs-12" >
-                        <h1>姓名</h1>
-                        <p>職業 </p>
-                        <ul>
-                            <li><span class="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp; 性別</li>
-                            <li><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;出生日期</li>
-                            <li><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;居住地址</li>
-                            <li><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;<a href="#" title="call">電話號碼</a></li>
-                            <li><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;<a href="#" title="mail">電子郵件</a></li>
-
-                        </ul>
-
-
-                    </div>col-md-8 col-sm-8 col-xs-12 close
-
-
-
-
-                </div>-->
-                <!--profile-head close-->
-                <!--</div>--><!--container close-->
             </div>
         </form>
     </div>
@@ -104,6 +58,31 @@
             img.src = "/UserInfo/GetValidateCode?rnd=?" + Math.random();
         };
 
+        function Errormsg() {
+            var errormsg = $('#errormsg').val();
+            var reset = "";
+            if (errormsg == "yes") {
+                Swal.fire({
+                    icon: 'error',
+                    title: '登入失敗',
+                    text: '身分證或健保卡卡號有誤！',
+                })
+                $('#errormsg').val() = reset;
+            }
+            if (errormsg == "login") {
+                Swal.fire({
+                    title:'請先登入!',
+                    confirmButtonText: '確定',
+                    })
+                $('#errormsg').val() = reset;
+            }
+        };
+
+
+        $(document).ready(function () {
+            Errormsg();
+        });
+        
     </script>
     }
 

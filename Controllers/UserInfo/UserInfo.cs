@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using VaccinationReservationPlatForm.Models;
 using VaccinationReservationPlatForm.ViewModels;
@@ -16,26 +17,35 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 {
     public class UserInfo : Controller
     {
-        protected string QnA(string words)
+        public IActionResult QnA(string words)
         {
             string Ans = "";
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-            if (words == null)
-            {
-                Ans = "請輸入訊息";
-                return Ans;
-            }
+            //if (words == null)
+            //{
+            //    Ans = "請輸入訊息";
+            //    return Ok(Ans);
+            //}
             var ret = CallQna(words);
             //ret[0].translations[0].text
             if (ret.answers[0].answer == null)
             {
                 Ans = "error";
-                return Ans;
+                return Ok(Ans);
             }
             Ans = ret.answers[0].answer.ToString();
 
-            return Ans;
-            
+            return Ok(Ans);
+
+            //Console.Write($"結果: {ret.answers[0].answer}");
+        }
+
+        public IActionResult GetVaccine()
+        {
+            IQueryable<Vaccine> all = (new VaccinationBookingSystemContext()).Vaccines;
+
+            return Ok(all);
+
             //Console.Write($"結果: {ret.answers[0].answer}");
         }
 
@@ -85,6 +95,8 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             }
         }
 
+
+
         public ActionResult GetValidateCode()
         {
             byte[] data = null;
@@ -112,11 +124,12 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
         public IActionResult Login()
         {
-            if (TempData["Error"] != null)
+            if (TempData["errormsg"] != null)
             {
-                string error = TempData["Error"].ToString();
-                ViewBag.Error = error;
+                string error = TempData["errormsg"].ToString();
+                ViewBag.errormsg = error;
             }
+
             return View();
         }
 
@@ -128,16 +141,19 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             {
                 Person cust = (new VaccinationBookingSystemContext()).People.FirstOrDefault(
                 c => c.PersonIdentityId.Trim().Equals(model.txtPersonIdentityID) && c.PersonHealthId.Trim().Equals(model.txtPersonHealthID));
+                
                 if (cust != null && cust.PersonIdentityId.Trim().Equals(model.txtPersonIdentityID) && cust.PersonHealthId.Trim().Equals(model.txtPersonHealthID))
                 {
                     string json = JsonSerializer.Serialize(cust);
                     HttpContext.Session.SetString(CDictionary.SK_LOGIN_CLIENT, json);
                     ViewBag.Error = "";
-                    return RedirectToAction("Index","Home");
+                    TempData["login"] = "yes";
+                    return RedirectToAction("Index", "Home");
                 }
                 if (cust == null)
                 {
-                    ViewBag.Error = "身分證或健保卡卡號有誤";
+                    ViewBag.Error = "";
+                    ViewBag.errormsg = "yes";
                 }
                 return View(cust);
             }
@@ -149,7 +165,8 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
         {
             if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
             {
-                TempData["Error"] = "請先登入！";
+                //ViewData["errormsg"] = "login";
+                TempData["errormsg"] = "login";
                 return RedirectToAction("Login");
             }
             string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
@@ -161,6 +178,20 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             IEnumerable<int?> wanted = from v in db.VaccinationWanteds
                                where v.PersonId == userlogin.PersonId
                                select v.VaccineId;
+            //test
+            IEnumerable<CWantedVaccine> wantedd = from v in db.VaccinationWanteds
+                                                  join x in db.Vaccines on v.VaccineId equals x.VaccineId
+                                                  where v.PersonId == userlogin.PersonId
+                                                  select new CWantedVaccine
+                                                  {
+                                                      PersonId = v.PersonId,
+                                                      VaccineId = x.VaccineId,
+                                                      VaccineName = x.VaccineName,
+                                                  };
+            if (wanted.ToList().FirstOrDefault() != null)
+            {
+                ViewData["wantedd"] = wantedd;
+            }
             if (wanted.ToList().FirstOrDefault() != null)
             {
                 string Number = "";
@@ -190,7 +221,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             IEnumerable<int?> wanted = from v in db.VaccinationWanteds
                                        where v.PersonId == user.PersonId
                                        select v.VaccineId;
-            if (user != null )
+            if (user != null)
             {
                 user.PersonIdentityId = model.PersonIdentityId.Trim();
                 user.PersonName = model.PersonName.Trim();
@@ -301,6 +332,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 }
                 db.SaveChanges();
             }
+            Thread.Sleep(2000);
             return RedirectToAction("Index","Home");
         }
         public IActionResult List(CUserInfoModel model)
@@ -347,6 +379,7 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                 user.PersonJob = x.PersonJob.Trim();
                 db.SaveChanges();
             }
+            Thread.Sleep(3000);
             return RedirectToAction("Index","Home","contact");
         }
 
@@ -418,19 +451,53 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
 
         public IActionResult SignalR()
         {
-            if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
+            {
+                string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
+                Person userlogin = JsonSerializer.Deserialize<Person>(json);
+                string user = userlogin.PersonName.ToString();
+                ViewBag.Name = user;
+                ViewBag.entermsg = user + "已經進入聊天室！";
+                ViewBag.leavemsg = user + "已經離開了聊天室！";
+                return View();
+            }
+            else if (HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_HOSPITAL))
+            {
+                string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_HOSPITAL);
+                HospitalUser userlogin = JsonSerializer.Deserialize<HospitalUser>(json);
+                if (userlogin.HospitalUserName.ToString() == "F130084538")
+                {
+                    Random rand = new Random();
+                    string t = rand.Next(1, 101).ToString();
+                    t = t.PadLeft(3, '0');
+                    string name = "客服人員" + t;
+                    ViewBag.Name = name;
+                    ViewBag.entermsg = "您好！我是"+ name + "，讓您久等了，請問有什麼可以為您服務的呢？";
+                    ViewBag.leavemsg = "123";
+                    return View();
+                }
+                else 
+                {
+                    Random rand = new Random();
+                    string t = rand.Next(1, 101).ToString();
+                    t = t.PadLeft(3, '0');
+                    string name = "醫護人員" + t;
+                    ViewBag.Name = name;
+                    ViewBag.entermsg = name + "已經進入聊天室！";
+                    ViewBag.leavemsg = name + "已經離開了聊天室！";
+                    return View();
+                }
+            }
+            else
             {
                 Random rand = new Random();
                 string t = rand.Next(1000, 10000).ToString();
-                string name = "user" + t;
+                string name = "User" + t;
                 ViewBag.Name = name;
+                ViewBag.entermsg = name + "已經進入聊天室！";
+                ViewBag.leavemsg = name + "已經離開了聊天室！";
                 return View();
             }
-            string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
-            Person userlogin = JsonSerializer.Deserialize<Person>(json);
-            ViewBag.Name = userlogin.PersonName.ToString();
-
-            return View();
         }
 
         public IActionResult QandA()
@@ -442,17 +509,6 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             return View();
         }
 
-        [HttpPost]
-        public IActionResult QandA(string msg) 
-        {
-            string Answer = QnA(msg);
-
-            ViewData["Answer"] = Answer;
-
-
-
-            return View();
-        }
 
         public IActionResult Logout() 
         {

@@ -72,10 +72,10 @@
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="what-we-do">即時報到資訊</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="about">最新消息</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="services">統計資料</a></li>
-                    <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="contact">個人資訊</a></li>
                     <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="testimonials2">問與答Q&A</a></li>
+                    <li><a class="nav-link scrollto" asp-controller="Home" asp-action="Index" asp-fragment="contact">個人資訊</a></li>
                     <li class="dropdown">
-                        <a asp-controller="ReservationHospital" asp-action="Index"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
+                        <a href="/ReservationHospital/Index"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#">醫護帳號註冊</a></li>
                             <li class="dropdown">
@@ -85,6 +85,7 @@
                                     <li><a href="#">時段設定</a></li>
                                     <li><a href="#">報到資訊</a></li>
                                     <li><a href="#">疫苗管理</a></li>
+                                    <li><a asp-controller="UserInfo" asp-action="SignalR">客服中心</a></li>
                                 </ul>
                             </li>
                             @*<li><a href="#">Drop Down 4</a></li>
@@ -300,18 +301,19 @@
     <script src="~/assets/xu/xuJavaScript.js"></script>
     <script src="~/assets/xu/xuAjax.js"></script>
 
-
+    <!--李函霖 JS File-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script type="text/javascript">
-    $(document).ready(function () {
-        var bool = $('#name').val();
-        if (bool == null) {
-            $('#Logout').hide();
-        }
-    });
+        $(document).ready(function () {
+            var bool = $('#name').val();
+            if (bool == null) {
+                $('#Logout').hide();
+            }
+        });
     </script>
     <script>
 
