@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -111,12 +112,14 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
 
         public IActionResult SaveHospitalWorkTime(List<WorkDay> workDays)
         {
-            //todo get hospitalId
-            int hospitalId = 1;
+            //Get hospitalId
+            HospitalUser hospitalAccountToGetHospital = JsonSerializer.Deserialize<HospitalUser>(HttpContext.Session.GetString(CDictionary.SK_LOGIN_HOSPITAL));
+
+            int? hospitalId = context.UserForHospitals.FirstOrDefault(s => s.HospitalUserId == hospitalAccountToGetHospital.HospitalUserId).HospitalId;
 
             //取得醫院對應日期的ID，如果裡面沒資料則新增
             var weekdays = context.HospitalBusinessDays.Where(s => s.HospitalId == hospitalId);
-            if (weekdays == null)
+            if (weekdays.Count() == 0)
             {
                 foreach (var workDay in workDays)
                 {
@@ -135,7 +138,7 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
             //取得醫院對應全部日期的時段，如果沒有則新增
             var hospitalBusinessHourParts = weekdays.Join(allHospitalBusinessHourParts, o => o.HospitalBusinessDayId, i => i.HospitalBusinessDayId, (o, i) => i);
 
-            if (hospitalBusinessHourParts == null)
+            if (hospitalBusinessHourParts.Count() == 0)
             {
                 foreach (var item in weekdays)
                 {
@@ -158,20 +161,79 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
             //End 取得醫院對應全部日期的時段
 
             //先將營業時段全部設為off，避免之後時段調整有些關掉了，卻忘記將資料庫內的時段關掉
-            foreach (var item in hospitalBusinessHourParts)
-            {
-                item.Hbhmark = 0;
-            }
-            //End 將營業時段設為off
+            //foreach (var item in hospitalBusinessHourParts)
+            //{
+            //    item.Hbhmark = 0;
+            //}
+            ////End 將營業時段設為off
+            //context.SaveChanges();
 
-            foreach (var item in workDays)
-            {
-                int dayOfWeek = item.dayOfWeek;
+            //將前端發過來的workDays資料儲存至Context裡
+            //foreach (var workday in workDays)
+            //{
+            //    int dayOfWeekInt = workday.dayOfWeek;
+            //    //int dayOfWeekInt = workDays[1].dayOfWeek;
 
+            //    int hospitalBusinessDayId = weekdays.FirstOrDefault(s => s.Hbdweekday == dayOfWeekInt).HospitalBusinessDayId;
+
+            //    var workTimeInContext = hospitalBusinessHourParts.Where(s => s.HospitalBusinessDayId == hospitalBusinessDayId);
+            //    var workdayOrder = workday.workTimes.OrderBy(s => s.startTime).ToList();
+            //    //var workdayOrder = workDays[1].workTimes.OrderBy(s => s.startTime).ToList();
+
+            //    //for (int i = 0; i < workdayOrder.Count(); i++)
+            //    //{
+            //    //    workTimeInContext[i].HbhstartTime = workdayOrder[i].startTime;
+            //    //    workTimeInContext[i].HbhendTime = workdayOrder[i].endTime;
+            //    //    workTimeInContext[i].Hbhmark = workdayOrder[i].workMark;
+            //    //}
+            //    int i = 0;
+            //    foreach (var item in workTimeInContext)
+            //    {
+            //        item.HbhstartTime = workdayOrder[i].startTime;
+            //        item.HbhendTime = workdayOrder[i].endTime;
+            //        item.Hbhmark = workdayOrder[i].workMark;
+            //        i++;
+            //    }
+            //}
+            var hopitalhourparts = context.HospitalBusinessHours.ToList();
+            var groups = hopitalhourparts.GroupBy(s => (int)s.HospitalBusinessDayId);
+            //var groups = from s in hospitalBusinessHourParts
+            //             group s by s.HospitalBusinessDayId;
+
+            foreach (var group in groups)
+            {
+                var q = workDays.Join(weekdays, o => o.dayOfWeek, i => i.Hbdweekday, (o, i) => new { i.HospitalBusinessDayId, workday = o });
+                if (q.FirstOrDefault(q => q.HospitalBusinessDayId == group.Key) == null)
+                {
+                    continue;
+                }
+                var workTimes = q.FirstOrDefault(q => q.HospitalBusinessDayId == group.Key).workday.workTimes;
+
+                int i = 0;
+                foreach (var item in group)
+                {
+                    try
+                    {
+                        item.HbhstartTime = workTimes[i].startTime;
+                        item.HbhendTime = workTimes[i].endTime;
+                        item.Hbhmark = workTimes[i].workMark;
+                        i++;
+                        context.SaveChanges();
+
+                    }
+                    catch (Exception)
+                    {
+
+                        continue;
+                    }
+
+                }
             }
+            //End 將前端發過來的workDays資料儲存至Context裡
 
             return Ok(workDays);
         }
+
 
     }
 }

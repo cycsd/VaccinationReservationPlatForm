@@ -33,4 +33,31 @@ namespace VaccinationReservationPlatForm.ViewModels
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
     }
+
+    public class EachTime
+    {
+        public string 日期 { get; set; }
+
+        public string 時段 { get; set; }
+
+        public string 預約狀態 = "可預約";
+
+        public DateTime date { get; set; }
+        public TimeSpan startTime;
+        public TimeSpan endTime;
+
+        public EachTime(DateTime date, TimeSpan startTime, TimeSpan endTime)
+        {
+            日期 = date.GetDateTimeFormats('M')[0].ToString();
+            this.date = date;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.GetTimeSpanToString();
+        }
+        public void GetTimeSpanToString()
+        {
+            this.時段 = this.startTime.ToString() + "~" + this.endTime.ToString();
+        }
+
+    }
 }

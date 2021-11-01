@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using VaccinationReservationPlatForm.Models;
+using VaccinationReservationPlatForm.ViewModels;
 
 namespace VaccinationReservationPlatForm.Controllers.Reservation
 {
@@ -164,7 +165,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             var vaccines = context.Vaccines.Select(vaccine => vaccine.VaccineId).ToList();
             var hospitals = context.Hospitals;
 
-            //讓各醫院有限有疫苗的庫存
+            //讓各醫院有現有疫苗的庫存
             foreach (var hospital in hospitals)
             {
                 int contType;
@@ -201,6 +202,77 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             return Ok("sucess");
         }
 
+        public IActionResult TimeSelect(int hospitalId)
+        {
+            hospitalId = 5690; //測試用需註解掉
+            List<EachTime> eachTimeList = new List<EachTime>();
+            int bookingTimeSpan = 7;
+            int bookingStartOffsetDays = 2;
+
+            //取得醫院營業日id
+            var businessDayTimeTable = context.HospitalBusinessDays.Where(s => s.HospitalId == hospitalId)
+                .Join(context.HospitalBusinessHours, o => o.HospitalBusinessDayId, i => i.HospitalBusinessDayId, (o, i) => new
+                {
+                    o.Hbdweekday,
+                    i.HbhstartTime,
+                    i.HbhendTime,
+                    i.Hbhmark
+                }).ToArray().GroupBy(s => s.Hbdweekday);
+
+            for (int i = 0; i < bookingTimeSpan; i++)           //取得可預約的日期
+            {
+                int offsetDay = i + bookingStartOffsetDays;
+                DateTime bookingday = DateTime.Now.AddDays(offsetDay);
+                int weekday = (int)bookingday.DayOfWeek;
+
+                //try     ///可以思考一下如果日期為非營業時段該如何處理，.First會取不到值
+                //{
+                var q = businessDayTimeTable.First(g => g.Key == weekday).OrderBy(s => s.HbhstartTime);  //取得一個符合日期weekday的群組
+
+                foreach (var item in q)
+                {
+                    if (item.Hbhmark == 1) //有營業才取值
+                    {
+                        TimeSpan startTime = (TimeSpan)item.HbhstartTime;
+                        TimeSpan endTime = (TimeSpan)item.HbhendTime;
+                        eachTimeList.AddRange(this.AddEachTimeToList(bookingday.Date, startTime, endTime));
+                    }
+
+                }
+                //}
+                //catch (Exception)
+                //{
+
+                //}
+
+            }
+            //todo 判斷當前預約數是否超出醫院庫存，需知道是哪個疫苗
+            //int? hospitalStock = context.VaccineStocks.FirstOrDefault(s => s.HospitalId == hospitalId).VaccineStockUnit;
+            //hospitalStock = hospitalStock == null ? 0 : hospitalStock;
+
+            //判斷當前預約人數是否已超出時段人數限制
+            int? hospitalCapacity = context.Hospitals.FirstOrDefault(s => s.HospitalId == hospitalId).HospitalCapacity;
+            hospitalCapacity = hospitalCapacity == null ? 0 : hospitalCapacity;
+
+            var eachTimeListGroup = eachTimeList.GroupBy(s => s.date);
+            foreach (var item in eachTimeListGroup)
+            {
+                DateTime date = item.Key;
+                var bookingPeopleInDay = context.VaccinationBookings.Where(s => s.VbbookingDate == date).ToArray();
+                foreach (var eachtime in item)
+                {
+                    var startTime = eachtime.startTime;
+                    int eachTimeBookingPeropleCount = bookingPeopleInDay.Where(s => s.VbbookingTime == startTime).Count();
+                    if (eachTimeBookingPeropleCount >= hospitalCapacity)
+                    {
+                        eachtime.預約狀態 = "額滿";
+                    }
+                }
+            }
+
+            return ViewComponent("SelectTime", new { eachTimeList = eachTimeList });
+        }
+
         public bool CheckLogin()
         {
             if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_CLIENT))
@@ -208,6 +280,48 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 return false;
             }
             return true;
+        }
+
+        public List<EachTime> AddEachTimeToList(DateTime date, TimeSpan startTime, TimeSpan endTime)
+        {
+            List<EachTime> eachTimeList = new List<EachTime>();
+            double totalHour = (endTime - startTime).TotalHours;
+            for (int i = 0; i < totalHour; i++)
+            {
+                //TimeSpan oneHour = new TimeSpan(1, 0, 0);
+                TimeSpan stepStartTime = startTime + new TimeSpan(i, 0, 0);
+                TimeSpan stepEndTime = startTime + new TimeSpan(i + 1, 0, 0);
+
+                if (stepEndTime > endTime)
+                {
+                    TimeSpan residueTimeSpan = endTime - stepStartTime;
+                    double residueMinutes = residueTimeSpan.TotalMinutes;
+                    if (residueMinutes >= 45)
+                    {
+                        EachTime eachTime = new EachTime(date, stepStartTime, stepEndTime);
+                        eachTimeList.Add(eachTime);
+                    }
+                    else
+                    {
+                        if (i == 0)
+                        {
+                            return eachTimeList;
+                        }
+                        else
+                        {
+                            EachTime lastTime = eachTimeList.Last();
+                            lastTime.endTime = lastTime.endTime + residueTimeSpan;
+                            lastTime.GetTimeSpanToString();
+                        }
+                    }
+                }
+                else
+                {
+                    EachTime eachTime = new EachTime(date, stepStartTime, stepEndTime);
+                    eachTimeList.Add(eachTime);
+                }
+            }
+            return eachTimeList;
         }
 
     }

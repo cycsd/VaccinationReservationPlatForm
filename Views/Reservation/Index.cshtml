@@ -239,7 +239,7 @@
             $.get(url, data)
                 .done(function (data) {
                     let latlng = { lat: 25.1091812, lng: 121.5146769 };
-                    //let marker = GetGoogleMapMarker(latlng, map);                    
+                    //let marker = GetGoogleMapMarker(latlng, map);
                     //console.log(data);
                     let hospitalSelectElement = $('#hospital');
                     let titleOption = hospitalSelectElement.find(':first-child');
@@ -286,7 +286,8 @@
 
         }
         function OpenNewWindow() {
-            window.open('https://google.com', 'google',config = 'width=200');
+            let hospitalId = $('#hospital').val();
+            window.open("/Reservation/TimeSelect?hospitalId="+hospitalId, 'time',config = 'width=450');
         }
         function foucusOnWindow() {
             console.log('回來了');

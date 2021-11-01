@@ -1,0 +1,50 @@
+﻿@model IEnumerable<VaccinationReservationPlatForm.ViewModels.EachTime>
+@{
+    ViewData["Title"] = "Default";
+    Layout = "_LayoutTime";
+}
+@{
+    //即使Views/Shared目錄下有_Layout.cshtml及_ViewStart.cshtml兩個檔案
+    //ViewComponents預設不套用Master Page，有需要得自己指定↓不過應該沒人在ViewComponents套Layout就是
+    //Layout = "_Layout";
+}
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.日期)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.時段)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.預約狀態)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.日期)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.時段)
+                </td>
+                <td>
+                    <button class="btn-primary">@item.預約狀態</button>
+                    @*@Html.DisplayFor(modelItem => item.預約狀態)*@
+                </td>
+                @*<td>
+                    todo:button設置呼叫controller 使用Session儲存用戶點選日期&時間，並關閉視窗，
+                        <a asp-action="Edit" asp-route-id="@item.日期">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.日期">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.日期">Delete</a>
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
