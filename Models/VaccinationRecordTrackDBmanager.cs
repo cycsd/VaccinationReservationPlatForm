@@ -9,7 +9,7 @@ namespace VaccinationReservationPlatForm.Models
 {
     public class VaccinationRecordTrackDBmanager
     {
-        private readonly string ConnStr = "Data Source=.;Initial Catalog=VaccinationBookingSystem;Integrated Security=True";
+        private readonly string ConnStr = "Server=tcp:vaccinationreservationplatform.database.windows.net,1433;Initial Catalog=VaccinationBookingSysytem;Persist Security Info=False;User ID=vaccinationadmin;Password=Ff123456;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public List<VaccinationRecordTrackViewModel> GetRecord(int personID)
         {
             List<VaccinationRecordTrackViewModel> records = new List<VaccinationRecordTrackViewModel>();
