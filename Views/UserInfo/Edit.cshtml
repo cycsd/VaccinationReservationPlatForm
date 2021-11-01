@@ -1,7 +1,11 @@
 ﻿@model VaccinationReservationPlatForm.Models.Person
 @{
     ViewData["Title"] = "Edit";
-    string phone = Model.PersonCellphoneNumber.Trim();
+    string phone = "";
+    if (Model.PersonCellphoneNumber != null)
+    {
+        phone = Model.PersonCellphoneNumber.Trim();
+    }
 }
 <link href="~/css/JerryCss2.css" rel="stylesheet" />
 
@@ -42,17 +46,17 @@
                     <span asp-validation-for="PersonHealthId" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="control-label">手機號碼</label>
-                    <input asp-for="PersonCellphoneNumber" type="number" maxlength="10" value="@phone" class="form-control" />
-                    <span asp-validation-for="PersonCellphoneNumber" class="text-danger"></span>
+                    <label class="control-label"><font size="1" color="red" align="top">*</font>手機號碼</label>
+                    <input asp-for="PersonCellphoneNumber" id="phone" maxlength="10" value="@phone"  class="form-control" />
+                    <span asp-validation-for="PersonCellphoneNumber"  class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
                     <label class="control-label">電子信箱</label>
-                    <input asp-for="PersonMail" class="form-control" />
+                    <input asp-for="PersonMail" id="mail" type="email" class="form-control" />
                     <span asp-validation-for="PersonMail" class="text-danger"></span>
                 </div>
                 <div class="form-group mt-3">
-                    <label class="control-label">居住區域</label>
+                    <label class="control-label"><font size="1" color="red" align="top">*</font>居住區域</label>
                     <div>
                         <select class="form-select" style="width:32%;display:inline-block;" id="county" name="county" required>
                             <option style="display:none" value="">縣市</option>
@@ -67,8 +71,8 @@
                     <input type="text" name="CountyTownText" id="CountyTownText" value="" hidden />
                 </div>
                 <div class="form-group mt-3">
-                    <label class="control-label">職業</label>
-                    <input asp-for="PersonJob" class="form-control" />
+                    <label class="control-label" >職業</label>
+                    <input asp-for="PersonJob" id="job" class="form-control" />
                     <span asp-validation-for="PersonJob" class="text-danger"></span>
                 </div>
                 <div class=" text-right">
@@ -79,7 +83,6 @@
     </div>
 </div>
 
-
 @section Scripts {
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -88,6 +91,14 @@
         var CountyTownName = "";
 
         $('#submit').on('click', function () {
+            if ($('#phone').val() == "" || $('#county').find("option:selected").text() == "縣市" || $('#town').find("option:selected").text() == "鄉鎮市" || $('#road').find("option:selected").text() == "區段") {
+                Swal.fire({
+                    icon: 'error',
+                    title: '請確實填寫資料!',
+                    confirmButtonText: '確定',
+                })
+                return;
+            }
             CountyTownName = $('#town').find("option:selected").text();
             $('#CountyTownText').attr('value', CountyTownName.toString());
             Swal.fire(

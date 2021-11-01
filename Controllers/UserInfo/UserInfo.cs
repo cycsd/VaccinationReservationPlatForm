@@ -223,8 +223,28 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
                                        select v.VaccineId;
             if (user != null)
             {
-                user.PersonIdentityId = model.PersonIdentityId.Trim();
-                user.PersonName = model.PersonName.Trim();
+                //user.PersonIdentityId = model.PersonIdentityId.Trim();
+                //user.PersonName = model.PersonName.Trim();
+                if (model.PersonCellphoneNumber == null || CountyText == "" || RoadText == "" || CountyTown == "")
+                {
+                    string json = HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT);
+                    Person userlogin = JsonSerializer.Deserialize<Person>(json);
+                    Person uservs = (new VaccinationBookingSystemContext()).People.FirstOrDefault(
+                        c => c.PersonIdentityId.Trim().Equals(userlogin.PersonIdentityId) && c.PersonHealthId.Trim().Equals(userlogin.PersonHealthId));
+                    if (wanted.ToList().FirstOrDefault() != null)
+                    {
+                        string Number = "";
+                        List<int?> VaccineInt = new List<int?>(wanted);
+                        foreach (var item in VaccineInt)
+                        {
+                            Number += item.ToString();
+                        }
+                        ViewBag.Number = Number;
+                    }
+                    ViewData["user"] = user;
+                    Thread.Sleep(2000);
+                    return View(uservs);
+                }
                 user.PersonCellphoneNumber = model.PersonCellphoneNumber.Trim();
                 user.CountyPostalCode = CountyTown2;
                 user.PersonAdress = AddressName.Trim();
@@ -373,10 +393,15 @@ namespace VaccinationReservationPlatForm.Controllers.UserInfo
             Person user = db.People.FirstOrDefault(p => p.PersonIdentityId == x.PersonIdentityId);
             if (user != null)
             {
-                user.PersonCellphoneNumber = x.PersonCellphoneNumber.Trim();
-                user.PersonMail = x.PersonMail.Trim();
-                user.PersonAdress = AddressName.Trim();
-                user.PersonJob = x.PersonJob.Trim();
+                if (x.PersonCellphoneNumber == null)
+                {
+                    Thread.Sleep(2000);
+                    return View(user);
+                }
+                user.PersonCellphoneNumber = x.PersonCellphoneNumber;
+                user.PersonMail = x.PersonMail;
+                user.PersonAdress = AddressName;
+                user.PersonJob = x.PersonJob;
                 db.SaveChanges();
             }
             Thread.Sleep(3000);
