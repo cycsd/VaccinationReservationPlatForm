@@ -56,8 +56,21 @@ namespace VaccinationReservationPlatForm.ViewModels
         }
         public void GetTimeSpanToString()
         {
-            this.時段 = this.startTime.ToString() + "~" + this.endTime.ToString();
+            this.時段 = this.startTime.ToString(@"hh\:mm") + "~" + this.endTime.ToString(@"hh\:mm");
         }
+
+    }
+
+    public class BookingInfo
+    {
+        public int PersonId { get; set; }
+        public int hospital { get; set; }
+        public int vaccine { get; set; }
+        public DateTime date { get; set; }
+
+        public TimeSpan timeStart { get; set; }
+
+        public DateTime clickMoment { get; set; }
 
     }
 }

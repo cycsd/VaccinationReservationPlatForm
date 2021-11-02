@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Default";
     Layout = "_LayoutTime";
+
+
 }
 @{
     //即使Views/Shared目錄下有_Layout.cshtml及_ViewStart.cshtml兩個檔案
@@ -26,6 +28,15 @@
     <tbody>
         @foreach (var item in Model)
         {
+            string date = item.date.ToString("yyyy-MM-dd");
+
+            var parms = new Dictionary<string, string>
+{
+                { "date", date},
+                { "startTime", item.startTime.ToString()}
+            };
+
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.日期)
@@ -34,8 +45,13 @@
                     @Html.DisplayFor(modelItem => item.時段)
                 </td>
                 <td>
-                    <button class="btn-primary">@item.預約狀態</button>
-                    @*@Html.DisplayFor(modelItem => item.預約狀態)*@
+                    <button class="btn btn-primary" data-date="@item.date" data-startTime="@item.startTime" data-timePart="@item.時段">@item.預約狀態</button>
+                    @*<button class="btn btn-primary" data-time="@{new { date = item.date, startTime = item.startTime, timePaert = item.時段 };}">@item.預約狀態</button>*@
+
+                    @*@Html.DisplayFor(modelItem => item.預約狀態)
+                        如果狀態是不能預約改成 btn-alert
+                        且不能點擊(z-index):已使用js判別
+                    *@
                 </td>
                 @*<td>
                     todo:button設置呼叫controller 使用Session儲存用戶點選日期&時間，並關閉視窗，
@@ -47,4 +63,36 @@
         }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        $(function () {
+            $('.btn').click(function () {
+                let bookState = $(this).text()
+                if (bookState == "可預約") {
+
+                //console.log($(this).data('time'));
+                    let url = '@Url.Content("~/Reservation/UserTimeSelect")'
+                    let data = {
+                        date: $(this).data('date'),
+                        startTime: $(this).data('starttime'),
+                        timePart: $(this).data('timepart'),
+                    }
+                    console.log($(this).data('timepart'))
+                    $.post(url, data)
+                        .done(function (result) {
+                            //console.log(result)
+                            window.close();
+                        })
+                }
+                else {
+                    alert("此時段預約已滿，請選擇其他時段");
+                }
+
+            })
+        })
+
+    </script>
+
+}
+
 

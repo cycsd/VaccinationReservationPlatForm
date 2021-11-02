@@ -4,14 +4,19 @@
 @using VaccinationReservationPlatForm.Models
 @model Person
 @{
-
+    if (TempData["BookFailMessage"] != null)
+    {
+    <script>
+            alert('@Json.Serialize(TempData["BookFailMessage"])');
+    </script>
+    }
 
 }
 
 <div class="container">
     <div class="row mt-5 justify-content-center">
         <div class="col-lg-5">
-            <form action="forms/contact.php" method="post" role="form">
+            <form asp-controller="Reservation" asp-action="SaveBookingInfo" method="post" role="form">
                 <div class="form-group mt-3">
                     <label for="name">姓名:</label>
                     <input type="text" value="@Model.PersonName" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -36,7 +41,7 @@
                     </select>
                 </div>
                 <div class="form-group mt-3">
-                    <select id="vaccine" name="vaccine">
+                    <select id="vaccine" name="vaccine" required>
                         <option value="null" style="display:none">選擇疫苗</option>
                     </select>
                 </div>
@@ -46,9 +51,20 @@
                     </select>
                 </div>
                 <div class="form-group mt-3">
-                    <button id="time" type="button" class="btn btn-primary">選擇時段</button>
+                    <button id="btn-time" type="button" class="btn btn-primary">選擇時段</button>
+                    <div class="row">
+                        <div class="col-4">
+                            <label for="dtae">日期:</label>
+                            <input type="text" class="form-control" name="date" id="date" data-time="" readonly required>
+                            <input type="hidden" name="timestart" id="timestart">
+                        </div>
+                        <div class="col-3">
+                            <label for="time">時段:</label>
+                            <input type="text" class="form-control" name="timepart" id="timepart" data-time="" readonly required>
+                        </div>
+                    </div>
+                    <div class="text-center d-flex align-items-start"><button type="submit" class="btn btn-primary">確定預約</button></div>
                 </div>
-                <div class="text-center"><button type="submit" class="btn btn-primary">確定預約</button></div>
             </form>
         </div>
         <div class="col-lg-5" height="20vh">
@@ -140,14 +156,14 @@
                 $('#hospital').click((event) => {
                     GetHospital();
                     if ($('#road').val() != 'null' && $('#vaccine').val() != 'null') {
-                        console.log('hospialclick');
+                        //console.log('hospialclick');
                         $(this).off(event);
                     }
                 })
             });
 
             //todo:選擇時段
-            $('#time').click(OpenNewWindow);
+            $('#btn-time').click(OpenNewWindow);
             $(window).focus((event) => {
                 foucusOnWindow();
                 //$(this).off(event);
@@ -290,12 +306,30 @@
             window.open("/Reservation/TimeSelect?hospitalId="+hospitalId, 'time',config = 'width=450');
         }
         function foucusOnWindow() {
-            console.log('回來了');
+            let url = '@Url.Content("~/Reservation/UserTimeSelect")'
+            $.get(url)
+                .done(function (result) {
+
+                    let resultObj = JSON.parse(result);
+                    console.log(resultObj);
+                    let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                    let date = new Date(resultObj.date).toLocaleDateString("zh-TW", options);
+                    let timePart = resultObj.timePart;
+                    let startTime = resultObj.startTime.Hours + ":" + resultObj.startTime.Minutes;
+
+                    $('#timestart').val(startTime);
+                    $('#date').val(date);
+                    $('#timepart').val(timePart);
+                    console.log($('#timestart').val());
+                    //timeInput.data('time',resultJson);
+                })
+                .fail(function () {
+                    //回傳失敗不要做任何事，因為使用者還沒選擇時段，Session還沒有值。
+                })
         }
     @*$(document).ajaxError(function (event, jqxhr, settings, thrownError) {
        window.location.href = '@Url.Content("~/Home/Index")';
     })*@
-
 
     </script>
 

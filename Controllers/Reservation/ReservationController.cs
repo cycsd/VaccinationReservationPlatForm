@@ -41,6 +41,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             return View(person);
         }
 
+
+
         //[HttpPost]
         public IActionResult GetVaccineWanted(int userid)
         {
@@ -95,6 +97,147 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
 
             return Ok(hospialSelect);
 
+        }
+        public IActionResult TimeSelect(int hospitalId)
+        {
+            hospitalId = 5690; //測試用需註解掉
+            List<EachTime> eachTimeList = new List<EachTime>();
+            int bookingTimeSpan = 7;
+            int bookingStartOffsetDays = 2;
+
+            //取得醫院營業日id
+            var businessDayTimeTable = context.HospitalBusinessDays.Where(s => s.HospitalId == hospitalId)
+                .Join(context.HospitalBusinessHours, o => o.HospitalBusinessDayId, i => i.HospitalBusinessDayId, (o, i) => new
+                {
+                    o.Hbdweekday,
+                    i.HbhstartTime,
+                    i.HbhendTime,
+                    i.Hbhmark
+                }).ToArray().GroupBy(s => s.Hbdweekday);
+
+            for (int i = 0; i < bookingTimeSpan; i++)           //取得可預約的日期
+            {
+                int offsetDay = i + bookingStartOffsetDays;
+                DateTime bookingday = DateTime.Now.AddDays(offsetDay);
+                int weekday = (int)bookingday.DayOfWeek;
+
+                //try     ///可以思考一下如果日期為非營業時段該如何處理，.First會取不到值
+                //{
+                var q = businessDayTimeTable.First(g => g.Key == weekday).OrderBy(s => s.HbhstartTime);  //取得一個符合日期weekday的群組
+
+                foreach (var item in q)
+                {
+                    if (item.Hbhmark == 1) //有營業才取值
+                    {
+                        TimeSpan startTime = (TimeSpan)item.HbhstartTime;
+                        TimeSpan endTime = (TimeSpan)item.HbhendTime;
+                        eachTimeList.AddRange(this.AddEachTimeToList(bookingday.Date, startTime, endTime));
+                    }
+
+                }
+                //}
+                //catch (Exception)
+                //{
+
+                //}
+
+            }
+            //todo 判斷當前預約數是否超出醫院庫存，需知道是哪個疫苗
+            //int? hospitalStock = context.VaccineStocks.FirstOrDefault(s => s.HospitalId == hospitalId).VaccineStockUnit;
+            //hospitalStock = hospitalStock == null ? 0 : hospitalStock;
+
+            //判斷當前預約人數是否已超出時段人數限制
+            int? hospitalCapacity = context.Hospitals.FirstOrDefault(s => s.HospitalId == hospitalId).HospitalCapacity;
+            hospitalCapacity = hospitalCapacity == null ? 0 : hospitalCapacity;
+
+            var eachTimeListGroup = eachTimeList.GroupBy(s => s.date);
+            foreach (var item in eachTimeListGroup)
+            {
+                DateTime date = item.Key;
+                var bookingPeopleInDay = context.VaccinationBookings.Where(s => s.VbbookingDate == date).ToArray();
+                foreach (var eachtime in item)
+                {
+                    var startTime = eachtime.startTime;
+                    int eachTimeBookingPeropleCount = bookingPeopleInDay.Where(s => s.VbbookingTime == startTime).Count();
+                    if (eachTimeBookingPeropleCount >= hospitalCapacity)
+                    {
+                        eachtime.預約狀態 = "額滿";
+                    }
+                }
+            }
+
+            return ViewComponent("SelectTime", new { eachTimeList = eachTimeList });
+        }
+
+        [HttpGet]
+        public IActionResult UserTimeSelect()
+        {
+            if (!HttpContext.Session.Keys.Contains(CDictionary.Key_BookingTime_Select))
+            {
+                return NotFound();
+            }
+            string stringJson = HttpContext.Session.GetString(CDictionary.Key_BookingTime_Select);
+
+
+            return Ok(stringJson);
+        }
+
+        [HttpPost]
+        public IActionResult UserTimeSelect(DateTime date,TimeSpan startTime,string timePart)
+        {
+            object ob = new
+            {
+                date = date,
+                startTime = startTime,
+                timePart = timePart,
+            };
+            string strignTimeJson = JsonSerializer.Serialize(ob);
+            HttpContext.Session.SetString(CDictionary.Key_BookingTime_Select, strignTimeJson);
+
+            return Ok(HttpContext.Session.GetString(CDictionary.Key_BookingTime_Select));
+        }
+
+        public IActionResult SaveBookingInfo(BookingInfo bookingInfo)
+        {
+            int hospitalId = bookingInfo.hospital;
+            int vaccineId = bookingInfo.vaccine;
+            TimeSpan startTime = bookingInfo.timeStart;
+
+            //todo 判斷醫院疫苗是否還有庫存(取決於現有庫存跟現階段預約人數)
+            int? vaccineStockInHospital = context.VaccineStocks.FirstOrDefault(s => s.HospitalId == hospitalId && s.VaccineId == vaccineId).VaccineStockUnit;
+            vaccineStockInHospital = vaccineStockInHospital == null ? 0 : vaccineStockInHospital;
+
+            //todo 是否需驗證此人是否有登記過，感覺應該再進到預約畫面前就該判斷，不該在此步驟判斷
+
+            var peopleInBooking = context.VaccinationBookings.Where(s => s.HospitalId == hospitalId && s.VaccineId == vaccineId).ToArray();
+            int peopleInBookingAmount = peopleInBooking.Count();
+
+            int? capacity = context.Hospitals.FirstOrDefault(s => s.HospitalId == hospitalId).HospitalCapacity;
+            capacity = capacity == null ? 0 : capacity;
+            int peopleInBookingCount = peopleInBooking.Where(s => s.VbbookingTime == startTime).Count();
+            //判斷預約時段人數是否大於量能及人數是否大於庫存
+            if (peopleInBookingAmount >= vaccineStockInHospital && peopleInBookingCount >= capacity)
+            {
+                TempData["BookFailMessage"] = "已額滿，請選擇其他醫院或時段";
+                return RedirectToAction("Index");
+            }
+
+            Person personToGetID = JsonSerializer.Deserialize<Person>(HttpContext.Session.GetString(CDictionary.SK_LOGIN_CLIENT));
+            VaccinationBooking vaccinationBookingUnit = new VaccinationBooking()
+            {
+                PersonId = personToGetID.PersonId,
+                HospitalId = hospitalId,
+                VaccineId = vaccineId,
+                VbbookingDate = bookingInfo.date,
+                VbbookingTime = startTime,
+                VbclickMoment = DateTime.Now,
+                Vbnumber = peopleInBookingCount + 1,
+
+            };
+            context.VaccinationBookings.Add(vaccinationBookingUnit);
+            context.SaveChanges();
+            //計算目前各時段預約人數得到號碼牌
+            return Ok(bookingInfo);
         }
 
         public IActionResult HospitalList()
@@ -202,76 +345,6 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             return Ok("sucess");
         }
 
-        public IActionResult TimeSelect(int hospitalId)
-        {
-            hospitalId = 5690; //測試用需註解掉
-            List<EachTime> eachTimeList = new List<EachTime>();
-            int bookingTimeSpan = 7;
-            int bookingStartOffsetDays = 2;
-
-            //取得醫院營業日id
-            var businessDayTimeTable = context.HospitalBusinessDays.Where(s => s.HospitalId == hospitalId)
-                .Join(context.HospitalBusinessHours, o => o.HospitalBusinessDayId, i => i.HospitalBusinessDayId, (o, i) => new
-                {
-                    o.Hbdweekday,
-                    i.HbhstartTime,
-                    i.HbhendTime,
-                    i.Hbhmark
-                }).ToArray().GroupBy(s => s.Hbdweekday);
-
-            for (int i = 0; i < bookingTimeSpan; i++)           //取得可預約的日期
-            {
-                int offsetDay = i + bookingStartOffsetDays;
-                DateTime bookingday = DateTime.Now.AddDays(offsetDay);
-                int weekday = (int)bookingday.DayOfWeek;
-
-                //try     ///可以思考一下如果日期為非營業時段該如何處理，.First會取不到值
-                //{
-                var q = businessDayTimeTable.First(g => g.Key == weekday).OrderBy(s => s.HbhstartTime);  //取得一個符合日期weekday的群組
-
-                foreach (var item in q)
-                {
-                    if (item.Hbhmark == 1) //有營業才取值
-                    {
-                        TimeSpan startTime = (TimeSpan)item.HbhstartTime;
-                        TimeSpan endTime = (TimeSpan)item.HbhendTime;
-                        eachTimeList.AddRange(this.AddEachTimeToList(bookingday.Date, startTime, endTime));
-                    }
-
-                }
-                //}
-                //catch (Exception)
-                //{
-
-                //}
-
-            }
-            //todo 判斷當前預約數是否超出醫院庫存，需知道是哪個疫苗
-            //int? hospitalStock = context.VaccineStocks.FirstOrDefault(s => s.HospitalId == hospitalId).VaccineStockUnit;
-            //hospitalStock = hospitalStock == null ? 0 : hospitalStock;
-
-            //判斷當前預約人數是否已超出時段人數限制
-            int? hospitalCapacity = context.Hospitals.FirstOrDefault(s => s.HospitalId == hospitalId).HospitalCapacity;
-            hospitalCapacity = hospitalCapacity == null ? 0 : hospitalCapacity;
-
-            var eachTimeListGroup = eachTimeList.GroupBy(s => s.date);
-            foreach (var item in eachTimeListGroup)
-            {
-                DateTime date = item.Key;
-                var bookingPeopleInDay = context.VaccinationBookings.Where(s => s.VbbookingDate == date).ToArray();
-                foreach (var eachtime in item)
-                {
-                    var startTime = eachtime.startTime;
-                    int eachTimeBookingPeropleCount = bookingPeopleInDay.Where(s => s.VbbookingTime == startTime).Count();
-                    if (eachTimeBookingPeropleCount >= hospitalCapacity)
-                    {
-                        eachtime.預約狀態 = "額滿";
-                    }
-                }
-            }
-
-            return ViewComponent("SelectTime", new { eachTimeList = eachTimeList });
-        }
 
         public bool CheckLogin()
         {
