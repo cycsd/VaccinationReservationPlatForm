@@ -1,0 +1,36 @@
+﻿@model IEnumerable<VaccinationReservationPlatForm.ViewModels.CVManageViewModel>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td>序</td>
+            <td>批號</td>
+            <td>疫苗名稱</td>
+            <td>數量</td>
+            <td>生產日期</td>
+            <td>疫病</td>
+            <td>紀錄時間</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+            foreach (var mg in Model)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@Html.DisplayFor(modelitem => mg.BatchNumber)</td>
+                    <td>@Html.DisplayFor(modelitem => mg.VaccineName)</td>
+                    <td>@Html.DisplayFor(modelitem => mg.VaccinePsiquantity)</td>
+                    <td>@Html.DisplayFor(modelitem => mg.VaccinePsimfDate)</td>
+                    <td>@Html.DisplayFor(modelitem => mg.VaccineName)</td>
+                    <td>@Html.DisplayFor(modelitem => mg.VaccinePsirecordTime)</td>
+                    @*<td><button>回報</button></td>*@
+                </tr>
+            }
+        }
+    </tbody>
+</table>

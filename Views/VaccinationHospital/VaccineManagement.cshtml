@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewData["Title"] = "VaccineManagement";
+}
+<style>
+    .LeftContent {
+        width: 60%;      
+        padding-left:10%
+    }
+    .RightOption {
+        width: 20%;
+        height: 100%;
+        text-align:center;
+    }
+    button{
+        margin-top:30px;
+        margin-bottom:30px;
+    }
+    h1{
+        text-align:center;
+        margin:20px;
+    }
+    .container {
+        display: flex;
+        justify-content: center;
+    }
+    
+</style>
+
+<h1 style="text-align:center;width:100%">疫苗庫存管理</h1>
+<div class="container">
+    <div class="LeftContent">        
+        <div class="bottomdiv"></div>
+    </div>
+    <div class="RightOption">
+        <ul style="list-style:none">
+            <li>
+                <button id="onroad" class="btn btn-outline-secondary btn-lg">在途</button>
+            </li>
+            <li>
+                <button id="stocks" class="btn btn-outline-secondary btn-lg">庫存</button>
+            </li>
+            <li>
+                <button id="Vclose" class="btn btn-outline-secondary btn-lg">歷史紀錄</button>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "@Url.Action("Stocks","VaccinationHospital")",
+            success: function (data) {
+                $(".bottomdiv").html(data)
+            }
+        })
+    });
+
+    $('#stocks').click(function () {
+          $(".bottomdiv").html(" ");
+        $.ajax({
+            url: "@Url.Action("Stocks","VaccinationHospital")",
+            success: function (data) {
+                $(".bottomdiv").html(data)
+            }
+        })
+    })
+
+    $('#onroad').click(function () {
+        $(".bottomdiv").html(" ");
+        $.ajax({
+            url: "@Url.Action("OnRoad","VaccinationHospital")",
+            success: function (data) {
+                $(".bottomdiv").html(data)
+            }
+        })
+    })
+    $('#Vclose').click(function () {
+        $(".bottomdiv").html(" ");
+        $.ajax({
+            url: "@Url.Action("VClose","VaccinationHospital")",
+            success: function (data) {
+                $(".bottomdiv").html(data)
+            }
+        })
+    })
+</script>
