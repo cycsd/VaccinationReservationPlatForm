@@ -1,0 +1,51 @@
+﻿@model IEnumerable<VaccinationReservationPlatForm.ViewModels.CVManageViewModel>
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+   
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td>序</td>
+                <td>批號</td>
+                <td>疫苗名稱</td>
+                <td>數量</td>
+                <td>有效期限</td>
+                <td>疫病</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int count = 0;
+                foreach (var mg in Model)
+                {
+                    count++;
+                    <tr>
+                        <td>@count</td>
+                        <td>@Html.DisplayFor(modelitem => mg.BatchNumber)</td>
+                        <td>@Html.DisplayFor(modelitem => mg.VaccineName)</td>
+                        <td>@Html.DisplayFor(modelitem => mg.VaccinePsiquantity)</td>
+                        <td>@Html.DisplayFor(modelitem => mg.VaccinePsiexpDate@*.ToString().Remove(mg.VaccinePsiexpDate.ToString().Length-11, 11)*@)</td>
+                        <td>@Html.DisplayFor(modelitem => mg.DiseaseName)</td>                            
+                        <td>                         
+                            @Html.ActionLink("接收", "OnRoadOK", "VaccinationHospital",new { psiID = mg.VaccinePsiid },new { onclick= "receive(this.val)" })
+                            |<a>回報</a>
+                        </td>                                       
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script>
+    function receive(val) {
+        var yes = confirm('確定接收?')
+        if (yes) {         
+        }else {
+            return false;
+        }
+    }
+</script>

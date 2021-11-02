@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "PickVaccinationWorkingDay";
+}
+<head>
+    <style>
+        h1 {
+            padding: 30px 20px 20px 30px;
+        }
+
+        .div1 {
+            border-radius:8px;
+            margin: 0 auto;
+            text-align: center;
+            background-color: lightpink;
+            width: 450px;
+            height: 400px;
+        }
+
+        .input-group {
+            padding: 10px 20px 20px 20px;
+        }
+
+        hr {
+            border: 2px solid dimgray;
+            margin-bottom: 35px;
+        }
+    </style>
+</head>
+<script src="/lib/jquery/dist/jquery.js"></script>
+
+<div class="div1">
+    <h1>疫苗施打作業</h1>
+    <form method="post" action="NeedSessionFirst">
+        <div class="input-group">
+            <label class="col-sm-2 control-label">日期: </label>
+            <div class="col-sm-10">
+                <input id="date" name="date" type="date" class="form-control" style="width:300px" />
+            </div>
+        </div>
+        <div class="input-group">
+            <label class="col-sm-2 control-label">疫苗: </label>
+            <div class="col-sm-10">
+                @Html.DropDownList("Vaccineid", (IEnumerable<SelectListItem>)ViewBag.VaccineList, new { @class = "form-control", @style = "width:300px;" })
+            </div>
+        </div>
+        <label style="color:red" id="warning"></label>
+        <hr />
+        <button type="submit" id="starting" class="btn btn-outline-primary">開始</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+<script>
+    var now = new Date();
+    var day = ("0" + now.getDate()).slice(-2);
+    var month = ('0' + (now.getMonth() + 1)).slice(-2);
+    var today = now.getFullYear() + "-" + (month) + "-" + (day);
+    document.getElementById("date").value = (today);
+
+    $(function () {
+        $('#date').change(function () {
+            var daySelected = $('#date').val()
+            if (daySelected != today) {
+                $('#warning').text("選擇日期為"+daySelected)
+            } else {
+                $('#warning').text(" ")
+            }
+        })
+
+        var Emptylist = '@TempData["Emptylist"]';
+        if (Emptylist == "nodata") {
+            Swal.fire('無預約名單', '', 'warning');
+        }      
+    })
+</script>

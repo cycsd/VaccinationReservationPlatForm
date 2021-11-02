@@ -1,0 +1,62 @@
+﻿@model IEnumerable<VaccinationReservationPlatForm.ViewModels.CFinalQuery>
+@{
+    ViewData["Title"] = "FinalPage";
+}
+<style>
+    h1 {
+        padding: 20px;
+        text-align: center;
+    }
+    h5{
+        padding:5px;   
+        text-align:right;
+    }
+    ddiv {      
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .table table-success table-striped {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+</style>
+<h1>單日疫苗管理</h1>
+<div class="ddiv">
+    <h5>日期: @ViewBag.date</h5>   
+    <form method="post" action="ReplaceQuantities">
+        <table class="table table-success table-striped">
+            <thead>
+                <tr>
+                    <th>序</th>
+                    <th>種類</th>
+                    <th>批號</th>
+                    <th>單日使用</th>
+                    <th>剩餘數量</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int count = 0;
+                    foreach (var fq in Model)
+                    {
+                        count++;
+                        <tr>
+                            <td>@count</td>
+                            <td>@Html.DisplayFor(modelitem => fq.VaccineNameFQ)</td>
+                            <td>@Html.DisplayFor(modelitem => fq.SerialNumberFQ)</td>
+                            <td>@Html.DisplayFor(modelitem => fq.SingalUseFQ)</td>
+                            <td>@Html.DisplayFor(modelitem => fq.RestquantityFQ)</td>
+                            <td><input type="text" name="newSingalValue" placeholder="實際數量" class="form-control"></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <h5>共使用: @ViewBag.TotalUse 瓶</h5>
+        <div style="text-align:center;width:100%;">
+            <input type="submit" value="完成" class="btn btn-success" />
+        </div>
+    </form>       
+</div>
