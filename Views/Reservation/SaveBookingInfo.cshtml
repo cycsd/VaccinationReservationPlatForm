@@ -1,0 +1,103 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using VaccinationReservationPlatForm.ViewModels
+@model BookingInfo
+@section HeadScripts{
+    <link href="~/css/cycsd.css" rel="stylesheet">
+}
+@{
+    string hideIndentity = Model.PersonIdentityId.Trim().Remove(3, 5).Insert(3, "*****");
+    string hidePersonName = Model.PersonName.Trim().Remove(1, 1).Insert(1, "O");
+    string hideCellPhone = Model.PhoneNumber.Trim().Remove(0,7).Insert(0, "*******");
+    string mailAddress = Model.MailAddress.Trim();
+
+    <div class="container">
+
+        <div id="printzone" class="row d-flex justify-content-start">
+            <div class="col-6 align-content-center">
+                <h1>預約接種結果</h1>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>預約完成時間:</h2><h2>@Model.clickMoment</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>預約序號:</h2><h2>@Model.bookNumber</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>身分證號:</h2><h2>@hideIndentity</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>姓名:</h2><h2>@hidePersonName</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>手機號碼:</h2><h2>@hidePersonName</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>日期/時段:</h2><h2>@Model.date/@Model.timepart</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>施打疫苗:</h2><h2>@Model.vaccineName</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>施打地點:</h2><h2>@Model.hospitalName</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>施打地點地址:</h2><h2>@Model.hospitalAddress</h2>
+            </div>
+            <div class="col-12 mb-5">
+                <h2>施打站叮嚀:</h2><h2>前往接種前請戴口罩並攜帶身分證明文件(如健保卡、中華民國身分證)，第二劑接種者需攜帶黃卡</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-start">
+            <div class="col-3">
+                <button class="btn btn-primary" id="btn-print">列印此頁</button>
+                <button class="btn btn-primary" id="btn-sendmail" value="@mailAddress">傳送到信箱</button>
+            </div>
+        </div>
+
+    </div>
+
+
+
+}
+@section Scripts{
+    <script src="~/js/jQuery.print.js"></script>
+    <script>
+        $(function () {
+            $('#btn-print').click(function () {
+                $("#printzone").print({
+                    globalStyles: true,
+                    mediaPrint: false,
+                    stylesheet: null,
+                    noPrintSelector: ".no-print",
+                    iframe: true,
+                    append: null,
+                    prepend: null,
+                    manuallyCopyFormValues: true,
+                    deferred: $.Deferred(),
+                    timeout: 750,
+                    title: null,
+                    doctype: '<!doctype html>'
+                });
+            })
+
+            $('#btn-sendmail').click(function () {
+                console.log($(this).val())
+                console.log($('#printzone').html())
+                let mailAddress = $(this).val();
+                let content = $('#printzone').html();
+                let url:'@Url.Content("~/Reservation/SendMail")'
+                let data = {
+                    toMailAddress: mailAddress,
+                    printContent: content,
+                }
+                $.post(url, data)
+                    .done(function () {
+                        alert('發送成功');
+                    })
+            })
+        })
+
+    </script>
+}

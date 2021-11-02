@@ -6,6 +6,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -203,7 +206,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             int vaccineId = bookingInfo.vaccine;
             TimeSpan startTime = bookingInfo.timeStart;
 
-            //todo 判斷醫院疫苗是否還有庫存(取決於現有庫存跟現階段預約人數)
+            //判斷醫院疫苗是否還有庫存(取決於現有庫存跟現階段預約人數)
             int? vaccineStockInHospital = context.VaccineStocks.FirstOrDefault(s => s.HospitalId == hospitalId && s.VaccineId == vaccineId).VaccineStockUnit;
             vaccineStockInHospital = vaccineStockInHospital == null ? 0 : vaccineStockInHospital;
 
@@ -212,9 +215,12 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             var peopleInBooking = context.VaccinationBookings.Where(s => s.HospitalId == hospitalId && s.VaccineId == vaccineId).ToArray();
             int peopleInBookingAmount = peopleInBooking.Count();
 
-            int? capacity = context.Hospitals.FirstOrDefault(s => s.HospitalId == hospitalId).HospitalCapacity;
+            var hospital = context.Hospitals.FirstOrDefault(s => s.HospitalId == hospitalId);
+            int? capacity = hospital.HospitalCapacity;
             capacity = capacity == null ? 0 : capacity;
+            //計算目前各時段預約人數得到號碼牌
             int peopleInBookingCount = peopleInBooking.Where(s => s.VbbookingTime == startTime).Count();
+            int booknumber = peopleInBookingCount + 1;
             //判斷預約時段人數是否大於量能及人數是否大於庫存
             if (peopleInBookingAmount >= vaccineStockInHospital && peopleInBookingCount >= capacity)
             {
@@ -231,13 +237,52 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 VbbookingDate = bookingInfo.date,
                 VbbookingTime = startTime,
                 VbclickMoment = DateTime.Now,
-                Vbnumber = peopleInBookingCount + 1,
+                Vbnumber = booknumber,
 
             };
-            context.VaccinationBookings.Add(vaccinationBookingUnit);
-            context.SaveChanges();
-            //計算目前各時段預約人數得到號碼牌
-            return Ok(bookingInfo);
+            //context.VaccinationBookings.Add(vaccinationBookingUnit);
+            //context.SaveChanges();
+
+            //填寫預約資訊
+            var person = context.People.FirstOrDefault(s => s.PersonId == personToGetID.PersonId);
+            bookingInfo.clickMoment = DateTime.Now;
+            bookingInfo.PersonIdentityId = personToGetID.PersonIdentityId;
+            bookingInfo.PersonName = person.PersonName;
+            bookingInfo.PhoneNumber = person.PersonCellphoneNumber;
+            bookingInfo.MailAddress = person.PersonMail;
+
+            bookingInfo.hospitalName = hospital.HospitalName;
+            bookingInfo.hospitalAddress = hospital.HospitalAdress;
+
+            var VaccineInfo = context.Vaccines.FirstOrDefault(s=>s.VaccineId == bookingInfo.vaccine);
+            bookingInfo.vaccineName = VaccineInfo.VaccineName;
+
+            return View(bookingInfo);
+        }
+        public IActionResult SendMail(string toMailAddress,string printContent)
+        {
+            string username = "";
+            string password = "";
+            NetworkCredential credential = new NetworkCredential(username, password);
+
+            MailMessage mailMessage = new MailMessage();
+            mailMessage.To.Add(new MailAddress(toMailAddress));
+            mailMessage.From = new MailAddress(username, username);
+            mailMessage.Subject = "預約接種結果";
+            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(printContent, null, MediaTypeNames.Text.Html));
+
+            SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            smtpClient.Credentials = credential;
+            try
+            {
+                smtpClient.Send(mailMessage);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("寄信失敗");
+            }
+          
+            return Ok();
         }
 
         public IActionResult HospitalList()

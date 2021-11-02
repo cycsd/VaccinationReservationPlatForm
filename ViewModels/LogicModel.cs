@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using VaccinationReservationPlatForm.Models;
@@ -63,14 +64,29 @@ namespace VaccinationReservationPlatForm.ViewModels
 
     public class BookingInfo
     {
-        public int PersonId { get; set; }
+
         public int hospital { get; set; }
+
         public int vaccine { get; set; }
+
         public DateTime date { get; set; }
 
         public TimeSpan timeStart { get; set; }
+        public string timepart { get; set; }
 
         public DateTime clickMoment { get; set; }
+
+        public int PersonId { get; set; }
+        public string PersonIdentityId { get; set; }
+        public string PersonName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string MailAddress { get; set; }
+
+        public string hospitalName { get; set; }
+        public string hospitalAddress { get; set; }
+
+        public string vaccineName { get; set; }
+        public int bookNumber { get; set; }
 
     }
 }
