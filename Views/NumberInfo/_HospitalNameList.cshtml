@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<style>
+    .f5 {
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom:20px;
+        width: calc(30% - 10px)
+    }
+    .f6 {
+        margin-left:40px;
+        margin-top:60px;
+        margin-bottom:20px;
+        height:400px;
+        width:60%;      
+    }
+</style>
+<div class="f5">
+    @Html.DropDownList("selectHospital", (IEnumerable<SelectListItem>)ViewData["hospitalList"], "請選擇院所", new { onchange = "ddl(this.value)" })@*new { @class = "form-control" }*@
+</div>
+<div id="GetNum" class="f6">
+</div>
+
+<script>
+    function ddl(val) {        
+            var selectHospital = $("input[name='selectHospital']").val();
+            console.log('a');
+            $.ajax({
+                url: "@Url.Action("GetHNumber", "NumberInfo")",
+                type: "GET",
+                data: "selectHospital=" + selectHospital,
+                success: function (data) {
+                    $("#GetNum").html(data)
+                    setTimeout(ddl(val), 5000);
+                }
+            })
+        }
+</script>

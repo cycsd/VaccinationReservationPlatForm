@@ -1,40 +1,65 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-    <div class="container">
-        <div class="section-title">
-            <h2>What We Do</h2>
-            <p>Magnam dolores commodi suscipit consequatur ex aliquid</p>
-        </div>
+<head>
+    <style>
+        .city, .town {
+            width: 100%;
+        }
 
-        <div class="row">
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                <div class="icon-box">
-                    <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                    <h4><a href="">Lorem Ipsum</a></h4>
-                    <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                </div>
-            </div>
+        .f3 {
+            float: left;
+            margin-right: 5px;
+            width: calc(15% - 10px)
+        }
 
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-                <div class="icon-box">
-                    <div class="icon"><i class="bx bx-file"></i></div>
-                    <h4><a href="">Sed ut perspiciatis</a></h4>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                </div>
-            </div>
+        .f4 {
+            float: left;
+            margin-left: 10px;
+            margin-right: 5px;
+            width: calc(20% - 10px)
+        }
+    </style>
+</head>
+<div class="section-title">
+    <h2>號碼查詢</h2>
+</div>
+<div style="margin-left:25%">
+    <div class="row mt-5 justify-content-center">
 
-            <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-                <div class="icon-box">
-                    <div class="icon"><i class="bx bx-tachometer"></i></div>
-                    <h4><a href="">Magni Dolores</a></h4>
-                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                </div>
-            </div>
-
+        <div id="twzipcode">
+            <div class="f3" data-role="county"></div>
+            <div class="f4" data-role="district"></div>
+            <span id="spann"></span>
         </div>
 
     </div>
+</div>
 
-}
+
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>*@
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-twzipcode@1.7.14/jquery.twzipcode.min.js"></script>
+
+<script>
+    $("#twzipcode").twzipcode({
+        "zipcodeIntoDistrict": true,
+        "css": ["city form-control", "town form-control"],
+        "countyName": "city", // 指定城市 select name
+        "districtName": "town" // 指定地區 select name
+    });
+
+    $(".town").change(function () {
+
+        var zipcode = $("input[name='zipcode']").val();
+        $.ajax({
+            url: "@Url.Action("HospitalNameList", "NumberInfo")",
+            type: "GET",
+            data: "zipcode=" + zipcode,
+            success: function (data) {
+                $("#spann").html(data)
+            }
+        })
+    });
+
+</script>
