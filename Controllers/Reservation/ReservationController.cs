@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -103,7 +105,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
         }
         public IActionResult TimeSelect(int hospitalId)
         {
-            hospitalId = 5690; //測試用需註解掉
+            //hospitalId = 5690; //測試用需註解掉
             List<EachTime> eachTimeList = new List<EachTime>();
             int bookingTimeSpan = 7;
             int bookingStartOffsetDays = 2;
@@ -186,7 +188,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
         }
 
         [HttpPost]
-        public IActionResult UserTimeSelect(DateTime date,TimeSpan startTime,string timePart)
+        public IActionResult UserTimeSelect(DateTime date, TimeSpan startTime, string timePart)
         {
             object ob = new
             {
@@ -241,8 +243,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 VbcheckRemark = "登記",
 
             };
-            //context.VaccinationBookings.Add(vaccinationBookingUnit);
-            //context.SaveChanges();
+            context.VaccinationBookings.Add(vaccinationBookingUnit);
+            context.SaveChanges();
 
             //填寫預約資訊
             var person = context.People.FirstOrDefault(s => s.PersonId == personToGetID.PersonId);
@@ -255,34 +257,54 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             bookingInfo.hospitalName = hospital.HospitalName;
             bookingInfo.hospitalAddress = hospital.HospitalAdress;
 
-            var VaccineInfo = context.Vaccines.FirstOrDefault(s=>s.VaccineId == bookingInfo.vaccine);
+            var VaccineInfo = context.Vaccines.FirstOrDefault(s => s.VaccineId == bookingInfo.vaccine);
             bookingInfo.vaccineName = VaccineInfo.VaccineName;
 
             return View(bookingInfo);
         }
-        public IActionResult SendMail(string toMailAddress,string printContent)
+        public IActionResult SendMail(string toMailAddress, string printContent)
         {
-            string username = "";
-            string password = "";
-            NetworkCredential credential = new NetworkCredential(username, password);
+            //string username = "apikey";
+            //string password = "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";
+            //NetworkCredential credential = new NetworkCredential(username, password);
 
-            MailMessage mailMessage = new MailMessage();
-            mailMessage.To.Add(new MailAddress(toMailAddress));
-            mailMessage.From = new MailAddress(username, username);
-            mailMessage.Subject = "預約接種結果";
-            mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(printContent, null, MediaTypeNames.Text.Html));
+            //toMailAddress = "cycsd9211@gmail.com";
+            //printContent = "Hello Iam auto mail";
+            //MailMessage mailMessage = new MailMessage();
+            //mailMessage.To.Add(new MailAddress(toMailAddress));
+            //mailMessage.From = new MailAddress(username, username);
+            //mailMessage.Subject = "預約接種結果";
+            //mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(printContent, null, MediaTypeNames.Text.Html));
 
-            SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-            smtpClient.Credentials = credential;
-            try
-            {
-                smtpClient.Send(mailMessage);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("寄信失敗");
-            }
-          
+            //SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+            //smtpClient.Credentials = credential;
+            //try
+            //{
+            //    smtpClient.Send(mailMessage);
+            //}
+            //catch (Exception)
+            //{
+            //    Console.WriteLine("寄信失敗");
+            //}
+            // sendgrid api key
+
+            //var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var client = new SendGridClient("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");
+            var msg = new SendGridMessage();
+
+            msg.SetFrom(new EmailAddress("dx@example.com", "SendGrid DX Team"));
+
+            var recipients = new List<EmailAddress>
+                {
+                    new EmailAddress("cycsd9211@example.com"),
+
+                 };
+            msg.AddTos(recipients);
+
+            msg.SetSubject("Testing the SendGrid C# Library");
+
+            msg.AddContent(MimeType.Text, "Hello World plain text!");
+            msg.AddContent(MimeType.Html, "<p>Hello World!</p>");
             return Ok();
         }
 
