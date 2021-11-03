@@ -207,7 +207,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             int hospitalId = bookingInfo.hospital;
             int vaccineId = bookingInfo.vaccine;
             TimeSpan startTime = bookingInfo.timeStart;
-
+            DateTime date = bookingInfo.date;
+            
             //判斷醫院疫苗是否還有庫存(取決於現有庫存跟現階段預約人數)
             int? vaccineStockInHospital = context.VaccineStocks.FirstOrDefault(s => s.HospitalId == hospitalId && s.VaccineId == vaccineId).VaccineStockUnit;
             vaccineStockInHospital = vaccineStockInHospital == null ? 0 : vaccineStockInHospital;
@@ -221,7 +222,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             int? capacity = hospital.HospitalCapacity;
             capacity = capacity == null ? 0 : capacity;
             //計算目前各時段預約人數得到號碼牌
-            int peopleInBookingCount = peopleInBooking.Where(s => s.VbbookingTime == startTime).Count();
+
+            int peopleInBookingCount = context.VaccinationBookings.Where(s=>s.HospitalId == hospitalId && s.VbbookingDate == date).Count();
 
             int booknumber = peopleInBookingCount + 1;
             //判斷預約時段人數是否大於量能及人數是否大於庫存
@@ -244,8 +246,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 VbcheckRemark = "登記",
 
             };
-            context.VaccinationBookings.Add(vaccinationBookingUnit);
-            context.SaveChanges();
+            //context.VaccinationBookings.Add(vaccinationBookingUnit);
+            //context.SaveChanges();
 
             //填寫預約資訊
             bookingInfo.bookNumber = booknumber;
@@ -264,50 +266,18 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
 
             return View(bookingInfo);
         }
-        public IActionResult SendMail(string toMailAddress, string printContent)
+        public async Task<IActionResult> SendMail(string toMailAddress, string printContent)
         {
-            //string username = "apikey";
-            //string password = "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";
-            //NetworkCredential credential = new NetworkCredential(username, password);
 
-            //toMailAddress = "cycsd9211@gmail.com";
-            //printContent = "Hello Iam auto mail";
-            //MailMessage mailMessage = new MailMessage();
-            //mailMessage.To.Add(new MailAddress(toMailAddress));
-            //mailMessage.From = new MailAddress(username, username);
-            //mailMessage.Subject = "預約接種結果";
-            //mailMessage.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(printContent, null, MediaTypeNames.Text.Html));
-
-            //SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-            //smtpClient.Credentials = credential;
-            //try
-            //{
-            //    smtpClient.Send(mailMessage);
-            //}
-            //catch (Exception)
-            //{
-            //    Console.WriteLine("寄信失敗");
-            //}
-            // sendgrid api key
-
-            //var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-            //var client = new SendGridClient("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");
-            //var msg = new SendGridMessage();
-
-            //msg.SetFrom(new EmailAddress("dx@example.com", "SendGrid DX Team"));
-
-            //var recipients = new List<EmailAddress>
-            //    {
-            //        new EmailAddress("cycsd9211@example.com"),
-
-            //     };
-            //msg.AddTos(recipients);
-
-            //msg.SetSubject("Testing the SendGrid C# Library");
-
-            //msg.AddContent(MimeType.Text, "Hello World plain text!");
-            //msg.AddContent(MimeType.Html, "<p>Hello World!</p>");
-            return Ok();
+            var client = new SendGridClient("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");
+            var from = new EmailAddress("kevin850326@outlook.com", "VaccineBookingServer");
+            var subject = "VaccineBookingPlatForm";
+            var to = new EmailAddress(toMailAddress);
+            //var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = printContent;
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
+            var response = await client.SendEmailAsync(msg);
+            return Ok("ok");
         }
 
         public IActionResult HospitalList()

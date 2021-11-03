@@ -77,12 +77,12 @@
                     <li class="dropdown">
                         <a href="/ReservationHospital/Index"><span>醫護專區</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="#">醫護帳號登入</a></li>
+                            <li><a asp-controller="ReservationHospital" asp-action="Index">醫護帳號登入</a></li>
                             <li class="dropdown">
                                 <a href="#"><span>疫苗預約</span> <i class="bi bi-chevron-right"></i></a>
                                 <ul>
                                     <li><a asp-controller="ReservationHospital" asp-action="Index">登記預約</a></li>
-                                    <li><a href="#">時段設定</a></li>
+                                    <li><a asp-controller="ReservationHospital" asp-action="HospitalWorkTime">時段設定</a></li>
                                     <li><a asp-controller="VaccinationHospital" asp-action="PickVaccinationWorkingDay">預約名單</a></li>
                                     <li><a asp-controller="VaccinationHospital" asp-action="VaccineManagement">疫苗管理</a></li>
                                     <li><a asp-controller="UserInfo" asp-action="SignalR">客服中心</a></li>

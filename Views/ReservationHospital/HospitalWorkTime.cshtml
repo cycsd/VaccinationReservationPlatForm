@@ -196,16 +196,16 @@
                 }
                 $.post(url, data)
                     .done(function (result) {
-                        console.log(result);
+                        alert('設定已儲存')
                     })
             })
 
             //End Save to Server
 
-            $('#timepicker1').on("dp.change", function (e) {
-                //console.log(e.date._d.getHours()+":"+e.date._d.getMinutes());
-                console.log(e.date)
-            })
+            //$('#timepicker1').on("dp.change", function (e) {
+            //    //console.log(e.date._d.getHours()+":"+e.date._d.getMinutes());
+            //    console.log(e.date)
+            //})
         })
 
     </script>

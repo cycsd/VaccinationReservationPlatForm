@@ -34,7 +34,7 @@
                 <h2>手機號碼:</h2><h2>@hideCellPhone</h2>
             </div>
             <div class="col-12 mb-5">
-                <h2>日期/時段:</h2><h2>@Model.date/@Model.timepart</h2>
+                <h2>日期/時段:</h2><h2>@Model.date.ToLongDateString().ToString()/@Model.timepart</h2>
             </div>
             <div class="col-12 mb-5">
                 <h2>施打疫苗:</h2><h2>@Model.vaccineName</h2>
@@ -66,8 +66,8 @@
     <script>
         $(function () {
             $('#btn-print').click(function () {
-                $("#printzone").print(
-                );
+                console.log('print');
+                $("#printzone").print();
             })
 
             $('#btn-sendmail').click(function () {
@@ -75,7 +75,7 @@
                 console.log($('#printzone').html())
                 let mailAddress = $(this).val();
                 let content = $('#printzone').html();
-                let url:'@Url.Content("~/Reservation/SendMail")'
+                let url = '@Url.Content("~/Reservation/SendMail")'
                 let data = {
                     toMailAddress: mailAddress,
                     printContent: content,

@@ -107,6 +107,10 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
 
         public IActionResult HospitalWorkTime()
         {
+            if (!HttpContext.Session.Keys.Contains(CDictionary.SK_LOGIN_HOSPITAL))
+            {
+                return RedirectToAction("Index", "ReservationHospital");
+            }
             return View();
         }
 
