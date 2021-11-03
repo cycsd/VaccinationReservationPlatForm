@@ -238,6 +238,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 VbbookingTime = startTime,
                 VbclickMoment = DateTime.Now,
                 Vbnumber = booknumber,
+                VbcheckRemark = "登記",
 
             };
             //context.VaccinationBookings.Add(vaccinationBookingUnit);

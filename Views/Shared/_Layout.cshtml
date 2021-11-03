@@ -140,9 +140,9 @@
                     <vc:index controller=@checkController></vc:index>
                 }
                 @*else if (controller != checkController)
-                    {
-                        <vc:index controller=@checkController></vc:index>
-                    }*@
+                {
+                    <vc:index controller=@checkController></vc:index>
+                }*@
             }
         </section><!-- End What We Do Section -->
         <!-- ======= About Section ======= -->
@@ -155,9 +155,9 @@
                     <vc:index controller=@checkController></vc:index>
                 }
                 @*else if (controller != checkController)
-                    {
-                        <vc:index controller=@checkController></vc:index>
-                    }*@
+                {
+                    <vc:index controller=@checkController></vc:index>
+                }*@
             }
         </section><!-- End About Section -->
         <!-- ======= Services Section ======= -->
@@ -170,26 +170,27 @@
                     <vc:index controller=@checkController></vc:index>
                 }
                 @*else if (controller != checkController)
-                    {
-                        <vc:index controller=@checkController></vc:index>
-                    }*@
+                {
+                    <vc:index controller=@checkController></vc:index>
+                }*@
             }
         </section><!-- End Services Section -->
         <!-- ======= skills Section ======= -->
-        <section id="skills" class="skills" @*class="d-flex flex-row align-items-center justify-content-center"*@>
-            @{
-                IgnoreBody();
-                checkController = "UserInfo";
-                if (homeCheck)
+        <!-- =======<section id="skills" class="skills" @*class="d-flex flex-row align-items-center justify-content-center"*@>
+        @{
+            @*IgnoreBody();
+            checkController = "UserInfo";
+            if (homeCheck)
+            {
+                <vc:index controller=@checkController></vc:index>
+            }*@
+            @*else if (controller != checkController)
                 {
                     <vc:index controller=@checkController></vc:index>
-                }
-                @*else if (controller != checkController)
-                    {
-                        <vc:index controller=@checkController></vc:index>
-                    }*@
-            }
-        </section><!-- End skills Section -->
+                }*@
+        }
+    </section> ======= -->
+        <!-- End skills Section -->
         <!-- ======= Portfolio Section ======= -->
         @{
             IgnoreBody();
@@ -199,9 +200,9 @@
                 <vc:index controller=@checkController></vc:index>
             }
             @*else if (controller != checkController)
-                {
-                    <vc:index controller=@checkController></vc:index>
-                }*@
+            {
+                <vc:index controller=@checkController></vc:index>
+            }*@
         }
 
 
