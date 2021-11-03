@@ -31,7 +31,7 @@
                 <h2>姓名:</h2><h2>@hidePersonName</h2>
             </div>
             <div class="col-12 mb-5">
-                <h2>手機號碼:</h2><h2>@hidePersonName</h2>
+                <h2>手機號碼:</h2><h2>@hideCellPhone</h2>
             </div>
             <div class="col-12 mb-5">
                 <h2>日期/時段:</h2><h2>@Model.date/@Model.timepart</h2>
@@ -66,20 +66,8 @@
     <script>
         $(function () {
             $('#btn-print').click(function () {
-                $("#printzone").print({
-                    globalStyles: true,
-                    mediaPrint: false,
-                    stylesheet: null,
-                    noPrintSelector: ".no-print",
-                    iframe: true,
-                    append: null,
-                    prepend: null,
-                    manuallyCopyFormValues: true,
-                    deferred: $.Deferred(),
-                    timeout: 750,
-                    title: null,
-                    doctype: '<!doctype html>'
-                });
+                $("#printzone").print(
+                );
             })
 
             $('#btn-sendmail').click(function () {

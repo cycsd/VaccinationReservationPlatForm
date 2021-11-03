@@ -222,6 +222,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             capacity = capacity == null ? 0 : capacity;
             //計算目前各時段預約人數得到號碼牌
             int peopleInBookingCount = peopleInBooking.Where(s => s.VbbookingTime == startTime).Count();
+
             int booknumber = peopleInBookingCount + 1;
             //判斷預約時段人數是否大於量能及人數是否大於庫存
             if (peopleInBookingAmount >= vaccineStockInHospital && peopleInBookingCount >= capacity)
@@ -247,6 +248,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             context.SaveChanges();
 
             //填寫預約資訊
+            bookingInfo.bookNumber = booknumber;
             var person = context.People.FirstOrDefault(s => s.PersonId == personToGetID.PersonId);
             bookingInfo.clickMoment = DateTime.Now;
             bookingInfo.PersonIdentityId = personToGetID.PersonIdentityId;
@@ -289,22 +291,22 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             // sendgrid api key
 
             //var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-            var client = new SendGridClient("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");
-            var msg = new SendGridMessage();
+            //var client = new SendGridClient("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");
+            //var msg = new SendGridMessage();
 
-            msg.SetFrom(new EmailAddress("dx@example.com", "SendGrid DX Team"));
+            //msg.SetFrom(new EmailAddress("dx@example.com", "SendGrid DX Team"));
 
-            var recipients = new List<EmailAddress>
-                {
-                    new EmailAddress("cycsd9211@example.com"),
+            //var recipients = new List<EmailAddress>
+            //    {
+            //        new EmailAddress("cycsd9211@example.com"),
 
-                 };
-            msg.AddTos(recipients);
+            //     };
+            //msg.AddTos(recipients);
 
-            msg.SetSubject("Testing the SendGrid C# Library");
+            //msg.SetSubject("Testing the SendGrid C# Library");
 
-            msg.AddContent(MimeType.Text, "Hello World plain text!");
-            msg.AddContent(MimeType.Html, "<p>Hello World!</p>");
+            //msg.AddContent(MimeType.Text, "Hello World plain text!");
+            //msg.AddContent(MimeType.Html, "<p>Hello World!</p>");
             return Ok();
         }
 
