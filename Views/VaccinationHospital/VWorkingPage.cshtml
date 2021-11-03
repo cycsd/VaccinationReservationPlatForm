@@ -136,11 +136,11 @@
     @*
         toastr.success('施打成功');
     *@       
-    @*var Absencechangefail = "@TempData["Absencechangefail"]";
-    var Succeedchangeto = "@TempData["Succeedchangeto"]";
-    if (Succeedchangeto == "Succeedchangeto" || Absencechangefail =="Absencechangefail") {
+    var Absencechangefail = "@TempData["Absencechangefail"]";
+    @*var Succeedchangeto = "@TempData["Succeedchangeto"]";*@
+    if (/*Succeedchangeto == "Succeedchangeto" ||*/ Absencechangefail =="Absencechangefail") {
         alert('狀態已更改過，無法再次變更!')
-    }*@
+    }
 
     var Succeedalready = "@TempData["Succeedalready"]";
     if (Succeedalready == "Succeedalready") {

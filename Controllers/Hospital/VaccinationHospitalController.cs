@@ -146,11 +146,11 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                     TempData["Succeedalready"] = "Succeedalready";
                     return RedirectToAction("VWorkingPage");
                 }
-                else if(VB.Where(S => S.VbcheckRemark == "缺席").Count() == 1)
-                {
-                    TempData["Succeedchangeto"] = "Succeedchangeto";
-                    return RedirectToAction("VWorkingPage");
-                }
+                //else if(VB.Where(S => S.VbcheckRemark == "缺席").Count() == 1)
+                //{
+                //    TempData["Succeedchangeto"] = "Succeedchangeto";
+                //    return RedirectToAction("VWorkingPage");
+                //}
                 else
                 {
                     foreach (var b in VB)
@@ -162,32 +162,32 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                 }
 
                 ///Record表單新增
-                db.VaccinationRecords.Add(new VaccinationRecord
-                {
-                    PersonId = stateEditID,
-                    HospitalId = 2, //session?
-                    VaccineId = vid,
-                    VrgivenDate = date,
-                    VaccineSerialNumber = Convert.ToInt32(vSerialN),
-                });
-
-                ///Teack表單新增
-                //int VTtimes = 0;
-                //var VT1 = from vt in db.VaccinationTracks
-                //          where vt.PersonId == stateEditID
-                //          select vt.Vttimes;
-                //foreach (var t1 in VT1)
-                //{
-                //    VTtimes = t1.Value;
-                //}
-
-                //db.VaccinationTracks.Add(new VaccinationTrack
+                //db.VaccinationRecords.Add(new VaccinationRecord
                 //{
                 //    PersonId = stateEditID,
-                //    VaccineId = Convert.ToInt32(vid),
-                //    Vttimes = VTtimes + 1,
-                //    VtappointmentDate = dateSave,
+                //    HospitalId = 2, //session?
+                //    VaccineId = vid,
+                //    VrgivenDate = date,
+                //    VaccineSerialNumber = Convert.ToInt32(vSerialN),
                 //});
+
+                ///Teack表單新增
+                int VTtimes = 0;
+                var VT1 = from vt in db.VaccinationTracks
+                          where vt.PersonId == stateEditID
+                          select vt.Vttimes;
+                foreach (var t1 in VT1)
+                {
+                    VTtimes = t1.Value;
+                }
+
+                db.VaccinationTracks.Add(new VaccinationTrack
+                {
+                    PersonId = stateEditID,
+                    VaccineId = Convert.ToInt32(vid),
+                    Vttimes = VTtimes + 1,
+                    VtappointmentDate = dateSave,
+                });
 
                 ///扣除
                 var PSI = from psi in db.VaccinePsis
@@ -223,11 +223,11 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                     TempData["Absencealreadt"] = "Absencealreadt";
                     return RedirectToAction("VWorkingPage");
                 }
-                //else if (vb.Where(a => a.VbcheckRemark == "已接踵").Count() == 1)
-                //{
-                //    TempData["Absencechangefail"] = "Absencechangefail";
-                //    return RedirectToAction("VWorkingPage");
-                //}
+                else if (vb.Where(a => a.VbcheckRemark == "已接踵").Count() == 1)
+                {
+                    TempData["Absencechangefail"] = "Absencechangefail";
+                    return RedirectToAction("VWorkingPage");
+                }
                 else
                 {
                     foreach (var b in vb)
