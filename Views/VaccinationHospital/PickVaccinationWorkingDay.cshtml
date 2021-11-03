@@ -14,7 +14,7 @@
             text-align: center;
             background-color: lightpink;
             width: 450px;
-            height: 400px;
+            height: 350px;
         }
 
         .input-group {
@@ -75,4 +75,8 @@
             Swal.fire('無預約名單', '', 'warning');
         }      
     })
+    var fromReplace = "@TempData["fromReplace"]";
+    if (fromReplace == "fromReplace") {
+        Swal.fire('工作完成', '', 'success');
+    }
 </script>
