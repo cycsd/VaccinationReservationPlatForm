@@ -160,16 +160,16 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                         b.VaccineSerialNumber = Convert.ToInt32(vSerialN);
                     }
                 }
-                      
+
                 ///Record表單新增
-                //db.VaccinationRecords.Add(new VaccinationRecord
-                //{
-                //    PersonId = stateEditID,
-                //    HospitalId = 2, //session?
-                //    VaccineId = vid,
-                //    VrgivenDate = date,
-                //    VaccineSerialNumber = Convert.ToInt32(vSerialN),
-                //});
+                db.VaccinationRecords.Add(new VaccinationRecord
+                {
+                    PersonId = stateEditID,
+                    HospitalId = 2, //session?
+                    VaccineId = vid,
+                    VrgivenDate = date,
+                    VaccineSerialNumber = Convert.ToInt32(vSerialN),
+                });
 
                 ///Teack表單新增
                 //int VTtimes = 0;
@@ -223,11 +223,11 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                     TempData["Absencealreadt"] = "Absencealreadt";
                     return RedirectToAction("VWorkingPage");
                 }
-                else if (vb.Where(a => a.VbcheckRemark == "已接踵").Count() == 1)
-                {
-                    TempData["Absencechangefail"] = "Absencechangefail";
-                    return RedirectToAction("VWorkingPage");
-                }
+                //else if (vb.Where(a => a.VbcheckRemark == "已接踵").Count() == 1)
+                //{
+                //    TempData["Absencechangefail"] = "Absencechangefail";
+                //    return RedirectToAction("VWorkingPage");
+                //}
                 else
                 {
                     foreach (var b in vb)
@@ -246,10 +246,21 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
         {
             DateTime date = Convert.ToDateTime(SelectDate).Date;
             int vid = Convert.ToInt32(Vaccineid);
-            ViewBag.date = date.ToString("yyyy-MM-dd");
 
-            var PSI = from psi in db.VaccinePsis
-                      select psi;
+            var sss = from v in db.VaccinationBookings
+                     where v.VbbookingDate == date
+                     && v.VaccineId == vid
+                     select v;
+            if (sss != null)
+            {
+                if (sss.Where(S => S.VbcheckRemark == "登記").Count() > 0)
+                {
+                    TempData["sss"] = "sss";
+                    return RedirectToAction("VWorkingPage");
+                }
+            }
+
+            ViewBag.date = date.ToString("yyyy-MM-dd");     
 
             var VB = from b in db.VaccinationBookings       
                      where b.VbbookingDate == date
@@ -320,7 +331,7 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                 {
                     if (p.BatchNumber == VBlist[i])
                     {                        
-                        if (newSingalValue[i] == null)                        
+                        if (newSingalValue[i] == null /*|| Convert.ToInt32(newSingalValue[i]) ==0*/)                        
                             break;                        
                         p.VaccinePsiquantity += intVBlist[i];
                         p.VaccinePsiquantity -= Convert.ToInt32(newSingalValue[i]);
@@ -329,6 +340,7 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                 }
             }
             db.SaveChanges();
+            TempData["fromReplace"] = "fromReplace";
             return RedirectToAction("PickVaccinationWorkingDay");
         }
 
