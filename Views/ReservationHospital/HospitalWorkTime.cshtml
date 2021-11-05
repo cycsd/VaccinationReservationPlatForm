@@ -88,7 +88,7 @@
                 hospitalBusinessDay.hDBmark = 1;
                 console.log($(this).find('p').text());
             }
-            console.log(hospitalBusinessDay.hDBmark)
+            //console.log(hospitalBusinessDay.hDBmark)
         })
 
         $(function () {
@@ -196,7 +196,13 @@
                 }
                 $.post(url, data)
                     .done(function (result) {
-                        alert('設定已儲存')
+                        //alert('設定已儲存')
+                        //swal('設定已儲存', "", "success")
+                        Swal.fire(
+                            '設定已儲存',
+                            '',
+                            'success'
+                        )
                     })
             })
 

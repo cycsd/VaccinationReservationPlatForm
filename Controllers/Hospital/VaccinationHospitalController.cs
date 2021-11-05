@@ -162,14 +162,14 @@ namespace VaccinationReservationPlatForm.Controllers.Hospital
                 }
 
                 ///Record表單新增
-                //db.VaccinationRecords.Add(new VaccinationRecord
-                //{
-                //    PersonId = stateEditID,
-                //    HospitalId = 2, //session?
-                //    VaccineId = vid,
-                //    VrgivenDate = date,
-                //    VaccineSerialNumber = Convert.ToInt32(vSerialN),
-                //});
+                db.VaccinationRecords.Add(new VaccinationRecord
+                {
+                    PersonId = stateEditID,
+                    HospitalId = 9101, //session?
+                    VaccineId = vid,
+                    VrgivenDate = date,
+                    VaccineSerialNumber = Convert.ToInt32(vSerialN),
+                });
 
                 ///Teack表單新增
                 int VTtimes = 0;

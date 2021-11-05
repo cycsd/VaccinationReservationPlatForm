@@ -108,7 +108,7 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
             //hospitalId = 5690; //測試用需註解掉
             List<EachTime> eachTimeList = new List<EachTime>();
             int bookingTimeSpan = 7;
-            int bookingStartOffsetDays = 2;
+            int bookingStartOffsetDays = 0;
 
             //取得醫院營業日id
             var businessDayTimeTable = context.HospitalBusinessDays.Where(s => s.HospitalId == hospitalId)
@@ -246,8 +246,8 @@ namespace VaccinationReservationPlatForm.Controllers.Reservation
                 VbcheckRemark = "登記",
 
             };
-            //context.VaccinationBookings.Add(vaccinationBookingUnit);
-            //context.SaveChanges();
+            context.VaccinationBookings.Add(vaccinationBookingUnit);
+            context.SaveChanges();
 
             //填寫預約資訊
             bookingInfo.bookNumber = booknumber;
